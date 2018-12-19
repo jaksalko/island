@@ -14,12 +14,12 @@ using System.Xml;
 using System.Text;
 using System.Xml.Serialization;
 using System;
-
+using TMPro;
 
 
 public class XMLManager : SingleTon<XMLManager>
 {
-
+    public GameObject pop;
     public class Tool
     {
 
@@ -96,15 +96,23 @@ public class XMLManager : SingleTon<XMLManager>
 
     }
 
+    void Oncreate()
+    {
+        Load();
+    }
+
+    bool isPaused;
     public MaterialInfo mData;
     public ToolInfo TData;
     int i = 0;
+    public TextMeshProUGUI Test;
 
     public void Awake()
     {
-
-
         Load();
+
+        Application.runInBackground = true;
+        isPaused = false;
 
 
 
@@ -113,6 +121,29 @@ public class XMLManager : SingleTon<XMLManager>
     void Update()
     {
         
+        
+        
+    }
+
+    void OnApplicationPause(bool pause)
+    {
+        if (pause)
+        {
+           
+            Save();
+            isPaused = true;
+            
+        }
+
+        else
+        {
+            if (isPaused)
+            {
+                isPaused = false;
+                /* 앱이 활성화 되었을 때 처리 */
+                Load();
+            }
+        }
     }
 
     public void Load()//불러오기
@@ -157,7 +188,7 @@ public class XMLManager : SingleTon<XMLManager>
 
             Material m = new Material();
             m.Name = mData.MaterialList[i].Name;
-            m.Count = 1;
+            m.Count = mData.MaterialList[i].Count;
             m.Text = mData.MaterialList[i].Text;
             list.Add(m);
         }

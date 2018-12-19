@@ -6,6 +6,7 @@ public class MainButtonManager : MonoBehaviour {
     public Button[] peopleicon;
     public Button[] people;
     public Button[] icon;
+    public GameObject manufactPopup;
     public GameObject invenPopup;
     public GameObject[] statPopup;
     public GameObject workPopup;
@@ -145,7 +146,7 @@ public class MainButtonManager : MonoBehaviour {
                 invenPopup.SetActive(true);
                 break;
             case ("ItemButton (UnityEngine.UI.Button)"):
-                
+                manufactPopup.SetActive(true);
                 break;
         }
     }

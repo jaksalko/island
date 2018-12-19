@@ -5,6 +5,16 @@ using System.Security.Cryptography;
 using UnityEngine;
 using System.Text;
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+using System.IO;
+using System.Xml;
+using System.Text;
+using System.Xml.Serialization;
+using System;
+
 
 public class NewBehaviourScript : MonoBehaviour
 {
@@ -76,185 +86,100 @@ public class NewBehaviourScript : MonoBehaviour
     ,"약이 제약되었습니다. 약을 통해 병을 치료할 수 있습니다."
     ,"수렵에 성공하였습니다. 고기 20개를 얻었습니다.(이 고기는 요리를 할 수 있습니다.)"};
 
-    // Use this for initialization
-    void Start()
-    {
-        
 
-        CreateXml();
-        //inout();
-        //inout() -> 암호화, 복호화 
+    string[] dwork = { "얼른 집을 지어서 편하게 자고 싶어. 밖에서 자다보니 자고 일어나도 기분이 좋지 않아"
+                    ,""
+    ,"집에서 자고 일어나면 일을 더 잘할 것 같은데... 언제쯤 완성되나?"
+    ,"집이 완성되면 머리만 닿아도 곯아떨어질 수 있을 것 같군!"
+
+    ,"얼른 배를 만들어야겠어 낚시를 하거나 탈출을 시도할 수 있을테니 말이야"
+    ,"배가 거의 완성되어가고 있어. 재료가 남아있나..?"
+    ,"배를 타고 낚시를 하면 물고기가 더 많이 잡힐 것 같은데 말야... 벌써부터 침이 고이는 구만!"
+
+    ,"옷이 없어서 그런지 사람들이 잔병에 많이 걸리는 것 같아"
+    ,"옷을 얼른 만들지 않으면 큰 병에 걸려서 약이 많이 필요하게 될거야"
+    ,"병에 걸리지 않으려면 청결이 최우선이지! 얼른 옷을 입혀달라고!"
+
+    ,"통신이 될지 안될지는 모르겠지만 일단 시도는 해봐야지! 내일도 서둘러야겠어"
+    ,"조금만 더 진행하면 완성이 되겠어.. "
+    ,"완성이 되면 뭐라고 구조요청을 해야 사람들이 믿어줄까..."
+
+    ,"사람은 밥을 먹고 지내야지! 얼른얼른 자라다오!"
+    ,"추수를 할 때 씨앗을 다시 수거해야지! 썩은 것이 적었으면 좋겠다!"
+    ,"얼른 요리해서 맛있는 밥과 요리들을 먹자구!"};
+
+    string[] dbasic = { "뭐라도 먹지않으면 기운이 빠질 것 같아"
+    ,"아직까지는 버틸만해.."
+    ,"배가 부르니 내일도 힘이 날 것 같군!"
+
+    ,"목이 너무 말라... 물... 물을 마셔야해"
+    ,"물은 한번 마시면 오래동안 괜찮아지니 아껴 마셔야할 것 같아."
+    ,"얼른 약을 먹어야 해. 이런 오지에서 걸린 병은 낫기가 힘들다고.."
+
+    ,"약을 잘 만드는 사람의 약을 먹어야 잘 나을 텐데..."
+   };
+    string[] state = { "배고픔","목마름","병"};
+    string[] work = { "집 짓기","배 만들기","옷 만들기","통신장치 만들기","농사"};
+    string[] timemachine = { "제대로 만들고 있는게 맞나?", "... 내가 설계했던 것과는 다른 결과물이 나올 것 같아.. 좋은 걸까?" };
+
+
+
+
+
+
+
+
+    // Use this for initialization
+    public void Awake()
+    {
+        //Load();
+        Debug.Log("싱글톤 성공2");
+
+
+
+
     }
 
     // Update is called once per frame
-    void Update() {
-
-    }
-    public static string encryData(string toEncrypt)
+    void Update()
     {
-        byte[] keyArray = UTF8Encoding.UTF8.GetBytes("dotdopdeep");
-
-        byte[] toEmcryptArray = UTF8Encoding.UTF8.GetBytes(toEncrypt);
-        RijndaelManaged rDel = new RijndaelManaged();
-
-        rDel.Key = keyArray;
-        rDel.Mode = CipherMode.ECB;
-
-        rDel.Padding = PaddingMode.PKCS7;
-
-        ICryptoTransform cTransform = rDel.CreateEncryptor();
-
-        byte[] resultArray = cTransform.TransformFinalBlock(toEmcryptArray, 0, toEmcryptArray.Length);
-
-        return Convert.ToBase64String(resultArray, 0, resultArray.Length);
-    }
-
-    void CreateXml()
-    {
-        XmlDocument xmlDoc = new XmlDocument();
-
-        xmlDoc.AppendChild(xmlDoc.CreateXmlDeclaration("1.0", "utf-8", "yes"));
-
-        //루트 노드 생성
-        XmlNode root = xmlDoc.CreateNode(XmlNodeType.Element, "CharacterPopup", string.Empty);
-        xmlDoc.AppendChild(root);
-
-        for (int i = 0; i < 45; i+=5)
-        {
-
-            //자식 노드 생성
-            XmlNode child1 = xmlDoc.CreateNode(XmlNodeType.Element, "Character", string.Empty);
-            root.AppendChild(child1);
-
-
-
-            //자식 노드 속성 생성
-            //XmlNode child1 = xmlDoc.CreateNode(XmlNodeType.Element, "Popup/Work", string.Empty);
-            //root.AppendChild(child1);
-
-            XmlElement elem = xmlDoc.CreateElement("Name");
-            elem.InnerText = n[i/5];
-            child1.AppendChild(elem);
-
-            XmlElement elem0 = xmlDoc.CreateElement("work1");
-            elem0.InnerText = pop[i];
-            child1.AppendChild(elem0);
-
-            XmlElement elem1 = xmlDoc.CreateElement("work2");
-            elem1.InnerText =pop[i+1];
-            child1.AppendChild(elem1);
-
-            XmlElement elem2 = xmlDoc.CreateElement("work3");
-            elem2.InnerText = pop[i+2];
-            child1.AppendChild(elem2);
-
-            XmlElement elem3 = xmlDoc.CreateElement("work4");
-            elem3.InnerText = pop[i+3];
-            child1.AppendChild(elem3);
-
-            XmlElement elem4 = xmlDoc.CreateElement("work5");
-            elem4.InnerText = pop[i+4];
-            child1.AppendChild(elem4);
-
-            XmlElement elem5 = xmlDoc.CreateElement("common");
-            elem5.InnerText = c[i/5];
-            child1.AppendChild(elem5);
-
-
-
-
-
-
-        }
-       
-        
-
-
-        xmlDoc.Save("./Assets/Resources/CharacterPopup.xml");
-
-    }
-
-    public void xmlmod()
-    {
-        TextAsset textAsset = (TextAsset)Resources.Load("Character");
 
         
-        XmlDocument xmlDoc = new XmlDocument();
-        xmlDoc.LoadXml(textAsset.text);
-        
-        
-
-        XmlNodeList child = xmlDoc.SelectNodes("CharacterInfo/Character");
-        XmlNode character = child[0];
-
-        character.SelectSingleNode("Name").InnerText = "wlgusdn9";
-
-        character.SelectSingleNode("Level").InnerText = "10";
-        character.SelectSingleNode("Experience").InnerText = "100";
-
-        xmlDoc.Save("./Assets/Resources/CharacterInfo.xml");
-
-
     }
 
-    void inout()
-    {
+    //void Load()//불러오기
+    //{
 
 
-        XmlDocument xmlDoc = new XmlDocument();
-        string filepath = Application.dataPath.ToString() + "/Resources/Character.xml";
-        xmlDoc.Load(filepath);
-        XmlElement elmRoot = xmlDoc.DocumentElement;
+    //    TextAsset textAsset = Resources.Load("MaterialInventory") as TextAsset;
 
-        string data;
-        //복호화
-        //data = Decrypt(elmRoot.InnerText);
-        //elmRoot.InnerXml = data;
-        //xmlDoc.Save(filepath);
+    //    TextAsset TtextAsset = Resources.Load("ToolInventory") as TextAsset;
+    //    print(textAsset.text);
 
-        XmlNodeList child = xmlDoc.SelectNodes("CharacterInfo/Character");
+    //    XmlSerializer ser = new XmlSerializer(typeof(MaterialInfo));
 
-        int i = Convert.ToInt32(child[0].SelectSingleNode("Level").InnerText);
+    //    XmlSerializer Tser = new XmlSerializer(typeof(ToolInfo));
 
-        // 값 수정
+    //    mData = ser.Deserialize(new StringReader(textAsset.text)) as MaterialInfo;
 
-        Debug.Log(child[0].SelectSingleNode("Name").InnerText);
-        Debug.Log(child[1].SelectSingleNode("Name").InnerText);
-        Debug.Log(child[2].SelectSingleNode("Name").InnerText);
-        Debug.Log(child[0].SelectSingleNode("Level").InnerText);
-        Debug.Log(child[1].SelectSingleNode("Level").InnerText);
-        Debug.Log(child[2].SelectSingleNode("Level").InnerText);
-        Debug.Log(child[0].SelectSingleNode("Experience").InnerText);
-        Debug.Log(child[1].SelectSingleNode("Experience").InnerText);
-        Debug.Log(child[2].SelectSingleNode("Experience").InnerText);
+    //    TData = Tser.Deserialize(new StringReader(TtextAsset.text)) as ToolInfo;
 
+    //    foreach (Material mat in mData.MaterialList)
+    //    {
+    //        Debug.Log("name :" + mat.Name);
+    //        Debug.Log("Count :" + mat.Count);
+    //        Debug.Log("Text :" + mat.Text);
+    //    }
+    //    foreach (Tool too in TData.ToolList)
+    //    {
+    //        Debug.Log("이름 :" + too.Name);
+    //        Debug.Log("Grade :" + too.Grade);
+    //        Debug.Log("Count :" + too.Count);
 
-        Debug.Log(i);
+    //    }
+    //}
 
 
-        //암호화
-        data = encryData(elmRoot.InnerXml);
-        elmRoot.RemoveAll();
-        elmRoot.InnerText = data;
-        xmlDoc.Save(filepath);
-    }
 
-    public static string Decrypt(string toDecrypt)
-    {
-        byte[] keyArray = UTF8Encoding.UTF8.GetBytes("dotdopdeep");
-
-        byte[] toEncryptArray = Convert.FromBase64String(toDecrypt);
-
-        RijndaelManaged rDel = new RijndaelManaged();
-        rDel.Key = keyArray;
-        rDel.Mode = CipherMode.ECB;
-
-        rDel.Padding = PaddingMode.PKCS7;
-
-        ICryptoTransform cTransform = rDel.CreateDecryptor();
-
-        byte[] resultArray = cTransform.TransformFinalBlock(toEncryptArray, 0, toEncryptArray.Length);
-
-        return UTF8Encoding.UTF8.GetString(resultArray);
-    }
+    
 }

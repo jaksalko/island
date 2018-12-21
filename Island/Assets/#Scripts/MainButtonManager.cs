@@ -10,6 +10,7 @@ public class MainButtonManager : MonoBehaviour {
     public GameObject invenPopup;
     public GameObject[] statPopup;
     public GameObject workPopup;
+    public GameObject tradePopup;
 
     public void PeopleiconClick(Button button)
     {
@@ -137,7 +138,7 @@ public class MainButtonManager : MonoBehaviour {
                 
                 break;
             case ("TradeButton (UnityEngine.UI.Button)"):
-                
+                tradePopup.SetActive(true);
                 break;
             case ("MenuButton (UnityEngine.UI.Button)"):
                

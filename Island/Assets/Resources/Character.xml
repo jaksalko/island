@@ -1,91 +1,91 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <CharacterInfo>
   <Character>
-    <Name>디자이너</Name>
+    <Name>1</Name>
     <MainStat>30</MainStat>
     <SubStat>20</SubStat>
     <EtcStat>10</EtcStat>
     <Form>왜소</Form>
   </Character>
   <Character>
-    <Name>조선공</Name>
+    <Name>2</Name>
     <MainStat>30</MainStat>
     <SubStat>20</SubStat>
     <EtcStat>10</EtcStat>
     <Form>보통</Form>
   </Character>
   <Character>
-    <Name>요리사</Name>
+    <Name>3</Name>
     <MainStat>30</MainStat>
     <SubStat>20</SubStat>
     <EtcStat>10</EtcStat>
     <Form>비만</Form>
   </Character>
   <Character>
-    <Name>낚시꾼</Name>
+    <Name>4</Name>
     <MainStat>30</MainStat>
     <SubStat>20</SubStat>
     <EtcStat>10</EtcStat>
     <Form>비만</Form>
   </Character>
   <Character>
-    <Name>농부</Name>
+    <Name>5</Name>
     <MainStat>30</MainStat>
     <SubStat>20</SubStat>
     <EtcStat>10</EtcStat>
     <Form>비만</Form>
   </Character>
   <Character>
-    <Name>건축가</Name>
+    <Name>6</Name>
     <MainStat>30</MainStat>
     <SubStat>20</SubStat>
     <EtcStat>10</EtcStat>
     <Form>보통</Form>
   </Character>
   <Character>
-    <Name>공학자</Name>
+    <Name>7</Name>
     <MainStat>30</MainStat>
     <SubStat>20</SubStat>
     <EtcStat>10</EtcStat>
     <Form>왜소</Form>
   </Character>
   <Character>
-    <Name>군인</Name>
+    <Name>8</Name>
     <MainStat>20</MainStat>
     <SubStat>20</SubStat>
     <EtcStat>20</EtcStat>
     <Form>보통</Form>
   </Character>
   <Character>
-    <Name>의사</Name>
+    <Name>9</Name>
     <MainStat>30</MainStat>
     <SubStat>20</SubStat>
     <EtcStat>10</EtcStat>
     <Form>왜소</Form>
   </Character>
   <Character>
-    <Name>산적</Name>
+    <Name>10</Name>
     <MainStat>30</MainStat>
     <SubStat>20</SubStat>
     <EtcStat>10</EtcStat>
     <Form>보통</Form>
   </Character>
   <Character>
-    <Name>음악가</Name>
+    <Name>11</Name>
     <MainStat>30</MainStat>
     <SubStat>20</SubStat>
     <EtcStat>10</EtcStat>
     <Form>보통</Form>
   </Character>
   <Character>
-    <Name>미술가</Name>
+    <Name>12</Name>
     <MainStat>30</MainStat>
     <SubStat>20</SubStat>
     <EtcStat>10</EtcStat>
     <Form>보통</Form>
   </Character>
   <Character>
-    <Name>마법사</Name>
+    <Name>13</Name>
     <MainStat>30</MainStat>
     <SubStat>20</SubStat>
     <EtcStat>10</EtcStat>

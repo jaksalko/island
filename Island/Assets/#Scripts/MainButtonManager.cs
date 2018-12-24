@@ -7,24 +7,34 @@ public class MainButtonManager : MonoBehaviour {
     public Button[] people;
     public Button[] icon;
 <<<<<<< HEAD
+<<<<<<< HEAD
    // public GameObject gameObject;
 =======
 >>>>>>> 7757d3909465e301273b8f2303f16a9705ea9461
+=======
+   // public GameObject gameObject;
+>>>>>>> 7a8e8f29f4f2e625dc0a6a8ed2c76f216cc58586
     public GameObject manufactPopup;
     public GameObject invenPopup;
     public GameObject[] statPopup;
     public GameObject workPopup;
     public GameObject tradePopup;
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 7a8e8f29f4f2e625dc0a6a8ed2c76f216cc58586
     //string menuanimator;
     void Start()
     {
         
        // menuanimator = gameObject.GetComponent<MenuAnimator>().state;
     }
+<<<<<<< HEAD
 =======
 
 >>>>>>> 7757d3909465e301273b8f2303f16a9705ea9461
+=======
+>>>>>>> 7a8e8f29f4f2e625dc0a6a8ed2c76f216cc58586
     public void PeopleiconClick(Button button)
     {
         if ((statPopup[0].activeSelf == false&& statPopup[1].activeSelf == false&& statPopup[2].activeSelf == false))
@@ -155,6 +165,9 @@ public class MainButtonManager : MonoBehaviour {
                 break;
             case ("MenuButton (UnityEngine.UI.Button)"):
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 7a8e8f29f4f2e625dc0a6a8ed2c76f216cc58586
                 if (MenuAnimator.Instance.state != "triggerOn") {
                     MenuAnimator.Instance.state = "triggerOn";
                 } else if (MenuAnimator.Instance.state == "triggerOn")
@@ -164,9 +177,12 @@ public class MainButtonManager : MonoBehaviour {
                     
                 
                     
+<<<<<<< HEAD
 =======
                
 >>>>>>> 7757d3909465e301273b8f2303f16a9705ea9461
+=======
+>>>>>>> 7a8e8f29f4f2e625dc0a6a8ed2c76f216cc58586
                 break;
             case ("InvenButton (UnityEngine.UI.Button)"):
                 invenPopup.SetActive(true);

@@ -6,18 +6,25 @@ public class MainButtonManager : MonoBehaviour {
     public Button[] peopleicon;
     public Button[] people;
     public Button[] icon;
+<<<<<<< HEAD
    // public GameObject gameObject;
+=======
+>>>>>>> 7757d3909465e301273b8f2303f16a9705ea9461
     public GameObject manufactPopup;
     public GameObject invenPopup;
     public GameObject[] statPopup;
     public GameObject workPopup;
     public GameObject tradePopup;
+<<<<<<< HEAD
     //string menuanimator;
     void Start()
     {
         
        // menuanimator = gameObject.GetComponent<MenuAnimator>().state;
     }
+=======
+
+>>>>>>> 7757d3909465e301273b8f2303f16a9705ea9461
     public void PeopleiconClick(Button button)
     {
         if ((statPopup[0].activeSelf == false&& statPopup[1].activeSelf == false&& statPopup[2].activeSelf == false))
@@ -147,6 +154,7 @@ public class MainButtonManager : MonoBehaviour {
                 tradePopup.SetActive(true);
                 break;
             case ("MenuButton (UnityEngine.UI.Button)"):
+<<<<<<< HEAD
                 if (MenuAnimator.Instance.state != "triggerOn") {
                     MenuAnimator.Instance.state = "triggerOn";
                 } else if (MenuAnimator.Instance.state == "triggerOn")
@@ -156,6 +164,9 @@ public class MainButtonManager : MonoBehaviour {
                     
                 
                     
+=======
+               
+>>>>>>> 7757d3909465e301273b8f2303f16a9705ea9461
                 break;
             case ("InvenButton (UnityEngine.UI.Button)"):
                 invenPopup.SetActive(true);

@@ -10,7 +10,10 @@ public class InvenPopupManager : MonoBehaviour {
     public Button exitbutton1;
     public Button exitbutton2;
     public Button exitbutton3;
-
+    public GameObject[] page;
+    public Button toolLeft;
+    public Button toolRight;
+    private int pagenum = 0;
     // Use this for initialization
     public void ExitButtonClick() {
         invenPopup.SetActive(false);
@@ -31,5 +34,32 @@ public class InvenPopupManager : MonoBehaviour {
         cookPop.SetActive(true);
         toolPop.SetActive(false);
         matPop.SetActive(false);
+    }
+
+    public void ToolLeftClicked() {
+        Debug.Log(pagenum);
+        if (pagenum == 0)
+        {
+            pagenum = 0;
+        }
+        else {
+            page[pagenum].SetActive(false);
+            pagenum--;
+            page[pagenum].SetActive(true);
+        }
+    }
+    public void ToolRightClicked() {
+        Debug.Log(pagenum);
+        if (pagenum == 2)
+        {
+            pagenum = 2;
+        }
+        else
+        {
+            page[pagenum].SetActive(false);
+            pagenum++;
+            page[pagenum].SetActive(true);
+        }
+
     }
 }

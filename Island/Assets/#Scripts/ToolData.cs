@@ -28,7 +28,8 @@ public class Tooll
 
 public class ToolData : SingleTon<ToolData>
 {
-
+    public string[] Name;
+    public string[] Text;
     public List<Tooll> ToolList = new List<Tooll>();
     public List<Tooll> ChangeList = new List<Tooll>();
     public Tooll mt;

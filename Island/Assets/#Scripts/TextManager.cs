@@ -11,6 +11,7 @@ public class TextManager : MonoBehaviour
     public TextMeshProUGUI[] FoodCountText;
 
 
+
     // Use this for initialization
     void Start ()
     {
@@ -30,5 +31,6 @@ public class TextManager : MonoBehaviour
         {
             FoodCountText[i].text = FoodData.Instance.FoodList[i].Count.ToString();
         }
+
     }
 }

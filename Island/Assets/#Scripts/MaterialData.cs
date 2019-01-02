@@ -26,15 +26,13 @@ public class Materiall
 
 }
 
-public class MaterialData : SingleTon<MaterialData> {
-    public string[] Text = { "옷을 만드는데에 사용됩니다. 1개당 10의 일을 합니다.",
-        "배을 만드는데에 사용됩니다. 1개당 10의 일을 합니다.",
-        "낚시를 하는데에 사용됩니다. (낚시하기)능력치 10당 미끼를 1개를 사용할 수 있습니다.",
-        "쌀을 수확하는데에 사용됩니다. (농사하기)능력치 10당 씨앗 1개를 심을 수 있습니다.",
-        "집을 만드는데에 사용됩니다. 1개당 10의 일을 합니다.",
-        "통신장치을 만드는데에 사용됩니다. 1개당 10의 일을 합니다.",
-        "약을 만드는데에 사용됩니다. 5개로 약을 하나 만듭니다." };
-    public string[] Name = { "옷재료","배재료","미끼","씨앗","집재료","통신장치재료","약재료"};
+public class MaterialData : SingleTon<MaterialData>
+{
+
+
+
+    public string[] Text;
+    public string[] Name ;
     public List<Materiall> MaterialList = new List<Materiall>();
     public List<Materiall> ChangeList = new List<Materiall>();
     public Materiall mt;
@@ -47,6 +45,7 @@ public class MaterialData : SingleTon<MaterialData> {
     void Start ()
     {
 
+        Debug.Log(Text[0]);
         StartCoroutine(MaterialClear());
         StartCoroutine(MaterialLoad());
     }

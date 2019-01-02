@@ -47,7 +47,7 @@ public class MaterialData : SingleTon<MaterialData> {
     void Start ()
     {
 
-        //StartCoroutine(MaterialSave());
+        StartCoroutine(MaterialClear());
         StartCoroutine(MaterialLoad());
     }
 
@@ -124,7 +124,7 @@ public class MaterialData : SingleTon<MaterialData> {
             //text = Text[i];
             //name = Name[i];
 
-            count = MaterialList[i].Count;
+            count = 0;
 
             mt = new Materiall(count);
 

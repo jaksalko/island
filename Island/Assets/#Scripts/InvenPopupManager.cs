@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
+using System;
 public class InvenPopupManager : MonoBehaviour {
     public GameObject invenPopup;
     public GameObject matPop;
@@ -10,29 +12,45 @@ public class InvenPopupManager : MonoBehaviour {
     public Button exitbutton1;
     public Button exitbutton2;
     public Button exitbutton3;
-
+    public GameObject sidePopup;
+    public GameObject toolUpgradePop;
     public GameObject[] page;
     public Button toolLeft;
     public Button toolRight;
+    public Button toolUpButton;
     private int pagenum = 0;
+    public Button[] matButton;
+    public Button[] toolButton;
+    public Button[] cookButton;
+    public Image icon;
+    public Image tool_icon1;
+    public Image tool_icon2;
 
     // Use this for initialization
     public void ExitButtonClick() {
+        toolUpgradePop.SetActive(false);
+        sidePopup.SetActive(false);
         invenPopup.SetActive(false);
     }
     public void MatClick() {
+        toolUpgradePop.SetActive(false);
+        sidePopup.SetActive(false);
         toolPop.SetActive(false);
         matPop.SetActive(true);
         cookPop.SetActive(false);
     }
     public void ToolClick()
     {
+        toolUpgradePop.SetActive(false);
+        sidePopup.SetActive(false);
         toolPop.SetActive(true);
         matPop.SetActive(false);
         cookPop.SetActive(false);
     }
     public void CookClick()
     {
+        toolUpgradePop.SetActive(false);
+        sidePopup.SetActive(false);
         cookPop.SetActive(true);
         toolPop.SetActive(false);
         matPop.SetActive(false);
@@ -64,6 +82,29 @@ public class InvenPopupManager : MonoBehaviour {
             page[pagenum].SetActive(true);
         }
 
+    }
+
+    public void IconClicked() {
+        
+        string str = EventSystem.current.currentSelectedGameObject.name;
+        Debug.Log(str);
+
+
+        if (toolUpgradePop.activeSelf == true)
+        {
+            //sidePopup.SetActive(false);
+            tool_icon1.overrideSprite = GameObject.Find(str).GetComponent<Image>().sprite;
+            tool_icon2.overrideSprite = GameObject.Find(str).GetComponent<Image>().sprite;
+        }
+        else {
+            sidePopup.SetActive(true);
+            icon.overrideSprite = GameObject.Find(str).GetComponent<Image>().sprite;
+        }
+    }
+
+    public void ToolUpClicked() {
+        sidePopup.SetActive(false);
+        toolUpgradePop.SetActive(true);
     }
 
 }

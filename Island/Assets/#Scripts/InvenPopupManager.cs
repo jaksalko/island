@@ -313,6 +313,78 @@ public class InvenPopupManager : MonoBehaviour {
                     MaterialInfoText.text = ToolData.Instance.Text[26];
                     break;
                 }
+            case "CButton (0)":
+                {
+                    MaterialNameText.text = FoodData.Instance.Name[0];
+                    MaterialInfoText.text = FoodData.Instance.Text[0];
+                    break;
+                }
+            case "CButton (1)":
+                {
+                    MaterialNameText.text = FoodData.Instance.Name[1];
+                    MaterialInfoText.text = FoodData.Instance.Text[1];
+                    break;
+                }
+            case "CButton (2)":
+                {
+                    MaterialNameText.text = FoodData.Instance.Name[2];
+                    MaterialInfoText.text = FoodData.Instance.Text[2];
+                    break;
+                }
+            case "CButton (3)":
+                {
+                    MaterialNameText.text = FoodData.Instance.Name[3];
+                    MaterialInfoText.text = FoodData.Instance.Text[3];
+                    break;
+                }
+            case "CButton (4)":
+                {
+                    MaterialNameText.text = FoodData.Instance.Name[4];
+                    MaterialInfoText.text = FoodData.Instance.Text[4];
+                    break;
+                }
+            case "CButton (5)":
+                {
+                    MaterialNameText.text = FoodData.Instance.Name[5];
+                    MaterialInfoText.text = FoodData.Instance.Text[5];
+                    break;
+                }
+            case "CButton (6)":
+                {
+                    MaterialNameText.text = FoodData.Instance.Name[6];
+                    MaterialInfoText.text = FoodData.Instance.Text[6];
+                    break;
+                }
+            case "CButton (7)":
+                {
+                    MaterialNameText.text = FoodData.Instance.Name[7];
+                    MaterialInfoText.text = FoodData.Instance.Text[7];
+                    break;
+                }
+            case "CButton (8)":
+                {
+                    MaterialNameText.text = FoodData.Instance.Name[8];
+                    MaterialInfoText.text = FoodData.Instance.Text[8];
+                    break;
+                }
+            case "CButton (9)":
+                {
+                    MaterialNameText.text = FoodData.Instance.Name[9];
+                    MaterialInfoText.text = FoodData.Instance.Text[9];
+                    break;
+                }
+            case "CButton (10)":
+                {
+                    MaterialNameText.text = FoodData.Instance.Name[10];
+                    MaterialInfoText.text = FoodData.Instance.Text[10];
+                    break;
+                }
+            case "CButton (11)":
+                {
+                    MaterialNameText.text = FoodData.Instance.Name[11];
+                    MaterialInfoText.text = FoodData.Instance.Text[11];
+                    break;
+                }
         }
 
     }

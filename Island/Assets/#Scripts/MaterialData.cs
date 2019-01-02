@@ -45,7 +45,7 @@ public class MaterialData : SingleTon<MaterialData>
     void Start ()
     {
 
-        Debug.Log(Text[0]);
+        //Debug.Log(Text[0]);
         StartCoroutine(MaterialClear());
         StartCoroutine(MaterialLoad());
     }
@@ -73,6 +73,10 @@ public class MaterialData : SingleTon<MaterialData>
         {
 
             MaterialList[1].Count++;
+            ToolData.Instance.ToolList[1].Count++;
+            ToolData.Instance.save();
+            FoodData.Instance.FoodList[1].Count++;
+            FoodData.Instance.save();
             StartCoroutine(MaterialSave());
 
 
@@ -123,7 +127,7 @@ public class MaterialData : SingleTon<MaterialData>
             //text = Text[i];
             //name = Name[i];
 
-            count = 0;
+            count = MaterialList[i].Count;
 
             mt = new Materiall(count);
 
@@ -132,10 +136,11 @@ public class MaterialData : SingleTon<MaterialData>
             TempList.Add(mt);
 
         }
-        ChangeList = TempList;
+       
 
-        JsonData MaterialJson = JsonMapper.ToJson(ChangeList);
+        JsonData MaterialJson = JsonMapper.ToJson(TempList);
 
+        //File.WriteAllText(Application.persistentDataPath + "/MaterialData.json", MaterialJson.ToString());
         File.WriteAllText(Application.dataPath + "/Resources/MaterialData.json", MaterialJson.ToString());
 
         yield return null;
@@ -161,6 +166,7 @@ public class MaterialData : SingleTon<MaterialData>
 
         JsonData MaterialJson = JsonMapper.ToJson(TempList);
 
+        //File.WriteAllText(Application.persistentDataPath + "/MaterialData.json", MaterialJson.ToString());
         File.WriteAllText(Application.dataPath + "/Resources/MaterialData.json", MaterialJson.ToString());
 
         yield return null;
@@ -170,6 +176,7 @@ public class MaterialData : SingleTon<MaterialData>
     IEnumerator MaterialLoad()
     {
 
+        //string MaterialString = File.ReadAllText(Application.persistentDataPath + "/MaterialData.json");
         string MaterialString = File.ReadAllText(Application.dataPath + "/Resources/MaterialData.json");
 
         Debug.Log(MaterialString); // 첫 줄 출력

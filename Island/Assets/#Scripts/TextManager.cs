@@ -9,6 +9,7 @@ public class TextManager : MonoBehaviour
 {
     public TextMeshProUGUI[] MaterialCountText;
     public TextMeshProUGUI[] FoodCountText;
+    public TextMeshProUGUI[] ToolCountText;
 
 
 
@@ -30,6 +31,10 @@ public class TextManager : MonoBehaviour
         for (int i = 0; i < FoodCountText.Length; i++)
         {
             FoodCountText[i].text = FoodData.Instance.FoodList[i].Count.ToString();
+        }
+        for (int i = 0; i < ToolCountText.Length; i++)
+        {
+            ToolCountText[i].text = ToolData.Instance.ToolList[i].Count.ToString();
         }
 
     }

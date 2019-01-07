@@ -13,15 +13,13 @@ public class Tooll
 
     public int Count;
 
-    public string Name;
-    public int Grade;
 
-    public Tooll(int count, string name, int grade)
+
+    public Tooll(int count)
     {
 
         Count = count;
-        Name = name;
-        Grade = grade;
+
     }
 
 }
@@ -32,17 +30,45 @@ public class ToolData : SingleTon<ToolData>
     public string[] Text;
     public List<Tooll> ToolList = new List<Tooll>();
     public List<Tooll> ChangeList = new List<Tooll>();
-    public Tooll mt;
+    public Tooll t;
+    
 
-    string name;
-    int grade;
+    bool isPaused = false;
     int count;
     // Use this for initialization
     void Start()
     {
+        load();
+        
+    }
+   
+    void OnApplicationPause(bool pause)
+    {
+        if (pause)
+        {
+            //for (int i = 0; i < mData.MaterialList.Length; i++)
+            //    mData.MaterialList[i].Count++;
+            StartCoroutine(ToolSave());
+            isPaused = true;
+
+        }
+
+        else
+        {
+            if (isPaused)
+            {
+                StartCoroutine(ToolLoad());
+
+            }
+        }
+    }
+    void OnApplicationQuit()
+    {
+
+        Debug.Log("강제종료ToolData");
+        StartCoroutine(ToolSave());
 
     }
-
     public void save()
     {
         StartCoroutine(ToolSave());
@@ -52,93 +78,63 @@ public class ToolData : SingleTon<ToolData>
     {
         StartCoroutine(ToolLoad());
     }
-
-    public void change()
+    public void clear()
     {
-        StartCoroutine(ToolChange());
+        StartCoroutine(ToolClear());
     }
 
-    private string ToKor(Tooll m)
+
+    
+    IEnumerator ToolClear()
     {
 
-        JsonData ch1 = JsonMapper.ToJson(m);
+        List<Tooll> TempList = new List<Tooll>();
 
-        string tmpstring = ch1.ToString();
-
-        string[] tmpcomma = tmpstring.Split(',');
-
-
-
-        string[] tmpcolon = tmpcomma[1].Split(':');
-
-
-
-        string res = tmpcolon[0] + ":" + "'" + m.Name + "'";
-
-
-
-        string ress = tmpcomma[0] + "," + res+tmpcomma[2]+',';
-
-        
-
-        return ress;
-
-    }
-
-    IEnumerator ToolChange()
-    {
-
-        string ToolString = File.ReadAllText(Application.dataPath + "/Resources/ToolData.json");
-
-        string sa = "";
-
-        JsonData ch = JsonMapper.ToObject(ToolString);
-
-        Debug.Log(ch.Count);
-        for (int i = 0; i < ch.Count; i++)
+        for (int i = 0; i < 27; i++)
         {
+            //text = Text[i];
+            //name = Name[i];
 
-            name = ch[i]["Name"].ToString();
+            count = 0;
 
-            count = int.Parse(0.ToString());
+            t = new Tooll(count);
 
-            grade = int.Parse(ch[i]["Grade"].ToString());
+            //sa += ToKor(mt);
 
-            mt = new Tooll(count, name, grade);
+            TempList.Add(t);
 
-            sa += ToKor(mt);
-
-
-            //ChangeList.Add(fd);
         }
+        ChangeList = TempList;
 
-
-
-
-        File.WriteAllText(Application.dataPath + "/Resources/ToolData.json", sa.ToString());
+        JsonData ToolJson = JsonMapper.ToJson(ChangeList);
+        //File.WriteAllText(Application.persistentDataPath + "/ToolData.json", ToolJson.ToString());
+        File.WriteAllText(Application.dataPath + "/Resources/ToolData.json", ToolJson.ToString());
 
         yield return null;
-
     }
-
     IEnumerator ToolSave()
     {
 
-        //for (int i = 0; i < InventoryManager.Instance.FData.ToolList.Length; i++)
-        //{
-        //    grade = InventoryManager.Instance.FData.ToolList[i].Grade;
-        //    name = InventoryManager.Instance.FData.ToolList[i].Name;
+        List<Tooll> TempList = new List<Tooll>();
 
-        //    count = InventoryManager.Instance.FData.ToolList[i].Count;
+        for (int i = 0; i < ToolList.Count; i++)
+        {
+            //text = Text[i];
+            //name = Name[i];
 
-        //    mt = new Tooll(count, name, grade);
+            count = ToolList[i].Count;
 
-        //    ToolList.Add(mt);
+            t = new Tooll(count);
 
-        //}
+            //sa += ToKor(mt);
 
-        JsonData ToolJson = JsonMapper.ToJson(ToolList);
+            TempList.Add(t);
 
+        }
+        ChangeList = TempList;
+
+        JsonData ToolJson = JsonMapper.ToJson(ChangeList);
+        //File.WriteAllText(Application.persistentDataPath + "/ToolData.json", ToolJson.ToString());
         File.WriteAllText(Application.dataPath + "/Resources/ToolData.json", ToolJson.ToString());
 
         yield return null;
@@ -147,17 +143,42 @@ public class ToolData : SingleTon<ToolData>
 
     IEnumerator ToolLoad()
     {
-
+       
+        //string ToolString = File.ReadAllText(Application.persistentDataPath + "/ToolData.json");
         string ToolString = File.ReadAllText(Application.dataPath + "/Resources/ToolData.json");
 
         Debug.Log(ToolString); // 첫 줄 출력
 
-        //JsonData itemData = JsonMapper.ToObject(ToolString);
+        JsonData itemData = JsonMapper.ToObject(ToolString);
         //태그로 정렬 가능?
 
-
+        ParsingTool(itemData);
 
         yield return null;
 
+    }
+
+    private void ParsingTool(JsonData Data)
+    {
+        Tooll tl;
+        for (int i = 0; i < Data.Count; i++)
+        {
+
+
+            //text = Data[i]["Text"].ToString();
+            //Debug.Log(Data[i]["Text"]);
+
+            //name = Data[i]["Name"].ToString();
+            //Debug.Log(Data[i]["Name"]);
+            //count = int.Parse(Data[i]["Count"].ToString());
+
+            tl = new Tooll(int.Parse(Data[i]["Count"].ToString()));
+
+            ToolList.Add(tl);
+
+
+
+
+        }
     }
 }

@@ -8,17 +8,23 @@ public class Character
 {
 
     public int Name;
-    public int MainStat;
-    public int SubStat;
-    public int EtcStat;
-    public string Form;
+    public int Work1,Work2, Work3, Work4, Work5, Work6, Work7, Work8, Work9, Work10;
+    public int Form;
 
-    public Character(int name, int mainstat, int substat, int etcstat, string form)
+    public Character(int name,int work1, int work2, int work3, int work4, int work5
+        , int work6, int work7, int work8, int work9, int work10,int form)
     {
         Name = name;
-        MainStat = mainstat;
-        SubStat = substat;
-        EtcStat = etcstat;
+        Work1 = work1;
+        Work2 = work2;
+        Work3 = work3;
+        Work4 = work4;
+        Work5 = work5;
+        Work6 = work6;
+        Work7 = work7;
+        Work8 = work8;
+        Work9 = work9;
+        Work10 = work10;
         Form = form;
     }
 
@@ -26,8 +32,7 @@ public class Character
 
 public class CharacterData : SingleTon<CharacterData>
 {
-    public List<int> MyCharacter = new List<int>();
-    //다른 스크립트에서 캐릭터 3개를 뽑으면 그의 Name번호를 저장해놓는다.
+   
     public List<Character> AllCharacter = new List<Character>();
     Character ch;
 
@@ -38,32 +43,25 @@ public class CharacterData : SingleTon<CharacterData>
 
     void Start()
     {
-        StartCoroutine(CharacterSave());
+        StartCoroutine(CharacterLoad());
     }
 
     
 
     IEnumerator CharacterSave()
     {
-        //    for (int i = 0; i < CharacterManager.Instance.CData.CharacterList.Length; i++)
-        //    {
-        //        form = CharacterManager.Instance.CData.CharacterList[i].Form;
-        //        name = int.Parse(CharacterManager.Instance.CData.CharacterList[i].Name);
-        //        main = CharacterManager.Instance.CData.CharacterList[i].MStat);
-        //    sub = CharacterManager.Instance.CData.CharacterList[i].Sstat;
-        //    etc = CharacterManager.Instance.CData.CharacterList[i].Estat;
-
-        //}
-        for (int i = 0; i < CharacterManager.Instance.CData.CharacterList.Length; i++)
+        List<Character> TempCharacter = new List<Character>();
+        for (int i = 0; i < AllCharacter.Count; i++)
         {
-            form = CharacterManager.Instance.CData.CharacterList[i].Form;
-            name = int.Parse(CharacterManager.Instance.CData.CharacterList[i].Name);
-            main = CharacterManager.Instance.CData.CharacterList[i].MStat;
-            sub = CharacterManager.Instance.CData.CharacterList[i].Sstat;
-            etc = CharacterManager.Instance.CData.CharacterList[i].Estat;
-            ch = new Character(name, main, sub, etc, form);
+            
+            ch = new Character(AllCharacter[i].Name, AllCharacter[i].Work1
+                , AllCharacter[i].Work2, AllCharacter[i].Work3
+                , AllCharacter[i].Work4, AllCharacter[i].Work5
+                , AllCharacter[i].Work6, AllCharacter[i].Work7
+                , AllCharacter[i].Work8, AllCharacter[i].Work9, AllCharacter[i].Work10
+                , AllCharacter[i].Form);
 
-            AllCharacter.Add(ch);
+           TempCharacter.Add(ch);
         }
 
 
@@ -73,7 +71,7 @@ public class CharacterData : SingleTon<CharacterData>
 
     
 
-    JsonData CharacterJson = JsonMapper.ToJson(AllCharacter);
+    JsonData CharacterJson = JsonMapper.ToJson(TempCharacter);
 
     File.WriteAllText(Application.dataPath + "/Resources/CharacterData.json", CharacterJson.ToString());
 
@@ -82,20 +80,51 @@ public class CharacterData : SingleTon<CharacterData>
     }
 // Update is called once per frame
 
-IEnumerator ToolLoad()
+IEnumerator CharacterLoad()
 {
 
-    string ToolString = File.ReadAllText(Application.dataPath + "/Resources//CharacterData.json");
+    string CharacterString = File.ReadAllText(Application.dataPath + "/Resources/CharacterData.json");
 
-    Debug.Log(ToolString); // 첫 줄 출력
+    Debug.Log(CharacterString); // 첫 줄 출력
 
-    //JsonData itemData = JsonMapper.ToObject(ToolString);
-    //태그로 정렬 가능?
+    JsonData itemData = JsonMapper.ToObject(CharacterString);
+        //태그로 정렬 가능?
 
 
 
-    yield return null;
+        ParsingCharacter(itemData);
 
-}
+        yield return null;
+
+    }
+
+    private void ParsingCharacter(JsonData Data)
+    {
+        Character ch;
+        for (int i = 0; i < Data.Count; i++)
+        {
+
+
+            //text = Data[i]["Text"].ToString();
+            //Debug.Log(Data[i]["Text"]);
+
+            //name = Data[i]["Name"].ToString();
+            //Debug.Log(Data[i]["Name"]);
+            //count = int.Parse(Data[i]["Count"].ToString());
+
+            ch = new Character(int.Parse(Data[i]["Name"].ToString()), int.Parse(Data[i]["Work1"].ToString())
+                , int.Parse(Data[i]["Work2"].ToString()), int.Parse(Data[i]["Work3"].ToString())
+                , int.Parse(Data[i]["Work4"].ToString()), int.Parse(Data[i]["Work5"].ToString())
+                , int.Parse(Data[i]["Work6"].ToString()), int.Parse(Data[i]["Work7"].ToString())
+                , int.Parse(Data[i]["Work8"].ToString()), int.Parse(Data[i]["Work9"].ToString())
+                , int.Parse(Data[i]["Work10"].ToString()), int.Parse(Data[i]["Form"].ToString()));
+
+            AllCharacter.Add(ch);
+
+
+
+
+        }
+    }
 }
 

@@ -7,6 +7,7 @@ using TMPro;
 
 public class TextManager : MonoBehaviour
 {
+
     public TextMeshProUGUI[] MaterialCountText;
     public TextMeshProUGUI[] FoodCountText;
     public TextMeshProUGUI[] ToolCountText;
@@ -36,6 +37,6 @@ public class TextManager : MonoBehaviour
         {
             ToolCountText[i].text = ToolData.Instance.ToolList[i].Count.ToString();
         }
-
+        
     }
 }

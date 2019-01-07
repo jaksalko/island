@@ -31,14 +31,15 @@ public class ToolData : SingleTon<ToolData>
     public List<Tooll> ToolList = new List<Tooll>();
     public List<Tooll> ChangeList = new List<Tooll>();
     public Tooll t;
+    
 
     bool isPaused = false;
     int count;
     // Use this for initialization
     void Start()
     {
-        clear();
         load();
+        
     }
    
     void OnApplicationPause(bool pause)

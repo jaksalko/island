@@ -1,1 +1,24 @@
-[{"Hungry":50,"Thirsty":50,"Ill":0,"Condition":"normal"},{"Hungry":50,"Thirsty":50,"Ill":0,"Condition":"normal"},{"Hungry":50,"Thirsty":50,"Ill":0,"Condition":"normal"}]
+[
+  {
+    "Name": 1,
+    "Hungry": 50,
+    "Thirsty": 50,
+    "Ill": 0,
+    "Condition": "normal"
+  },
+  {
+    "Name": 2,
+    "Hungry": 50,
+    "Thirsty": 50,
+    "Ill": 0,
+    "Condition": "normal"
+  },
+  {
+    "Name": 3,
+    "Hungry": 50,
+    "Thirsty": 50,
+    "Ill": 0,
+    "Condition": "normal"
+
+  }
+]

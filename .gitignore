@@ -71,4 +71,9 @@ ProjectSettings.asset
 ProjectVersion.txt
 
 
+<<<<<<< HEAD
 Island/Assets/Resources/
+=======
+Island/Assets/Resources/FoodData.json
+Island/Assets/Resources/
+>>>>>>> qe

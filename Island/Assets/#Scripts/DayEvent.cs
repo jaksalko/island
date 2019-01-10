@@ -26,15 +26,10 @@ public class DayEvent : MonoBehaviour
     string Engine1_2 = "(실패시)			(통신장치가 망가지는 만화컷)	간단하게 만든 통신장치라... 제대로 작동이 되지 않는 것 같다...다시 한번 만들어봐야지....어쩔수 없다 이 섬에서 나가기 위해서는 뭐라도 해보는 수 밖에....";
     string Engine2 = "(50% 성공)		(멀리 배가 오는 만화컷) 이봐들!! 이리로 와서 저기 좀 보라고!! 저기 배가 우리쪽으로 다가오고 있어!! 구조선같아!!(선택지) 1. 탄다 // 2. 안 타고 그냥 보낸다";
     string Engine2_1 = "(1/3%성공)	(일반 배 만화컷)통신을 듣고 왔다구요??!! 와주셔서 정말 감사합니다...!!";
-    string Engine2_2 = Bottle2_2;
-    string Engine2_3 = Bottle2_3
-    string Engine2_3_1 = Bottle2_3_1
-    string Engine2_3_2 = Bottle2_3_2
+   
     string EngineEnding = "위험을 무릅쓰고 이 위험한 바다를 지나서 우리를 구하러 와줬다니...만약 내가 구조요청을 받았다면 이 분들처럼 올 수 있었을까..?			'그들이 걸어온 길은 고난과 자기 희생의 길이었다.' - G.E.레싱";
 
-    
-    string 
-
+ 
 
 
     // Use this for initialization

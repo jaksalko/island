@@ -22,8 +22,19 @@ public class Foodd
 
 public class FoodData : SingleTon<FoodData>
 {
-    public string[] Name;
-    public string[] Text;
+    public string[] Name= { "쌀","밥1", "밥2", "밥3", "고기", "고기요리1", "고기요리2", "고기요리3", "물고기", "물고기요리1", "물고기요리2", "물고기요리3" };
+    public string[] Text= { "농사를 지어 얻어낸 쌀이다. 생으로 먹을 순 없을 것 같다. 요리를 통해 밥을 지어 먹을 수 있을 것 같다.",
+    "따끈따끈해 보이는 밥이다. 먹으면 포만감이 ()만큼 회복된다.",
+    "따끈따끈해 보이는 밥이다. 먹으면 포만감이 ()만큼 회복된다.",
+    "따끈따끈해 보이는 밥이다. 먹으면 포만감이 ()만큼 회복된다.",
+    "동물을 잡아 얻어낸 고기이다. 생으로 먹을 수 있을 것 같다. 요리를 통해 먹으면 포만감이 더욱 회복된다. 먹으면 포만감이 ()만큼 회복된다.",
+    "먹음직스러워 보이는 고기요리이다. 먹으면 포만감이 ()만큼 회복된다.",
+    "먹음직스러워 보이는 고기요리이다. 먹으면 포만감이 ()만큼 회복된다.",
+    "먹음직스러워 보이는 고기요리이다. 먹으면 포만감이 ()만큼 회복된다.",
+    "바다에서 잡아온 물고기이다. 생으로 먹을 수 있을 것 같다. 요리를 통해 먹으면 포만감이 더욱 회복된다. 먹으면 포만감이 ()만큼 회복된다.",
+        "먹음직스러워 보이는 물고기요리이다. 먹으면 포만감이 ()만큼 회복된다.",
+    "먹음직스러워 보이는 물고기요리이다. 먹으면 포만감이 ()만큼 회복된다.",
+    "먹음직스러워 보이는 물고기요리이다. 먹으면 포만감이 ()만큼 회복된다."};
 
     public List<Foodd> FoodList = new List<Foodd>();
     public List<Foodd> ChangeList = new List<Foodd>();
@@ -69,7 +80,7 @@ public class FoodData : SingleTon<FoodData>
         {
             //for (int i = 0; i < mData.MaterialList.Length; i++)
             //    mData.MaterialList[i].Count++;
-            StartCoroutine(FoodSave());
+            //StartCoroutine(FoodSave());
             isPaused = true;
 
         }
@@ -88,7 +99,7 @@ public class FoodData : SingleTon<FoodData>
     {
 
         Debug.Log("강제종료FoodData");
-        StartCoroutine(FoodSave());
+        //StartCoroutine(FoodSave());
 
     }
     public void save()

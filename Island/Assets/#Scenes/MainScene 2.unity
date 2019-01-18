@@ -5811,20 +5811,9 @@ MonoBehaviour:
   exitbutton1: {fileID: 1630781167}
   exitbutton2: {fileID: 1306983663}
   exitbutton3: {fileID: 1628425443}
-  sidePopup: {fileID: 0}
-  toolUpgradePop: {fileID: 0}
   page: []
   toolLeft: {fileID: 0}
   toolRight: {fileID: 0}
-  toolUpButton: {fileID: 0}
-  matButton: []
-  toolButton: []
-  cookButton: []
-  icon: {fileID: 0}
-  tool_icon1: {fileID: 0}
-  tool_icon2: {fileID: 0}
-  MaterialNameText: {fileID: 0}
-  MaterialInfoText: {fileID: 0}
 --- !u!1 &396711912
 GameObject:
   m_ObjectHideFlags: 0
@@ -6521,7 +6510,6 @@ GameObject:
   m_Component:
   - component: {fileID: 448935508}
   - component: {fileID: 448935507}
-  - component: {fileID: 448935510}
   - component: {fileID: 448935509}
   m_Layer: 0
   m_Name: GameObject
@@ -6562,7 +6550,6 @@ MonoBehaviour:
   - {fileID: 1155802898}
   - {fileID: 1871860798}
   - {fileID: 1054827795}
-  ToolCountText: []
 --- !u!4 &448935508
 Transform:
   m_ObjectHideFlags: 0
@@ -6611,17 +6598,6 @@ MonoBehaviour:
   - "\uC9D1\uC7AC\uB8CC"
   - "\uD1B5\uC2E0\uC7A5\uCE58\uC7AC\uB8CC"
   - "\uC57D\uC7AC\uB8CC"
---- !u!114 &448935510
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 448935506}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d774e506bfd4d546a3d8b3b8230392c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &451789853
 GameObject:
   m_ObjectHideFlags: 0
@@ -7350,7 +7326,6 @@ MonoBehaviour:
   - {fileID: 1763034605}
   workPopup: {fileID: 1411309132}
   tradePopup: {fileID: 205898259}
-  WorkNameText: []
 --- !u!1 &524877546
 GameObject:
   m_ObjectHideFlags: 0
@@ -16178,23 +16153,12 @@ MonoBehaviour:
   exitbutton1: {fileID: 1630781167}
   exitbutton2: {fileID: 1306983663}
   exitbutton3: {fileID: 1628425443}
-  sidePopup: {fileID: 0}
-  toolUpgradePop: {fileID: 0}
   page:
   - {fileID: 1224193426}
   - {fileID: 388077970}
   - {fileID: 769255703}
   toolLeft: {fileID: 1652010967}
   toolRight: {fileID: 548412933}
-  toolUpButton: {fileID: 0}
-  matButton: []
-  toolButton: []
-  cookButton: []
-  icon: {fileID: 0}
-  tool_icon1: {fileID: 0}
-  tool_icon2: {fileID: 0}
-  MaterialNameText: {fileID: 0}
-  MaterialInfoText: {fileID: 0}
 --- !u!1 &1216580020
 GameObject:
   m_ObjectHideFlags: 0
@@ -23387,6 +23351,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6668622b539ed0b4594b8691aa3cfa7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  choose:
+  - {fileID: 1872538318}
+  - {fileID: 1592152791}
+  - {fileID: 993928886}
+  - {fileID: 1662049369}
+  - {fileID: 180013427}
+  - {fileID: 2141686297}
+  - {fileID: 579478945}
+  - {fileID: 1931291428}
+  - {fileID: 1459931301}
+  - {fileID: 927993168}
 --- !u!4 &1735522832
 Transform:
   m_ObjectHideFlags: 0
@@ -29003,49 +28978,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72a7a1aac63d2784b99f72e262b4d0ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name:
-  - "\uC300"
-  - "\uBC251"
-  - "\uBC252"
-  - "\uBC253"
-  - "\uACE0\uAE30"
-  - "\uACE0\uAE30\uC694\uB9AC1"
-  - "\uACE0\uAE30\uC694\uB9AC2"
-  - "\uACE0\uAE30\uC694\uB9AC3"
-  - "\uBB3C\uACE0\uAE30"
-  - "\uBB3C\uACE0\uAE30\uC694\uB9AC1"
-  - "\uBB3C\uACE0\uAE30\uC694\uB9AC2"
-  - "\uBB3C\uACE0\uAE30\uC694\uB9AC3"
-  Text:
-  - "\uB18D\uC0AC\uB97C \uC9C0\uC5B4 \uC5BB\uC5B4\uB0B8 \uC300\uC774\uB2E4. \uC0DD\uC73C\uB85C
-    \uBA39\uC744 \uC21C \uC5C6\uC744 \uAC83 \uAC19\uB2E4. \uC694\uB9AC\uB97C \uD1B5\uD574
-    \uBC25\uC744 \uC9C0\uC5B4 \uBA39\uC744 \uC218 \uC788\uC744 \uAC83 \uAC19\uB2E4."
-  - "\uB530\uB048\uB530\uB048\uD574 \uBCF4\uC774\uB294 \uBC25\uC774\uB2E4. \uBA39\uC73C\uBA74
-    \uD3EC\uB9CC\uAC10\uC774 ()\uB9CC\uD07C \uD68C\uBCF5\uB41C\uB2E4."
-  - "\uB530\uB048\uB530\uB048\uD574 \uBCF4\uC774\uB294 \uBC25\uC774\uB2E4. \uBA39\uC73C\uBA74
-    \uD3EC\uB9CC\uAC10\uC774 ()\uB9CC\uD07C \uD68C\uBCF5\uB41C\uB2E4."
-  - "\uB530\uB048\uB530\uB048\uD574 \uBCF4\uC774\uB294 \uBC25\uC774\uB2E4. \uBA39\uC73C\uBA74
-    \uD3EC\uB9CC\uAC10\uC774 ()\uB9CC\uD07C \uD68C\uBCF5\uB41C\uB2E4."
-  - "\uB3D9\uBB3C\uC744 \uC7A1\uC544 \uC5BB\uC5B4\uB0B8 \uACE0\uAE30\uC774\uB2E4.
-    \uC0DD\uC73C\uB85C \uBA39\uC744 \uC218 \uC788\uC744 \uAC83 \uAC19\uB2E4. \uC694\uB9AC\uB97C
-    \uD1B5\uD574 \uBA39\uC73C\uBA74 \uD3EC\uB9CC\uAC10\uC774 \uB354\uC6B1 \uD68C\uBCF5\uB41C\uB2E4.
-    \uBA39\uC73C\uBA74 \uD3EC\uB9CC\uAC10\uC774 ()\uB9CC\uD07C \uD68C\uBCF5\uB41C\uB2E4."
-  - "\uBA39\uC74C\uC9C1\uC2A4\uB7EC\uC6CC \uBCF4\uC774\uB294 \uACE0\uAE30\uC694\uB9AC\uC774\uB2E4.
-    \uBA39\uC73C\uBA74 \uD3EC\uB9CC\uAC10\uC774 ()\uB9CC\uD07C \uD68C\uBCF5\uB41C\uB2E4."
-  - "\uBA39\uC74C\uC9C1\uC2A4\uB7EC\uC6CC \uBCF4\uC774\uB294 \uACE0\uAE30\uC694\uB9AC\uC774\uB2E4.
-    \uBA39\uC73C\uBA74 \uD3EC\uB9CC\uAC10\uC774 ()\uB9CC\uD07C \uD68C\uBCF5\uB41C\uB2E4."
-  - "\uBA39\uC74C\uC9C1\uC2A4\uB7EC\uC6CC \uBCF4\uC774\uB294 \uACE0\uAE30\uC694\uB9AC\uC774\uB2E4.
-    \uBA39\uC73C\uBA74 \uD3EC\uB9CC\uAC10\uC774 ()\uB9CC\uD07C \uD68C\uBCF5\uB41C\uB2E4."
-  - "\uBC14\uB2E4\uC5D0\uC11C \uC7A1\uC544\uC628 \uBB3C\uACE0\uAE30\uC774\uB2E4. \uC0DD\uC73C\uB85C
-    \uBA39\uC744 \uC218 \uC788\uC744 \uAC83 \uAC19\uB2E4. \uC694\uB9AC\uB97C \uD1B5\uD574
-    \uBA39\uC73C\uBA74 \uD3EC\uB9CC\uAC10\uC774 \uB354\uC6B1 \uD68C\uBCF5\uB41C\uB2E4.
-    \uBA39\uC73C\uBA74 \uD3EC\uB9CC\uAC10\uC774 ()\uB9CC\uD07C \uD68C\uBCF5\uB41C\uB2E4."
-  - "\uBA39\uC74C\uC9C1\uC2A4\uB7EC\uC6CC \uBCF4\uC774\uB294 \uBB3C\uACE0\uAE30\uC694\uB9AC\uC774\uB2E4.
-    \uBA39\uC73C\uBA74 \uD3EC\uB9CC\uAC10\uC774 ()\uB9CC\uD07C \uD68C\uBCF5\uB41C\uB2E4."
-  - "\uBA39\uC74C\uC9C1\uC2A4\uB7EC\uC6CC \uBCF4\uC774\uB294 \uBB3C\uACE0\uAE30\uC694\uB9AC\uC774\uB2E4.
-    \uBA39\uC73C\uBA74 \uD3EC\uB9CC\uAC10\uC774 ()\uB9CC\uD07C \uD68C\uBCF5\uB41C\uB2E4."
-  - "\uBA39\uC74C\uC9C1\uC2A4\uB7EC\uC6CC \uBCF4\uC774\uB294 \uBB3C\uACE0\uAE30\uC694\uB9AC\uC774\uB2E4.
-    \uBA39\uC73C\uBA74 \uD3EC\uB9CC\uAC10\uC774 ()\uB9CC\uD07C \uD68C\uBCF5\uB41C\uB2E4."
 --- !u!4 &2107009954
 Transform:
   m_ObjectHideFlags: 0

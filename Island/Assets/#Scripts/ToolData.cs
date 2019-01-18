@@ -38,7 +38,11 @@ public class ToolData : SingleTon<ToolData>
     // Use this for initialization
     void Start()
     {
+
         load();
+
+        
+        
         
     }
    
@@ -104,9 +108,9 @@ public class ToolData : SingleTon<ToolData>
             TempList.Add(t);
 
         }
-        ChangeList = TempList;
+        
 
-        JsonData ToolJson = JsonMapper.ToJson(ChangeList);
+        JsonData ToolJson = JsonMapper.ToJson(TempList);
         //File.WriteAllText(Application.persistentDataPath + "/ToolData.json", ToolJson.ToString());
         File.WriteAllText(Application.dataPath + "/Resources/ToolData.json", ToolJson.ToString());
 

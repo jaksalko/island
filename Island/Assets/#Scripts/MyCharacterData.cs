@@ -33,6 +33,7 @@ public class MyCharacterData : SingleTon<MyCharacterData>
     public List<MyCharacter> ThreeCharacter = new List<MyCharacter>();
     MyCharacter mch;
 
+    public bool[] isWorked; //하루에 일을 했는지 안했는지 설정
 
 
     

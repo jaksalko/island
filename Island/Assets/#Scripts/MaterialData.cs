@@ -32,7 +32,7 @@ public class MaterialData : SingleTon<MaterialData>
 
 
     public string[] Text;
-    public string[] Name ;
+    public string[] Name;
     public List<Materiall> MaterialList = new List<Materiall>();
     public List<Materiall> ChangeList = new List<Materiall>();
     public Materiall mt;
@@ -46,7 +46,7 @@ public class MaterialData : SingleTon<MaterialData>
     {
 
         //Debug.Log(Text[0]);
-        StartCoroutine(MaterialClear());
+        //StartCoroutine(MaterialClear());
         StartCoroutine(MaterialLoad());
     }
 

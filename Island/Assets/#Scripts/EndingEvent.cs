@@ -49,7 +49,7 @@ public class Day
     }
 }
 
-public class EndingEvent : MonoBehaviour
+public class EndingEvent : SingleTon<EndingEvent>
 {
 
     string Whale1 = "5%(섬이 흔들리는 만화컷) 으어어어어어 땅이 흔들린다!!! 이봐! 위험하니까 다들 하던일 멈추고 피해있자고!(선택지) 1. 지진인가?  // 2. 지진과는 뭔가 다른 느낌인데?";
@@ -149,13 +149,13 @@ public class EndingEvent : MonoBehaviour
 
     
     
-    bool WhaleTF, BottleTF, EngineTF, ShipTF, MerTF, HeroTF, DreamTF, WingTF, RainBowTF, TimeTF, SpaceTF, IceTF, LeafTF, EagleTF;
+   public  bool WhaleTF, BottleTF, EngineTF, ShipTF, MerTF, HeroTF, DreamTF, WingTF, RainBowTF, TimeTF, SpaceTF, IceTF, LeafTF, EagleTF;
 
     int WhaleP, BottleP, EngineP, ShipP, MerP, HeroP, DreamP, WingP, RainBowP, TimeP, SpaceP, IceP, LeafP, EagleP;
     bool already;//하루에 어떠한 엔딩이 진행되었는지 확인 true면 더이상 다른 엔딩 이벤트 발생x
                  //하루에 끝날 때 false로 바꿔줘야함
-    int WhaleDay, BottleDay, EngineDay, ShipDay, MerDay, HeroDay, DreamDay, WingDay, RainBowDay, TimeDay, SpaceDay, IceDay, LeafDay, EagleDay;
-    bool fishing, adven, hunting;//하루가 종료될 때 false로 바꿔야함
+    public int WhaleDay, BottleDay, EngineDay, ShipDay, MerDay, HeroDay, DreamDay, WingDay, RainBowDay, TimeDay, SpaceDay, IceDay, LeafDay, EagleDay;
+    public bool fishing, adven, hunting;//하루가 종료될 때 false로 바꿔야함
     bool isPaused = false;
 
     //already, fishing, adven, hunting 은 playprefs 로 저장
@@ -174,9 +174,9 @@ public class EndingEvent : MonoBehaviour
         //WhaleDay = BottleDay = EngineDay = ShipDay = MerDay = HeroDay = DreamDay = WingDay = RainBowDay = TimeDay = SpaceDay = IceDay = LeafDay = EagleDay = 0;
         //SpaceTF = WingTF = TimeTF=false; // 얘는 날개옷이 만들어졌을 때 true로 바꿔줌
         //이것들 모두 json에 저장해서 게임이 재시작될 때 로드해야함
-        fishing = adven = hunting = false;
-        already = false;
-        StartCoroutine(EndingClear());
+        //fishing = adven = hunting = false;
+        //already = false;
+       // StartCoroutine(EndingClear());
         StartCoroutine(EndingLoad());
     }
 
@@ -211,6 +211,7 @@ public class EndingEvent : MonoBehaviour
 
         Debug.Log("강제종료EndingData");
         StartCoroutine(EndingSave());
+        //PlayerPrefs 는 각각의 행동중일 때 true, 행동중이지 않으면 false;
         PlayerPrefs.SetInt("fishing", (fishing ? 1 : 0));
         PlayerPrefs.SetInt("adven", (adven ? 1 : 0));
         PlayerPrefs.SetInt("hunting", (hunting ? 1 : 0));
@@ -434,9 +435,11 @@ public class EndingEvent : MonoBehaviour
 
         for (int i = 0; i < 14; i++)
         {
+            WhaleTF = bool.Parse(Data[0]["tf"][i].ToString());
+            WhaleP = int.Parse(Data[0]["p"][i].ToString());
+            WhaleDay = int.Parse(Data[0]["day"][i].ToString());
 
-           
-           
+
             switch (i)
             {
                 case 0:
@@ -875,10 +878,12 @@ public class EndingEvent : MonoBehaviour
 
     }
 
-    void BottleEvent()//첫 이벤트는 탐험시, 나머지는 평상시
+   public void BottleEvent()//첫 이벤트는 탐험시, 나머지는 평상시
     {
+
         if (BottleTF == true)
         {
+
             switch (BottleP)
             {
                 case 0: // 첫 이벤트는 그날 하루가 시작될 때 아무 이벤트도 진행되지 않았을 때만 실행 가능함 ∵already 때문
@@ -887,7 +892,7 @@ public class EndingEvent : MonoBehaviour
                         {
                             already = true;
 
-                            
+                            Debug.Log("물병 획득");
 
                             //물병을 손에 들고 있는 만화컷 1~2초 대기 
                             //팝업창 setactive(true) -> Bottle1 text, 선택지 출력
@@ -1082,7 +1087,7 @@ public class EndingEvent : MonoBehaviour
         }
     }
 
-    void MerEvent()//첫 이벤트는 평상시, 나머지는 낚시시 진행하게끔 만들어야함
+    public void MerEvent()//첫 이벤트는 평상시, 나머지는 낚시시 진행하게끔 만들어야함
     {
         if (MerTF == true)
         {
@@ -1118,6 +1123,7 @@ public class EndingEvent : MonoBehaviour
                         if (Random.Range(0, 100) < 5 && fishing == true)
                         {
                             already = true;
+                            //MerDay = 현재날짜;
                             //저멀리 바다에서 사람이 수영하는 만화컷 1~2초
                             //Mer1 text, 선택지 출력
                             //MerP = 2;
@@ -1131,6 +1137,7 @@ public class EndingEvent : MonoBehaviour
                         if (Random.Range(0, 100) < 10 && fishing == true /*&& 현재날짜 >MerDay+30*/ )
                         {
                             already = true;
+                            //MerDay = 현재날짜;
                             //저멀리 바다에서 사람이 수영하는 만화컷 1~2초
                             // Mer2 text , 선택지 출력
                             //MerP = 3;
@@ -1144,6 +1151,7 @@ public class EndingEvent : MonoBehaviour
                         if (Random.Range(0, 100) < 20 /* && 현재날짜>MerDay+20*/)
                         {
                             already = true;
+
                             //해변가에서 인어맨 발견 만화컷
                             //Mer3 text 출력
                             //인어맨이 점점 멀어져가는 만화컷
@@ -1544,7 +1552,7 @@ public class EndingEvent : MonoBehaviour
 
     }
 
-    void EagleEvent()
+    public void EagleEvent()
     {
         if (EagleTF == true)
         {
@@ -1556,16 +1564,18 @@ public class EndingEvent : MonoBehaviour
                         {
                             already = true;
                             EagleP = 1;
+                            EagleTF = false;
                             //거대한 독수리를 발견한 만화컷
                             //Eagle1 text , 선택지 출력
 
                             //독수리 제작창에서 탈출 사용시 , EagleTF = true , EagleEvent() 호출
                             //탐험시 독수리를 타고 다른섬으로 가서 파밍(재료, 도구, 음식 세가지 전부 파밍 가능)
+
                         }
 
                         break;
                     }
-                case 1:
+                case 1://독수리 사용시
                     {
                         if (Random.Range(0, 100) < 50)
                         {

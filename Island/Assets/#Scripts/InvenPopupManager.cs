@@ -313,7 +313,7 @@ public class InvenPopupManager : MonoBehaviour {
                     MaterialInfoText.text = ToolData.Instance.Text[26];
                     break;
                 }
-            case "CButton (0)":
+            case "CButton":
                 {
                     MaterialNameText.text = FoodData.Instance.Name[0];
                     MaterialInfoText.text = FoodData.Instance.Text[0];

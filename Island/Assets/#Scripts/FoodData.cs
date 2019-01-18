@@ -50,7 +50,6 @@ public class FoodData : SingleTon<FoodData>
         
         
             StartCoroutine(FoodClear());
-            PlayerPrefs.SetInt("Count", 1);
             StartCoroutine(FoodLoad());
         
 

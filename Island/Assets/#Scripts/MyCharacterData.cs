@@ -41,6 +41,8 @@ public class MyCharacterData : SingleTon<MyCharacterData>
     void Start()
     {
         StartCoroutine(MyCharacterLoad());
+        for (int i = 0; i < 3; i++)
+            Debug.Log(CharacterName[i]);
     }
 
 
@@ -150,7 +152,7 @@ public class MyCharacterData : SingleTon<MyCharacterData>
                 int.Parse(Data[i]["Ill"].ToString()), 
                 Data[i]["Condition"].ToString());
 
-
+            CharacterName[i] = int.Parse(Data[i]["Name"].ToString());
 
             ThreeCharacter.Add(mc);
 

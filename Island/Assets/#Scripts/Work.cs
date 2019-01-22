@@ -21,7 +21,7 @@ public class Something
     }
 }
 
-public class Work : MonoBehaviour
+public class Work : SingleTon<Work>
 {
     public bool[] isWork = new bool[10];
     public int temp;

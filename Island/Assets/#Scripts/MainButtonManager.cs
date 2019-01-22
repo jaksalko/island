@@ -135,7 +135,7 @@ public class MainButtonManager : MonoBehaviour
             case ("People1 (UnityEngine.UI.Button)"):
                 {
 
-                    MyCharacterData.Instance.NowCharacterName = MyCharacterData.Instance.ThreeCharacter[0].Name - 1;
+                    MyCharacterData.Instance.NowCharacterName = MyCharacterData.Instance.ThreeCharacter[0].Name ;
                     for (int i = 0; i < WorkNameText.Length; i++)
                     {
 
@@ -146,7 +146,7 @@ public class MainButtonManager : MonoBehaviour
                 }
             case ("People2 (UnityEngine.UI.Button)"):
                 {
-                    MyCharacterData.Instance.NowCharacterName = MyCharacterData.Instance.ThreeCharacter[1].Name - 1;
+                    MyCharacterData.Instance.NowCharacterName = MyCharacterData.Instance.ThreeCharacter[1].Name ;
                     for (int i = 0; i < WorkNameText.Length; i++)
                     {
 
@@ -157,7 +157,7 @@ public class MainButtonManager : MonoBehaviour
                 }
             case ("People3 (UnityEngine.UI.Button)"):
                 {
-                    MyCharacterData.Instance.NowCharacterName = MyCharacterData.Instance.ThreeCharacter[2].Name - 1;
+                    MyCharacterData.Instance.NowCharacterName = MyCharacterData.Instance.ThreeCharacter[2].Name ;
                     for (int i = 0; i < WorkNameText.Length; i++)
                     {
 
@@ -168,6 +168,7 @@ public class MainButtonManager : MonoBehaviour
                 }
         }
         Debug.Log("캐릭터 번호" + MyCharacterData.Instance.NowCharacterName);
+       
         workPopup.SetActive(true);
 
 

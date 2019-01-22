@@ -23,7 +23,7 @@ public class Something
 
 public class Work : SingleTon<Work>
 {
-    public bool[] isWork = new bool[10];
+    public bool[] isWork = { false,};
     public int temp;
     public GameObject workSelectPopup;//일 선택시 팝업 백그라운드
     public Button Yes;//일수행 yes
@@ -35,9 +35,10 @@ public class Work : SingleTon<Work>
     public Button[] MatQuanUp;//재료 수량 업
     public Button[] MatQuanDown;//다운
     public GameObject normalModeMatImg;//노말모드 재료이미지
+    public GameObject[] Char;
     public int Toolmax = 0;
     public int NowWorkNum;
-    public int UseMat=0;
+    public int[] UseMat= { 0, };
 
     public int[] UseFood= new int[3];
 
@@ -48,8 +49,11 @@ public class Work : SingleTon<Work>
 
     public void Start()
     {
+        PlayerPrefs.SetInt("Day", 1);
+
         StartCoroutine(SomethingLoad());
-        
+
+        isWork[1] = true;
     }
 
     public int ToolAbility(int max)
@@ -80,10 +84,288 @@ public class Work : SingleTon<Work>
 
     public void NewDay()
     {
+        int now = MyCharacterData.Instance.NowCharacterName;
+        for (int i=0;i<isWork.Length;i++)
+        {
+            switch (i)
+            {
+                case 1:
+                    {
+                        if (isWork[i] == true)
+                        {
+                            MaterialData.Instance.MaterialList[0].Count -= UseMat[NowWorkNum];
+
+                            SomethingList[0].Perfection += UseMat[NowWorkNum] * 10;
+
+                            if (UnityEngine.Random.Range(0, 100) < 3)
+                            {
+                                SomethingList[0].Grade = 6;
+
+                            }//날개옷 생성
+
+                            else
+                            {
+
+                                if (SomethingList[0].Perfection > 199 && SomethingList[0].Perfection < 500)
+                                {
+                                    SomethingList[0].Grade = 1;
+                                    //1단계 옷 생성
+                                }
+                                else if (SomethingList[0].Perfection > 499 && SomethingList[0].Perfection < 1000)
+                                {
+                                    SomethingList[0].Grade = 2;
+                                }
+                                else if (SomethingList[0].Perfection > 999 && SomethingList[0].Perfection < 2000)
+                                {
+                                    SomethingList[0].Grade = 3;
+                                }
+                                else if (SomethingList[0].Perfection > 1999 && SomethingList[0].Perfection < 3000)
+                                {
+                                    SomethingList[0].Grade = 4;
+                                }
+                                else if (SomethingList[0].Perfection > 2999)
+                                {
+                                    SomethingList[0].Grade = 5;
+                                }
+
+                            }
+                        }
+                        break;
+                    }
+                case 2:
+                    {
+                        if (isWork[i] == true)
+                        {
+                            MaterialData.Instance.MaterialList[1].Count -= UseMat[NowWorkNum];
+
+                            SomethingList[1].Perfection += UseMat[NowWorkNum] * 10;
+
+                            if (SomethingList[1].Perfection > 299 && SomethingList[1].Perfection < 1000)
+                            {
+                                SomethingList[1].Grade = 1;
+                                //1단계 배 생성
+                            }
+                            else if (SomethingList[1].Perfection > 999 && SomethingList[1].Perfection < 2000)
+                            {
+                                SomethingList[1].Grade = 2;
+                            }
+                            else if (SomethingList[1].Perfection > 1999 && SomethingList[1].Perfection < 3000)
+                            {
+                                SomethingList[1].Grade = 3;
+                            }
+                            else if (SomethingList[1].Perfection > 2999 && SomethingList[1].Perfection < 5000)
+                            {
+                                SomethingList[1].Grade = 4;
+                            }
+                            else if (SomethingList[1].Perfection > 4999)
+                            {
+                                SomethingList[1].Grade = 5;
+                            }
+                        }
+                        break;
+                    }
+                case 3:
+                    {
+                        if (isWork[i] == true)
+                        {
+                            FoodData.Instance.FoodList[0].Count -= UseFood[0];
+                            FoodData.Instance.FoodList[4].Count -= UseFood[1];
+                            FoodData.Instance.FoodList[8].Count -= UseFood[2];
+                            switch (Toolmax)
+                            {
+                                case 1:
+                                    {
+                                        for (int j = 0; j < 3; j++)
+                                        {
+                                            FoodData.Instance.FoodList[j * 4 + 1].Count += UseFood[j];
+                                        }
+                                        break;
+                                    }
+                                case 2:
+                                    {
+                                        for (int j = 0; j < 3; j++)
+                                        {
+                                            FoodData.Instance.FoodList[j * 4 + 2].Count += UseFood[j];
+                                        }
+                                        break;
+                                    }
+                                case 3:
+                                    {
+                                        for (int j = 0; j < 3; j++)
+                                        {
+                                            FoodData.Instance.FoodList[j * 4 + 3].Count += UseFood[j];
+                                        }
+                                        break;
+                                    }
+                            }
+                        }
+                        break;
+                    }
+                case 4:
+                    {
+                        if (isWork[i] == true)
+                        {
+                            MaterialData.Instance.MaterialList[2].Count -= UseMat[NowWorkNum];
+
+                            for (int j = 0; j < UseMat[NowWorkNum]; j++)
+                            {
+                                FoodData.Instance.FoodList[8].Count += (CharacterData.Instance.AllCharacter[now].Work4 + ToolAbility(Toolmax)) / 10;
+                            }
+                        }
+                        break;
+                    }
+                case 5:
+                    {
+                        if (isWork[i] == true)
+                        {
+                            MaterialData.Instance.MaterialList[3].Count -= UseMat[NowWorkNum];
+
+                            for (int j = 0; j < UseMat[NowWorkNum]; j++)
+                            {
+                                FoodData.Instance.FoodList[0].Count += (CharacterData.Instance.AllCharacter[now].Work5 + ToolAbility(Toolmax)) / 10;
+                            }
+                        }
+                        break;
+                    }
+                case 6:
+                    {
+                        if (isWork[i] == true)
+                        {
+                            MaterialData.Instance.MaterialList[4].Count -= UseMat[NowWorkNum];
+
+                            SomethingList[3].Perfection += UseMat[NowWorkNum] * 10;
+
+
+
+
+
+                            if (SomethingList[3].Perfection > 299 && SomethingList[3].Perfection < 1000)
+                            {
+                                SomethingList[3].Grade = 1;
+                                //1단계 옷 생성
+                            }
+                            else if (SomethingList[3].Perfection > 999 && SomethingList[3].Perfection < 2000)
+                            {
+                                SomethingList[3].Grade = 2;
+                            }
+                            else if (SomethingList[3].Perfection > 1999 && SomethingList[3].Perfection < 3000)
+                            {
+                                SomethingList[3].Grade = 3;
+                            }
+                            else if (SomethingList[3].Perfection > 2999 && SomethingList[3].Perfection < 5000)
+                            {
+                                SomethingList[3].Grade = 4;
+                            }
+                            else if (SomethingList[3].Perfection > 4999)
+                            {
+                                SomethingList[3].Grade = 5;
+                            }
+                        }
+                        break;
+                    }
+                case 7:
+                    {
+                        if (isWork[i] == true)
+                        {
+                            MaterialData.Instance.MaterialList[5].Count -= UseMat[NowWorkNum];
+
+                            SomethingList[4].Perfection += UseMat[NowWorkNum] * 10;
+
+                            if (UnityEngine.Random.Range(0, 100) < 1)
+                            {
+                                SomethingList[4].Grade = 6;
+                                //타임머신 생성될 것같은 루트로 빠진다.
+                                //변수 필요
+
+                            }//타임머신 생성
+
+                            else
+                            {
+
+                                if (SomethingList[4].Perfection > 199 && SomethingList[4].Perfection < 500)
+                                {
+                                    SomethingList[4].Grade = 1;
+                                    //1단계 통신장치 생성
+                                }
+                                else if (SomethingList[4].Perfection > 499 && SomethingList[4].Perfection < 1000)
+                                {
+                                    SomethingList[4].Grade = 2;
+                                }
+                                else if (SomethingList[4].Perfection > 999 && SomethingList[4].Perfection < 2000)
+                                {
+                                    SomethingList[4].Grade = 3;
+                                }
+                                else if (SomethingList[4].Perfection > 1999 && SomethingList[4].Perfection < 3000)
+                                {
+                                    SomethingList[4].Grade = 4;
+                                }
+                                else if (SomethingList[4].Perfection > 2999)
+                                {
+                                    SomethingList[4].Grade = 5;
+                                }
+                            }
+                        }
+                        break;
+                    }
+                case 8:
+                    {
+                        if (isWork[i] == true)
+                        {
+                            MaterialData.Instance.MaterialList[6].Count -= UseMat[NowWorkNum];
+
+                            //약 생성
+                            Char[MyCharacterData.Instance.CharacterName.IndexOf(now)].SetActive(false);
+                        }
+                        break;
+                    }
+                case 9:
+                    {
+                        if (isWork[i] == true)
+                        {
+                            if (UnityEngine.Random.Range(0, 100) < (CharacterData.Instance.AllCharacter[now].Work8 + ToolAbility(Toolmax)))
+                            {
+
+                                FoodData.Instance.FoodList[4].Count += 10;//고기 10개 획득
+
+
+                            }
+                        }
+                        break;
+                    }
+                case 10:
+                    {
+                        if (isWork[i] == true)
+                        {
+                            for (int j = 0; j < MaterialData.Instance.MaterialList.Count; j++)
+                            {
+                                MaterialData.Instance.MaterialList[j].Count += 10;
+
+                            }
+                            for (int j = 0; j < ToolData.Instance.ToolList.Count; j++)
+                            {
+                                ToolData.Instance.ToolList[j].Count += 10;
+
+                            }
+                        }
+                        break;
+                    }
+            }
+        }
         for (int i = 0; i < isWork.Length; i++)
         {
             isWork[i] = false;
+            
         }
+        for (int i = 0; i < UseMat.Length; i++)
+        {
+            UseMat[i] = 0;
+        }
+        for (int i = 0; i < UseFood.Length; i++)
+        {
+            UseFood[i] = 0;
+        }
+        SomethingSave();
+        NowWorkNum = 0;
     }
 
     public void YesButton()
@@ -112,44 +394,10 @@ public class Work : SingleTon<Work>
 
                         //확률따져서 날개옷 생성
 
-                        MaterialData.Instance.MaterialList[0].Count -= UseMat;
-
-                        SomethingList[0].Perfection += UseMat * 10;
-
-                        if (UnityEngine.Random.Range(0, 100) < 3)
-                        {
-                            SomethingList[0].Grade = 6;
-
-                        }//날개옷 생성
-
-                        else
-                        {
-
-                            if (SomethingList[0].Perfection > 199 && SomethingList[0].Perfection < 500)
-                            {
-                                SomethingList[0].Grade = 1;
-                                //1단계 옷 생성
-                            }
-                            else if (SomethingList[0].Perfection > 499 && SomethingList[0].Perfection < 1000)
-                            {
-                                SomethingList[0].Grade = 2;
-                            }
-                            else if (SomethingList[0].Perfection > 999 && SomethingList[0].Perfection < 2000)
-                            {
-                                SomethingList[0].Grade = 3;
-                            }
-                            else if (SomethingList[0].Perfection > 1999 && SomethingList[0].Perfection < 3000)
-                            {
-                                SomethingList[0].Grade = 4;
-                            }
-                            else if (SomethingList[0].Perfection > 2999)
-                            {
-                                SomethingList[0].Grade = 5;
-                            }
-
-                        }
+                        
 
 
+                        Char[MyCharacterData.Instance.CharacterName.IndexOf(now)].SetActive(false);
 
                     }
 
@@ -174,33 +422,10 @@ public class Work : SingleTon<Work>
                     {
                         isWork[NowWorkNum] = true;
 
-                        MaterialData.Instance.MaterialList[1].Count -= UseMat;
+                       
 
-                        SomethingList[1].Perfection += UseMat * 10;
 
-                        if (SomethingList[1].Perfection > 299 && SomethingList[1].Perfection < 1000)
-                            {
-                                SomethingList[1].Grade = 1;
-                                //1단계 배 생성
-                            }
-                            else if (SomethingList[1].Perfection > 999 && SomethingList[1].Perfection < 2000)
-                            {
-                                SomethingList[1].Grade = 2;
-                            }
-                            else if (SomethingList[1].Perfection > 1999 && SomethingList[1].Perfection < 3000)
-                            {
-                                SomethingList[1].Grade = 3;
-                            }
-                            else if (SomethingList[1].Perfection > 2999 && SomethingList[1].Perfection < 5000)
-                            {
-                                SomethingList[1].Grade = 4;
-                            }
-                            else if (SomethingList[1].Perfection > 4999)
-                            {
-                                SomethingList[1].Grade = 5;
-                            }
-
-                        
+                        Char[MyCharacterData.Instance.CharacterName.IndexOf(now)].SetActive(false);
                     }
                     popupMode[0].SetActive(false);
                     break;
@@ -222,41 +447,15 @@ public class Work : SingleTon<Work>
                     }
                     else
                     {
+                        isWork[NowWorkNum] = true;
+
                         Debug.Log(CharacterData.Instance.AllCharacter[now].Name + "일이 가능합니다" + CharacterData.Instance.AllCharacter[now].Work3);
                         //도구 단계에 따라 + 능력치 해줘야함
 
-                        FoodData.Instance.FoodList[0].Count -= UseFood[0];
-                        FoodData.Instance.FoodList[4].Count -= UseFood[1];
-                        FoodData.Instance.FoodList[8].Count -= UseFood[2];
-                        switch (Toolmax)
-                        {
-                            case 1:
-                                {
-                                    for (int i = 0; i < 3; i++)
-                                    {
-                                        FoodData.Instance.FoodList[i * 4 + 1].Count += UseFood[i];
-                                    }
-                                    break;
-                                }
-                            case 2:
-                                {
-                                    for (int i = 0; i < 3; i++)
-                                    {
-                                        FoodData.Instance.FoodList[i * 4 + 2].Count += UseFood[i];
-                                    }
-                                    break;
-                                }
-                            case 3:
-                                {
-                                    for (int i = 0; i < 3; i++)
-                                    {
-                                        FoodData.Instance.FoodList[i * 4 + 3].Count += UseFood[i];
-                                    }
-                                    break;
-                                }
-                        }
+                        
 
 
+                        Char[MyCharacterData.Instance.CharacterName.IndexOf(now)].SetActive(false);
                     }
                     popupMode[4].SetActive(false);
                     UseFood[0] = UseFood[1] = UseFood[2] = 0;
@@ -276,18 +475,16 @@ public class Work : SingleTon<Work>
                     }
                     else
                     {
+                        isWork[NowWorkNum] = true;
+
                         EndingEvent.Instance.MerTF = true;
                         EndingEvent.Instance.fishing = true;
                         EndingEvent.Instance.MerEvent();
 
-                        MaterialData.Instance.MaterialList[2].Count -= UseMat;
-
-                        for (int i = 0; i < UseMat; i++)
-                        {
-                            FoodData.Instance.FoodList[8].Count += (CharacterData.Instance.AllCharacter[now].Work4 + ToolAbility(Toolmax)) / 10;
-                        }
+                        
 
 
+                        Char[MyCharacterData.Instance.CharacterName.IndexOf(now)].SetActive(false);
 
                     }
                     popupMode[2].SetActive(false);
@@ -313,14 +510,10 @@ public class Work : SingleTon<Work>
                     {
                         isWork[NowWorkNum] = true;
 
-                        MaterialData.Instance.MaterialList[3].Count -= UseMat;
-
-                        for (int i = 0; i < UseMat; i++)
-                        {
-                            FoodData.Instance.FoodList[0].Count += (CharacterData.Instance.AllCharacter[now].Work5 + ToolAbility(Toolmax)) / 10;
-                        }
+                       
 
 
+                        Char[MyCharacterData.Instance.CharacterName.IndexOf(now)].SetActive(false);
                         //else 일을 안한다는 버튼
                     }
                     popupMode[5].SetActive(false);
@@ -343,38 +536,12 @@ public class Work : SingleTon<Work>
                     {
                         isWork[NowWorkNum] = true;
 
-                        MaterialData.Instance.MaterialList[4].Count -= UseMat;
 
-                        SomethingList[3].Perfection += UseMat * 10;
 
-                        
 
-                        
 
-                            if (SomethingList[3].Perfection > 299 && SomethingList[3].Perfection < 1000)
-                            {
-                                SomethingList[3].Grade = 1;
-                                //1단계 옷 생성
-                            }
-                            else if (SomethingList[3].Perfection > 999 && SomethingList[3].Perfection < 2000)
-                            {
-                                SomethingList[3].Grade = 2;
-                            }
-                            else if (SomethingList[3].Perfection > 1999 && SomethingList[3].Perfection < 3000)
-                            {
-                                SomethingList[3].Grade = 3;
-                            }
-                            else if (SomethingList[3].Perfection > 2999 && SomethingList[3].Perfection < 5000)
-                            {
-                                SomethingList[3].Grade = 4;
-                            }
-                            else if (SomethingList[3].Perfection > 4999)
-                            {
-                                SomethingList[3].Grade = 5;
-                            }
 
-                        
-
+                        Char[MyCharacterData.Instance.CharacterName.IndexOf(now)].SetActive(false);
 
                         //else 일을 안한다는 버튼
                     }
@@ -398,44 +565,10 @@ public class Work : SingleTon<Work>
                     {
                         isWork[NowWorkNum] = true;
 
-                        MaterialData.Instance.MaterialList[5].Count -= UseMat;
+                        
 
-                        SomethingList[4].Perfection += UseMat * 10;
-
-                        if (UnityEngine.Random.Range(0, 100) < 1)
-                        {
-                            SomethingList[4].Grade = 6;
-                            //타임머신 생성될 것같은 루트로 빠진다.
-                            //변수 필요
-
-                        }//타임머신 생성
-
-                        else
-                        {
-
-                            if (SomethingList[4].Perfection > 199 && SomethingList[4].Perfection < 500)
-                            {
-                                SomethingList[4].Grade = 1;
-                                //1단계 통신장치 생성
-                            }
-                            else if (SomethingList[4].Perfection > 499 && SomethingList[4].Perfection < 1000)
-                            {
-                                SomethingList[4].Grade = 2;
-                            }
-                            else if (SomethingList[4].Perfection > 999 && SomethingList[4].Perfection < 2000)
-                            {
-                                SomethingList[4].Grade = 3;
-                            }
-                            else if (SomethingList[4].Perfection > 1999 && SomethingList[4].Perfection < 3000)
-                            {
-                                SomethingList[4].Grade = 4;
-                            }
-                            else if (SomethingList[4].Perfection > 2999)
-                            {
-                                SomethingList[4].Grade = 5;
-                            }
-
-                        }
+                            Char[MyCharacterData.Instance.CharacterName.IndexOf(now)].SetActive(false);
+                        
 
 
 
@@ -455,9 +588,8 @@ public class Work : SingleTon<Work>
                     }
                     else
                     {
-                        MaterialData.Instance.MaterialList[6].Count -= UseMat;
+                        isWork[NowWorkNum] = true;
 
-                        //약 생성
                     }
                     popupMode[1].SetActive(false);
                     break;
@@ -481,21 +613,18 @@ public class Work : SingleTon<Work>
                     }
                     else
                     {
+                        isWork[NowWorkNum] = true;
+
                         EndingEvent.Instance.hunting = true;
                         EndingEvent.Instance.EagleEvent();
 
-                        if (UnityEngine.Random.Range(0, 100) < (CharacterData.Instance.AllCharacter[now].Work8 + ToolAbility(Toolmax)))
-                        {
-
-                            FoodData.Instance.FoodList[4].Count += 10;//고기 10개 획득
-                            
-
-                        }
+                        
 
                         //Text로 능력치에 따라 얻어 올 수 있는 고기의 수 표시
                         //Text로 능력치에 따라 수렵에 성공할 확률 표시?
 
 
+                        Char[MyCharacterData.Instance.CharacterName.IndexOf(now)].SetActive(false);
                     }
                     popupMode[3].SetActive(false);
                     break;
@@ -503,21 +632,22 @@ public class Work : SingleTon<Work>
 
             case 10://탐험
                 {
+                    isWork[NowWorkNum] = true;
 
 
                     EndingEvent.Instance.adven = true;
                     EndingEvent.Instance.BottleEvent();
-
-                    MaterialData.Instance.MaterialList[2].Count += 10;
-                    ToolData.Instance.ToolList[11].Count++;
-
+                    
                     goAreaPopup.SetActive(false);//지도 닫기
                     popupMode[6].SetActive(false);
+                   
+                    Char[MyCharacterData.Instance.CharacterName.IndexOf(now)].SetActive(false);
                     break;
                 }//case 10
         }
 
-        UseMat = 0;
+        //UseMat = 0;
+        
         temp = 0;
     }
 
@@ -553,8 +683,8 @@ public class Work : SingleTon<Work>
 
                     if (/*parse.int.(TextMash.text) < min */true)
                     {
-                        UseMat++;
-                        //TextMash.text = Usemat ;
+                        UseMat[NowWorkNum]++;
+                        //TextMash.text = UseMat[NowWorkNum] ;
                     }
 
                 
@@ -577,8 +707,8 @@ public class Work : SingleTon<Work>
 
                     if (/*parse.int.(TextMash.text) < min */true)
                     {
-                        UseMat++;
-                        //TextMash.text = Usemat ;
+                        UseMat[NowWorkNum]++;
+                        //TextMash.text = UseMat[NowWorkNum] ;
                     }
 
 
@@ -647,8 +777,8 @@ public class Work : SingleTon<Work>
 
                     if (/*parse.int.(TextMash.text) < min */true)
                     {
-                        UseMat++;
-                        //TextMash.text = Usemat ;
+                        UseMat[NowWorkNum]++;
+                        //TextMash.text = UseMat[NowWorkNum] ;
                     }
                     break;
                 }//case 4
@@ -672,8 +802,8 @@ public class Work : SingleTon<Work>
 
                     if (/*parse.int.(TextMash.text) < min */true)
                     {
-                        UseMat++;
-                        //TextMash.text = Usemat ;
+                        UseMat[NowWorkNum]++;
+                        //TextMash.text = UseMat[NowWorkNum] ;
                     }
                     break;
                 }//case 5
@@ -699,8 +829,8 @@ public class Work : SingleTon<Work>
 
                     if (/*parse.int.(TextMash.text) < min */true)
                     {
-                        UseMat++;
-                        //TextMash.text = Usemat ;
+                        UseMat[NowWorkNum]++;
+                        //TextMash.text = UseMat[NowWorkNum] ;
                     }
 
                     break;
@@ -729,8 +859,8 @@ public class Work : SingleTon<Work>
 
                     if (/*parse.int.(TextMash.text) < min */true)
                     {
-                        UseMat++;
-                        //TextMash.text = Usemat ;
+                        UseMat[NowWorkNum]++;
+                        //TextMash.text = UseMat[NowWorkNum] ;
                     }
                     break;
                 }//case 7
@@ -750,8 +880,8 @@ public class Work : SingleTon<Work>
 
                     if (/*parse.int.(TextMash.text) < min */true)
                     {
-                        UseMat++;
-                        //TextMash.text = Usemat ;
+                        UseMat[NowWorkNum]++;
+                        //TextMash.text = UseMat[NowWorkNum] ;
                     }
                     break;
                 }//case 8
@@ -796,8 +926,8 @@ public class Work : SingleTon<Work>
                    
                     if (/*parse.int.(TextMash.text) >0 */true)
                     {
-                        UseMat--;
-                        //TextMash.text = Usemat ;
+                        UseMat[NowWorkNum]--;
+                        //TextMash.text = UseMat[NowWorkNum] ;
                     }
 
 
@@ -809,8 +939,8 @@ public class Work : SingleTon<Work>
                 {
                     if (/*parse.int.(TextMash.text) >0 */true)
                     {
-                        UseMat--;
-                        //TextMash.text = Usemat ;
+                        UseMat[NowWorkNum]--;
+                        //TextMash.text = UseMat[NowWorkNum] ;
                     }
 
                     break;
@@ -852,8 +982,8 @@ public class Work : SingleTon<Work>
                 {
                     if (/*parse.int.(TextMash.text) >0 */true)
                     {
-                        UseMat--;
-                        //TextMash.text = Usemat ;
+                        UseMat[NowWorkNum]--;
+                        //TextMash.text = UseMat[NowWorkNum] ;
                     }
                     break;
                 }//case 4
@@ -862,8 +992,8 @@ public class Work : SingleTon<Work>
                 {
                     if (/*parse.int.(TextMash.text) >0 */true)
                     {
-                        UseMat--;
-                        //TextMash.text = Usemat ;
+                        UseMat[NowWorkNum]--;
+                        //TextMash.text = UseMat[NowWorkNum] ;
                     }
                     break;
                 }//case 5
@@ -872,8 +1002,8 @@ public class Work : SingleTon<Work>
                 {
                     if (/*parse.int.(TextMash.text) >0 */true)
                     {
-                        UseMat--;
-                        //TextMash.text = Usemat ;
+                        UseMat[NowWorkNum]--;
+                        //TextMash.text = UseMat[NowWorkNum] ;
                     }
 
                     break;
@@ -883,8 +1013,8 @@ public class Work : SingleTon<Work>
                 {
                     if (/*parse.int.(TextMash.text) >0 */true)
                     {
-                        UseMat--;
-                        //TextMash.text = Usemat ;
+                        UseMat[NowWorkNum]--;
+                        //TextMash.text = UseMat[NowWorkNum] ;
                     }
                     break;
                 }//case 7
@@ -893,8 +1023,8 @@ public class Work : SingleTon<Work>
                 {
                     if (/*parse.int.(TextMash.text) >0 */true)
                     {
-                        UseMat--;
-                        //TextMash.text = Usemat ;
+                        UseMat[NowWorkNum]--;
+                        //TextMash.text = UseMat[NowWorkNum] ;
                     }
                     break;
                 }//case 8
@@ -1023,7 +1153,7 @@ public class Work : SingleTon<Work>
             case "WorkButton10"://탐험
                 {
                     popupMode[6].SetActive(true);
-                    goAreaPopup.SetActive(true);
+                    
                     NowWorkNum = 10;
                     
                     break;

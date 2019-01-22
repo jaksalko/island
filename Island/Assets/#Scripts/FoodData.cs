@@ -49,7 +49,7 @@ public class FoodData : SingleTon<FoodData>
     {
         
         
-            StartCoroutine(FoodClear());
+           // StartCoroutine(FoodClear());
             StartCoroutine(FoodLoad());
         
 
@@ -143,8 +143,7 @@ public class FoodData : SingleTon<FoodData>
 
         }
 
-        ChangeList = TempList;
-        JsonData FoodJson = JsonMapper.ToJson(ChangeList);
+        JsonData FoodJson = JsonMapper.ToJson(TempList);
         File.WriteAllText(Application.dataPath + "/Resources/FoodData.json", FoodJson.ToString());
         //File.WriteAllText(Application.persistentDataPath + "/FoodData.json", FoodJson.ToString());//안드로이드
         //컴퓨터

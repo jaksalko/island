@@ -119,7 +119,7 @@ public class MaterialData : SingleTon<MaterialData>
 
     IEnumerator MaterialSave()
     {
-        string sa = "";
+
         List<Materiall> TempList = new List<Materiall>();
 
         for (int i = 0; i < MaterialList.Count; i++)

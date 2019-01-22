@@ -23,7 +23,7 @@ public class Something
 
 public class Work : MonoBehaviour
 {
-    public bool[] isWork = { false, };
+    public bool[] isWork = new bool[10];
     public int temp;
     public GameObject workSelectPopup;//일 선택시 팝업 백그라운드
     public Button Yes;//일수행 yes
@@ -78,6 +78,13 @@ public class Work : MonoBehaviour
     }
 
 
+    public void NewDay()
+    {
+        for (int i = 0; i < isWork.Length; i++)
+        {
+            isWork[i] = false;
+        }
+    }
 
     public void YesButton()
     {
@@ -101,6 +108,8 @@ public class Work : MonoBehaviour
                     }
                     else
                     {
+                        isWork[NowWorkNum] = true;
+
                         //확률따져서 날개옷 생성
 
                         MaterialData.Instance.MaterialList[0].Count -= UseMat;
@@ -163,6 +172,8 @@ public class Work : MonoBehaviour
                     }
                     else
                     {
+                        isWork[NowWorkNum] = true;
+
                         MaterialData.Instance.MaterialList[1].Count -= UseMat;
 
                         SomethingList[1].Perfection += UseMat * 10;
@@ -300,6 +311,7 @@ public class Work : MonoBehaviour
                     }
                     else
                     {
+                        isWork[NowWorkNum] = true;
 
                         MaterialData.Instance.MaterialList[3].Count -= UseMat;
 
@@ -329,6 +341,7 @@ public class Work : MonoBehaviour
                     }
                     else
                     {
+                        isWork[NowWorkNum] = true;
 
                         MaterialData.Instance.MaterialList[4].Count -= UseMat;
 
@@ -383,6 +396,7 @@ public class Work : MonoBehaviour
                     }
                     else
                     {
+                        isWork[NowWorkNum] = true;
 
                         MaterialData.Instance.MaterialList[5].Count -= UseMat;
 

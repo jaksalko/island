@@ -141,7 +141,7 @@ public class ToolData : SingleTon<ToolData>
         JsonData ToolJson = JsonMapper.ToJson(TempList);
         //File.WriteAllText(Application.persistentDataPath + "/ToolData.json", ToolJson.ToString());
         File.WriteAllText(Application.dataPath + "/Resources/ToolData.json", ToolJson.ToString());
-
+        
         yield return null;
     }
     // Update is called once per frame

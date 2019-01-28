@@ -38,6 +38,17 @@ public class Work : SingleTon<Work>
     public Button[] MatQuanUp;//재료 수량 업
     public Button[] MatQuanDown;//다운
     public GameObject normalModeMatImg;//노말모드 재료이미지
+    public TextMeshProUGUI MatCountText;
+    public GameObject BeforeImg;
+    public GameObject AfterImg;
+    public TextMeshProUGUI[] CookMatCounText;
+    public TextMeshProUGUI[] CookCounText;
+    public TextMeshProUGUI FishMatCountText;
+    public TextMeshProUGUI FishCountText;
+    public TextMeshProUGUI FarmMatCountText;
+    public TextMeshProUGUI FarmCountText;
+    public TextMeshProUGUI MediMatCountText;
+    public TextMeshProUGUI MediCountText;
     public GameObject[] Char;
     public int Toolmax = 0;
     public int NowWorkNum;
@@ -667,6 +678,29 @@ public class Work : SingleTon<Work>
     }
     public void NoClicked()                                                             //제작취소
     {
+        /*public TextMeshProUGUI[] CookMatCounText;
+    public TextMeshProUGUI[] CookCounText;
+    public TextMeshProUGUI FishMatCountText;
+    public TextMeshProUGUI FishCountText;
+    public TextMeshProUGUI FarmMatCountText;
+    public TextMeshProUGUI FarmCountText;
+    public TextMeshProUGUI MediMatCountText;
+    public TextMeshProUGUI MediCountText;*/
+
+        MatCountText.text = "0";
+        CookMatCounText[0].text = CookMatCounText[1].text = CookMatCounText[2].text = "0";
+        CookCounText[0].text = CookCounText[1].text = CookCounText[2].text = "0";
+
+        FishMatCountText.text= "0";
+        FishCountText.text = "0";
+        FarmMatCountText.text = "0";
+        FarmCountText.text = "0";
+        MediMatCountText.text = "0";
+        MediCountText.text = "0";
+        for (int i = 0; i < 11; i++)
+        {
+            UseMat[i] = 0;
+        }
         workSelectPopup.SetActive(false);
         for (int i = 0; i < 7; i++)
         {
@@ -693,7 +727,21 @@ public class Work : SingleTon<Work>
         goAreaPopup.SetActive(false);
         workSelectPopup.SetActive(false);
         workPopup.SetActive(false);
-        
+        MatCountText.text = "0";
+        CookMatCounText[0].text = CookMatCounText[1].text = CookMatCounText[2].text = "0";
+        CookCounText[0].text = CookCounText[1].text = CookCounText[2].text = "0";
+
+        FishMatCountText.text = "0";
+        FishCountText.text = "0";
+        FarmMatCountText.text = "0";
+        FarmCountText.text = "0";
+        MediMatCountText.text = "0";
+        MediCountText.text = "0";
+        for (int i = 0; i < 11; i++)
+        {
+            UseMat[i] = 0;
+        }
+
     }
     public void WorkNo() {                                                      //마지막 팝업창에서 취소버튼 이전창으로만 돌아가면 되는데 탐험을선택했을때는 지도를 꺼버림
         goAreaPopup.SetActive(false);
@@ -729,9 +777,10 @@ public class Work : SingleTon<Work>
 
                     min = Math.Min((CharacterData.Instance.AllCharacter[now].Work1 + ToolAbility(Toolmax)) / 10, MaterialData.Instance.MaterialList[0].Count);
 
-                    if (/*parse.int.(TextMash.text) < min */true)
+                    if (UseMat[NowWorkNum] < min )
                     {
                         UseMat[NowWorkNum]++;
+                        MatCountText.text = UseMat[NowWorkNum].ToString();
                         //TextMash.text = UseMat[NowWorkNum] ;
                     }
 
@@ -753,9 +802,10 @@ public class Work : SingleTon<Work>
 
                     min = Math.Min((CharacterData.Instance.AllCharacter[now].Work2 + ToolAbility(Toolmax)) / 10, MaterialData.Instance.MaterialList[1].Count);
 
-                    if (/*parse.int.(TextMash.text) < min */true)
+                    if (UseMat[NowWorkNum] < min)
                     {
                         UseMat[NowWorkNum]++;
+                        MatCountText.text = UseMat[NowWorkNum].ToString();
                         //TextMash.text = UseMat[NowWorkNum] ;
                     }
 
@@ -783,7 +833,11 @@ public class Work : SingleTon<Work>
                         if (str == "UpButton")
                         {
                             if (UseFood[0] < FoodData.Instance.FoodList[0].Count)
+                            {
                                 UseFood[0]++;
+                                CookMatCounText[0].text = UseFood[0].ToString();
+                                CookCounText[0].text = UseFood[0].ToString();
+                            }
                             //else
                             //안됨
 
@@ -791,14 +845,22 @@ public class Work : SingleTon<Work>
                         else if (str == "UpButton (1)")
                         {
                             if (UseFood[1] < FoodData.Instance.FoodList[4].Count)
+                            {
                                 UseFood[1]++;
+                                CookMatCounText[1].text = UseFood[1].ToString();
+                                CookCounText[1].text = UseFood[1].ToString();
+                            }
                             //else
                             //안됨
                         }
                         else if (str == "UpButton (2)")
                         {
                             if (UseFood[2] < FoodData.Instance.FoodList[8].Count)
+                            {
                                 UseFood[2]++;
+                                CookMatCounText[2].text = UseFood[2].ToString();
+                                CookCounText[2].text = UseFood[2].ToString();
+                            }
                             //else
                             //안됨
                         }
@@ -823,10 +885,10 @@ public class Work : SingleTon<Work>
 
                     min = Math.Min((CharacterData.Instance.AllCharacter[now].Work4 + ToolAbility(Toolmax)) / 10, MaterialData.Instance.MaterialList[2].Count);
 
-                    if (/*parse.int.(TextMash.text) < min */true)
+                    if (UseMat[NowWorkNum] < min)
                     {
                         UseMat[NowWorkNum]++;
-                        //TextMash.text = UseMat[NowWorkNum] ;
+                        FishMatCountText.text = UseMat[NowWorkNum].ToString();
                     }
                     break;
                 }//case 4
@@ -848,9 +910,10 @@ public class Work : SingleTon<Work>
 
                     min = Math.Min((CharacterData.Instance.AllCharacter[now].Work5 + ToolAbility(Toolmax)) / 10, MaterialData.Instance.MaterialList[3].Count);
 
-                    if (/*parse.int.(TextMash.text) < min */true)
+                    if (UseMat[NowWorkNum] < min)
                     {
                         UseMat[NowWorkNum]++;
+                        FarmMatCountText.text = UseMat[NowWorkNum].ToString();
                         //TextMash.text = UseMat[NowWorkNum] ;
                     }
                     break;
@@ -875,9 +938,10 @@ public class Work : SingleTon<Work>
 
                     min = Math.Min((CharacterData.Instance.AllCharacter[now].Work6 + ToolAbility(Toolmax)) / 10, MaterialData.Instance.MaterialList[4].Count);
 
-                    if (/*parse.int.(TextMash.text) < min */true)
+                    if (UseMat[NowWorkNum] < min)
                     {
                         UseMat[NowWorkNum]++;
+                        MatCountText.text = UseMat[NowWorkNum].ToString();
                         //TextMash.text = UseMat[NowWorkNum] ;
                     }
 
@@ -905,9 +969,10 @@ public class Work : SingleTon<Work>
 
                     min = Math.Min((CharacterData.Instance.AllCharacter[now].Work7 + ToolAbility(Toolmax)) / 10, MaterialData.Instance.MaterialList[4].Count);
 
-                    if (/*parse.int.(TextMash.text) < min */true)
+                    if (UseMat[NowWorkNum] < min)
                     {
                         UseMat[NowWorkNum]++;
+                        MatCountText.text = UseMat[NowWorkNum].ToString();
                         //TextMash.text = UseMat[NowWorkNum] ;
                     }
                     break;
@@ -926,10 +991,11 @@ public class Work : SingleTon<Work>
 
                     min = Math.Min((CharacterData.Instance.AllCharacter[now].Work8 + ToolAbility(Toolmax)) / 10, MaterialData.Instance.MaterialList[6].Count);
 
-                    if (/*parse.int.(TextMash.text) < min */true)
+                    if (UseMat[NowWorkNum] < min)
                     {
                         UseMat[NowWorkNum]++;
                         //TextMash.text = UseMat[NowWorkNum] ;
+                        MediMatCountText.text = UseMat[NowWorkNum].ToString();
                     }
                     break;
                 }//case 8
@@ -968,14 +1034,15 @@ public class Work : SingleTon<Work>
         {
             case 1://옷
                 {
-                    
 
 
-                   
-                    if (/*parse.int.(TextMash.text) >0 */true)
+
+
+                    if (UseMat[NowWorkNum] > 0)
                     {
                         UseMat[NowWorkNum]--;
                         //TextMash.text = UseMat[NowWorkNum] ;
+                        MatCountText.text = UseMat[NowWorkNum].ToString();
                     }
 
 
@@ -985,10 +1052,11 @@ public class Work : SingleTon<Work>
 
             case 2://배
                 {
-                    if (/*parse.int.(TextMash.text) >0 */true)
+                    if (UseMat[NowWorkNum] > 0)
                     {
                         UseMat[NowWorkNum]--;
                         //TextMash.text = UseMat[NowWorkNum] ;
+                        MatCountText.text = UseMat[NowWorkNum].ToString();
                     }
 
                     break;
@@ -1002,25 +1070,37 @@ public class Work : SingleTon<Work>
                         if (str == "DownButton")
                         {
                             if (UseFood[0] > 0)
+                            {
                                 UseFood[0]--;
-                            //else
-                            //안됨
+                                CookMatCounText[0].text = UseFood[0].ToString();
+                                CookCounText[0].text = UseFood[0].ToString();
+                            }
+                        //else
+                        //안됨
 
-                        }
+                    }
                         else if (str == "DownButton (1)")
                         {
                             if (UseFood[1] > 0)
+                            {
                                 UseFood[1]--;
-                            //else
-                            //안됨
-                        }
+                                CookMatCounText[1].text = UseFood[1].ToString();
+                                CookCounText[1].text = UseFood[1].ToString();
+                            }
+                        //else
+                        //안됨
+                    }
                         else if (str == "DownButton (2)")
                         {
                             if (UseFood[2] > 0)
+                            {
                                 UseFood[2]--;
-                            //else
-                            //안됨
-                        }
+                                CookMatCounText[2].text = UseFood[2].ToString();
+                                CookCounText[2].text = UseFood[2].ToString();
+                            }
+                        //else
+                        //안됨
+                    }
                     
                    
                     break;
@@ -1028,30 +1108,33 @@ public class Work : SingleTon<Work>
 
             case 4://낚시
                 {
-                    if (/*parse.int.(TextMash.text) >0 */true)
+                    if (UseMat[NowWorkNum] > 0)
                     {
                         UseMat[NowWorkNum]--;
                         //TextMash.text = UseMat[NowWorkNum] ;
+                        FishMatCountText.text = UseMat[NowWorkNum].ToString();
                     }
                     break;
                 }//case 4
 
             case 5://농사
                 {
-                    if (/*parse.int.(TextMash.text) >0 */true)
+                    if (UseMat[NowWorkNum] > 0)
                     {
                         UseMat[NowWorkNum]--;
                         //TextMash.text = UseMat[NowWorkNum] ;
+                        FarmMatCountText.text = UseMat[NowWorkNum].ToString();
                     }
                     break;
                 }//case 5
 
             case 6://건축
                 {
-                    if (/*parse.int.(TextMash.text) >0 */true)
+                    if (UseMat[NowWorkNum] > 0)
                     {
                         UseMat[NowWorkNum]--;
                         //TextMash.text = UseMat[NowWorkNum] ;
+                        MatCountText.text = UseMat[NowWorkNum].ToString();
                     }
 
                     break;
@@ -1059,20 +1142,22 @@ public class Work : SingleTon<Work>
 
             case 7://통신
                 {
-                    if (/*parse.int.(TextMash.text) >0 */true)
+                    if (UseMat[NowWorkNum] > 0)
                     {
                         UseMat[NowWorkNum]--;
                         //TextMash.text = UseMat[NowWorkNum] ;
+                        MatCountText.text = UseMat[NowWorkNum].ToString();
                     }
                     break;
                 }//case 7
 
             case 8://제약
                 {
-                    if (/*parse.int.(TextMash.text) >0 */true)
+                    if (UseMat[NowWorkNum] > 0)
                     {
                         UseMat[NowWorkNum]--;
                         //TextMash.text = UseMat[NowWorkNum] ;
+                        MediMatCountText.text = UseMat[NowWorkNum].ToString();
                     }
                     break;
                 }//case 8
@@ -1124,6 +1209,45 @@ public class Work : SingleTon<Work>
                 {
                     workSelectPopup.SetActive(true);
                     popupMode[0].SetActive(true);
+                    switch (SomethingList[0].Grade)
+                    {
+                        case 0:
+                            {
+                                AfterImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("MainSceneImage/Manufacture/clothes1");
+                                break;
+                            }
+                        case 1:
+                            {
+                                BeforeImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("MainSceneImage/Manufacture/clothes1");
+                                AfterImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("MainSceneImage/Manufacture/clothes2");
+                                break;
+                            }
+                        case 2:
+                            {
+                                BeforeImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("MainSceneImage/Manufacture/clothes2");
+                                AfterImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("MainSceneImage/Manufacture/clothes3");
+                                break;
+                            }
+                        case 3:
+                            {
+                                BeforeImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("MainSceneImage/Manufacture/clothes3");
+                                AfterImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("MainSceneImage/Manufacture/clothes4");
+                                break;
+                            }
+                        case 4:
+                            {
+                                BeforeImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("MainSceneImage/Manufacture/clothes4");
+                                AfterImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("MainSceneImage/Manufacture/clothes5");
+                                break;
+                            }
+                        case 5:
+                            {
+                                BeforeImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("MainSceneImage/Manufacture/clothes5");
+                                
+                                break;
+                            }
+                    }
+                    
                     normalModeMatImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("Material/cloth");
                     NowWorkNum = 1;
 
@@ -1151,6 +1275,44 @@ public class Work : SingleTon<Work>
                 {
                     workSelectPopup.SetActive(true);
                     popupMode[0].SetActive(true);
+                    switch (SomethingList[1].Grade)
+                    {
+                        case 0:
+                            {
+                                AfterImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("MainSceneImage/Manufacture/ship1");
+                                break;
+                            }
+                        case 1:
+                            {
+                                BeforeImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("MainSceneImage/Manufacture/ship1");
+                                AfterImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("MainSceneImage/Manufacture/ship2");
+                                break;
+                            }
+                        case 2:
+                            {
+                                BeforeImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("MainSceneImage/Manufacture/ship2");
+                                AfterImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("MainSceneImage/Manufacture/ship3");
+                                break;
+                            }
+                        case 3:
+                            {
+                                BeforeImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("MainSceneImage/Manufacture/ship3");
+                                AfterImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("MainSceneImage/Manufacture/ship4");
+                                break;
+                            }
+                        case 4:
+                            {
+                                BeforeImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("MainSceneImage/Manufacture/ship4");
+                                AfterImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("MainSceneImage/Manufacture/ship5");
+                                break;
+                            }
+                        case 5:
+                            {
+                                BeforeImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("MainSceneImage/Manufacture/ship5");
+
+                                break;
+                            }
+                    }
                     normalModeMatImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("Material/steal");
                     NowWorkNum = 2;
                     
@@ -1182,6 +1344,44 @@ public class Work : SingleTon<Work>
                 }
             case "WorkButton6"://집짓기
                 {
+                    switch (SomethingList[3].Grade)
+                    {
+                        case 0:
+                            {
+                                AfterImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("MainSceneImage/Manufacture/house1");
+                                break;
+                            }
+                        case 1:
+                            {
+                                BeforeImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("MainSceneImage/Manufacture/house1");
+                                AfterImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("MainSceneImage/Manufacture/house2");
+                                break;
+                            }
+                        case 2:
+                            {
+                                BeforeImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("MainSceneImage/Manufacture/house2");
+                                AfterImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("MainSceneImage/Manufacture/house3");
+                                break;
+                            }
+                        case 3:
+                            {
+                                BeforeImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("MainSceneImage/Manufacture/house3");
+                                AfterImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("MainSceneImage/Manufacture/house4");
+                                break;
+                            }
+                        case 4:
+                            {
+                                BeforeImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("MainSceneImage/Manufacture/house4");
+                                AfterImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("MainSceneImage/Manufacture/house5");
+                                break;
+                            }
+                        case 5:
+                            {
+                                BeforeImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("MainSceneImage/Manufacture/house5");
+
+                                break;
+                            }
+                    }
                     normalModeMatImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("Material/brick");
                     workSelectPopup.SetActive(true);
                     popupMode[0].SetActive(true);
@@ -1193,6 +1393,44 @@ public class Work : SingleTon<Work>
                 {
                     workSelectPopup.SetActive(true);
                     popupMode[0].SetActive(true);
+                    switch (SomethingList[4].Grade)
+                    {
+                        case 0:
+                            {
+                                AfterImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("MainSceneImage/Manufacture/machine1");
+                                break;
+                            }
+                        case 1:
+                            {
+                                BeforeImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("MainSceneImage/Manufacture/machine1");
+                                AfterImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("MainSceneImage/Manufacture/machine2");
+                                break;
+                            }
+                        case 2:
+                            {
+                                BeforeImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("MainSceneImage/Manufacture/machine2");
+                                AfterImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("MainSceneImage/Manufacture/machine3");
+                                break;
+                            }
+                        case 3:
+                            {
+                                BeforeImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("MainSceneImage/Manufacture/machine3");
+                                AfterImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("MainSceneImage/Manufacture/machine4");
+                                break;
+                            }
+                        case 4:
+                            {
+                                BeforeImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("MainSceneImage/Manufacture/machine4");
+                                AfterImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("MainSceneImage/Manufacture/machine5");
+                                break;
+                            }
+                        case 5:
+                            {
+                                BeforeImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("MainSceneImage/Manufacture/machine5");
+
+                                break;
+                            }
+                    }
                     normalModeMatImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("Material/elecline");
                     NowWorkNum = 7;
                     

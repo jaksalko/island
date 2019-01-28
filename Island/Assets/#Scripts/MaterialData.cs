@@ -46,7 +46,7 @@ public class MaterialData : SingleTon<MaterialData>
     {
 
         //Debug.Log(Text[0]);
-        //StartCoroutine(MaterialClear());
+        StartCoroutine(MaterialClear());
         StartCoroutine(MaterialLoad());
     }
 
@@ -79,30 +79,11 @@ public class MaterialData : SingleTon<MaterialData>
             FoodData.Instance.save();
             StartCoroutine(MaterialSave());
 
-
+            
         }
 
     }
-    void OnApplicationPause(bool pause)
-    {
-        if (pause)
-        {
-            //for (int i = 0; i < mData.MaterialList.Length; i++)
-            //    mData.MaterialList[i].Count++;
-            StartCoroutine(MaterialSave());
-            isPaused = true;
-
-        }
-
-        else
-        {
-            if (isPaused)
-            {
-                StartCoroutine(MaterialLoad());
-
-            }
-        }
-    }
+   
 
     void OnApplicationQuit()
     {

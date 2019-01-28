@@ -41,32 +41,13 @@ public class ToolData : SingleTon<ToolData>
 
 
 
-       // clear();
-        load();
+        clear();
+       load();
         
         
     }
    
-    void OnApplicationPause(bool pause)
-    {
-        if (pause)
-        {
-            //for (int i = 0; i < mData.MaterialList.Length; i++)
-            //    mData.MaterialList[i].Count++;
-            StartCoroutine(ToolSave());
-            isPaused = true;
-
-        }
-
-        else
-        {
-            if (isPaused)
-            {
-                StartCoroutine(ToolLoad());
-
-            }
-        }
-    }
+    
     void OnApplicationQuit()
     {
 

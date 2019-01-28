@@ -152,7 +152,7 @@ public class EndingEvent : SingleTon<EndingEvent>
    public  bool WhaleTF, BottleTF, EngineTF, ShipTF, MerTF, HeroTF, DreamTF, WingTF, RainBowTF, TimeTF, SpaceTF, IceTF, LeafTF, EagleTF;
 
     int WhaleP, BottleP, EngineP, ShipP, MerP, HeroP, DreamP, WingP, RainBowP, TimeP, SpaceP, IceP, LeafP, EagleP;
-    bool already;//하루에 어떠한 엔딩이 진행되었는지 확인 true면 더이상 다른 엔딩 이벤트 발생x
+    public bool already;//하루에 어떠한 엔딩이 진행되었는지 확인 true면 더이상 다른 엔딩 이벤트 발생x
                  //하루에 끝날 때 false로 바꿔줘야함
     public int WhaleDay, BottleDay, EngineDay, ShipDay, MerDay, HeroDay, DreamDay, WingDay, RainBowDay, TimeDay, SpaceDay, IceDay, LeafDay, EagleDay;
     public bool fishing, adven, hunting;//하루가 종료될 때 false로 바꿔야함
@@ -185,26 +185,7 @@ public class EndingEvent : SingleTon<EndingEvent>
     {
 		
 	}
-    void OnApplicationPause(bool pause)
-    {
-        if (pause)
-        {
-            //for (int i = 0; i < mData.MaterialList.Length; i++)
-            //    mData.MaterialList[i].Count++;
-            StartCoroutine(EndingSave());
-            isPaused = true;
-
-        }
-
-        else
-        {
-            if (isPaused)
-            {
-                StartCoroutine(EndingLoad());
-
-            }
-        }
-    }
+    
 
     void OnApplicationQuit()
     {
@@ -808,9 +789,9 @@ public class EndingEvent : SingleTon<EndingEvent>
 
 
 
-    void WhaleEvent()//평상시 
+    public void WhaleEvent()//평상시 
     {
-        if (WhaleTF == true)
+        if (WhaleTF == true&&already==false)
         {
             switch (WhaleP)
             {
@@ -821,7 +802,7 @@ public class EndingEvent : SingleTon<EndingEvent>
                         {
                             already = true;
                             
-                            //WhaleDay = 현재날짜;
+                            WhaleDay = PlayerPrefs.GetInt("Day");
 
                             //섬이 흔들리는 만화컷 1~2초 대기 
                             //팝업창 setactive(true) -> Whale1 text, 선택지 출력
@@ -834,11 +815,11 @@ public class EndingEvent : SingleTon<EndingEvent>
 
                 case 1:
                     {
-                        if (Random.Range(0, 100) < 3 /* && 현재날짜 > WhaleDay+20 */ )
+                        if (Random.Range(0, 100) < 3  && PlayerPrefs.GetInt("Day") > WhaleDay+20 )
                         {
                             already = true;
 
-                            //WhaleDay = 현재날짜;
+                            WhaleDay = PlayerPrefs.GetInt("Day");
 
                             //섬이 흔들리는 만화컷 1~2초 대기
                             //팝업창 setactive(true) -> Whale2 text, 선택지 출력
@@ -851,11 +832,11 @@ public class EndingEvent : SingleTon<EndingEvent>
 
                 case 2:
                     {
-                        if (Random.Range(0, 100) < 5 /* && 현재날짜 > WhaleDay+10 */)
+                        if (Random.Range(0, 100) < 5 && PlayerPrefs.GetInt("Day") > WhaleDay + 10)
                         {
                             already = true;
 
-                            //WhaleDay = 현재날짜;
+                            WhaleDay = PlayerPrefs.GetInt("Day");
 
                             //고래등 위에 섬이 있는 만화컷 1~2초 대기
                             //저 멀리 섬의 마을이 보이는 만화컷 1~2초 대기
@@ -881,7 +862,7 @@ public class EndingEvent : SingleTon<EndingEvent>
    public void BottleEvent()//첫 이벤트는 탐험시, 나머지는 평상시
     {
 
-        if (BottleTF == true)
+        if (BottleTF == true && already == false)
         {
 
             switch (BottleP)
@@ -893,6 +874,7 @@ public class EndingEvent : SingleTon<EndingEvent>
                             already = true;
 
                             Debug.Log("물병 획득");
+                            ManufactureData.Instance.ManuList[4].Grade = 1;
 
                             //물병을 손에 들고 있는 만화컷 1~2초 대기 
                             //팝업창 setactive(true) -> Bottle1 text, 선택지 출력
@@ -911,7 +893,7 @@ public class EndingEvent : SingleTon<EndingEvent>
 
                 case 1:
                     {
-                        if (Random.Range(0, 100) < 5 /* && 현재날짜 > BottleDay+20 */ )
+                        if (Random.Range(0, 100) < 5  && PlayerPrefs.GetInt("Day") > BottleDay+20  )
                         {
                             already = true;
 
@@ -931,9 +913,9 @@ public class EndingEvent : SingleTon<EndingEvent>
         }
     }
 
-    void EngineEvent()//첫 이벤트는 평상시, 나머지는 사용시
+    public void EngineEvent()//첫 이벤트는 평상시, 나머지는 사용시
     {
-        if (EngineTF == true)
+        if (EngineTF == true && already == false)
         {
             switch (EngineP)
             {
@@ -966,7 +948,39 @@ public class EndingEvent : SingleTon<EndingEvent>
 
                 case 1:
                     {
-                        int Percentage=0; // 가지고 있는 통신장치의 확률을 받아온다
+                        int Percentage=0;
+
+                        switch (Work.Instance.SomethingList[4].Grade)
+                        {
+                            case 1:
+                                {
+                                    Percentage = 10;
+                                    break;
+                                }
+                            case 2:
+                                {
+                                    Percentage = 20;
+                                    break;
+                                }
+                            case 3:
+                                {
+                                    Percentage = 30;
+                                    break;
+                                }
+                            case 4:
+                                {
+                                    Percentage = 40;
+                                    break;
+                                }
+                            case 5:
+                                {
+                                    Percentage = 50;
+                                    break;
+                                }
+                        }
+
+                        // 가지고 있는 통신장치의 확률을 받아온다
+                        
                         if (Random.Range(0, 100) < Percentage)
                         {
                             already = true;
@@ -1014,9 +1028,9 @@ public class EndingEvent : SingleTon<EndingEvent>
         }
     }
 
-    void ShipEvent()//첫 이벤트는 평상시, 나머지는 사용시
+    public void ShipEvent()//첫 이벤트는 평상시, 나머지는 사용시
     {
-        if (ShipTF == true)
+        if (ShipTF == true && already == false)
         {
             switch (ShipP)
             {
@@ -1030,7 +1044,7 @@ public class EndingEvent : SingleTon<EndingEvent>
 
 
 
-                            //팝업창 setactive(true) -> Engine0 text, 선택지 출력
+                            //팝업창 setactive(true) -> ship0 text, 선택지 출력
 
                             ShipP = 1;
                             ShipTF = false;
@@ -1049,6 +1063,35 @@ public class EndingEvent : SingleTon<EndingEvent>
                 case 1:
                     {
                         int Percentage = 0; // 가지고 있는 배의 확률을 받아온다
+
+                        switch (Work.Instance.SomethingList[1].Grade)
+                        {
+                            case 1:
+                                {
+                                    Percentage = 10;
+                                    break;
+                                }
+                            case 2:
+                                {
+                                    Percentage = 20;
+                                    break;
+                                }
+                            case 3:
+                                {
+                                    Percentage = 30;
+                                    break;
+                                }
+                            case 4:
+                                {
+                                    Percentage = 40;
+                                    break;
+                                }
+                            case 5:
+                                {
+                                    Percentage = 50;
+                                    break;
+                                }
+                        }
                         if (Random.Range(0, 100) < Percentage)
                         {
                             already = true;
@@ -1089,7 +1132,7 @@ public class EndingEvent : SingleTon<EndingEvent>
 
     public void MerEvent()//첫 이벤트는 평상시, 나머지는 낚시시 진행하게끔 만들어야함
     {
-        if (MerTF == true)
+        if (MerTF == true && already == false)
         {
             switch (MerP)
             {
@@ -1123,10 +1166,10 @@ public class EndingEvent : SingleTon<EndingEvent>
                         if (Random.Range(0, 100) < 5 && fishing == true)
                         {
                             already = true;
-                            //MerDay = 현재날짜;
+                            MerDay = PlayerPrefs.GetInt("Day");
                             //저멀리 바다에서 사람이 수영하는 만화컷 1~2초
                             //Mer1 text, 선택지 출력
-                            //MerP = 2;
+                            MerP = 2;
                             
                         }
 
@@ -1134,13 +1177,13 @@ public class EndingEvent : SingleTon<EndingEvent>
                     }
                 case 2:
                     {
-                        if (Random.Range(0, 100) < 10 && fishing == true /*&& 현재날짜 >MerDay+30*/ )
+                        if (Random.Range(0, 100) < 10 && fishing == true && PlayerPrefs.GetInt("Day") > MerDay+30 )
                         {
                             already = true;
-                            //MerDay = 현재날짜;
+                            MerDay = PlayerPrefs.GetInt("Day");
                             //저멀리 바다에서 사람이 수영하는 만화컷 1~2초
                             // Mer2 text , 선택지 출력
-                            //MerP = 3;
+                            MerP = 3;
 
                         }
 
@@ -1148,22 +1191,22 @@ public class EndingEvent : SingleTon<EndingEvent>
                     }
                 case 3:
                     {
-                        if (Random.Range(0, 100) < 20 /* && 현재날짜>MerDay+20*/)
+                        if (Random.Range(0, 100) < 20  && PlayerPrefs.GetInt("Day")> MerDay+20)
                         {
                             already = true;
 
                             //해변가에서 인어맨 발견 만화컷
                             //Mer3 text 출력
                             //인어맨이 점점 멀어져가는 만화컷
-                            //MerDay = 현재날짜;
-                            //MerP = 4;
+                            MerDay = PlayerPrefs.GetInt("Day");
+                            MerP = 4;
                         }
 
                         break;
                     }
                 case 4:
                     {
-                        if (true/*현재날짜 > MerDay+5*/)
+                        if (PlayerPrefs.GetInt("Day")> MerDay+5)
                         {
                             already = true;
                             //해변가에서 인어맨 발견 만화컷
@@ -1189,9 +1232,9 @@ public class EndingEvent : SingleTon<EndingEvent>
         }
     }
 
-    void HeroEvent()
+    public void HeroEvent()//평상시
     {
-        if (HeroTF == true)
+        if (HeroTF == true && already == false)
         {
             switch (HeroP)
             {
@@ -1217,7 +1260,7 @@ public class EndingEvent : SingleTon<EndingEvent>
                         {
                             already = true;
 
-                            //HeroDay = 현재날짜;
+                            HeroDay = PlayerPrefs.GetInt("Day");
 
                             //하늘위에 뭔가 반짝거리는 만화컷 1~2초 대기
                             //팝업창 setactive(true) -> Hero1 text, 선택지 출력
@@ -1230,11 +1273,11 @@ public class EndingEvent : SingleTon<EndingEvent>
 
                 case 2:
                     {
-                        if (Random.Range(0, 100) < 5 /* && 현재날짜 > HeroDay+30 */)
+                        if (Random.Range(0, 100) < 5  && PlayerPrefs.GetInt("Day")> HeroDay+30 )
                         {
                             already = true;
 
-                            //HeroDay = 현재날짜;
+                            HeroDay = PlayerPrefs.GetInt("Day");
                             HeroP = 3;
                             //하늘위에 뭔가 반짝거리는 만화컷 1~2초 대기
                             //Hero2 text , 선택지 출력
@@ -1246,7 +1289,7 @@ public class EndingEvent : SingleTon<EndingEvent>
 
                 case 3:
                     {
-                        if (Random.Range(0, 100) < 10 /*&&현재날짜>HeroDay=20*/)
+                        if (Random.Range(0, 100) < 10 && PlayerPrefs.GetInt("Day") > HeroDay + 30)
                         {
                             already = true;
                             //히어로 등장 만화컷
@@ -1267,9 +1310,9 @@ public class EndingEvent : SingleTon<EndingEvent>
         }
     }
 
-    void DreamEvent()
+    public void DreamEvent()
     {
-        if (DreamTF == true)
+        if (DreamTF == true && already == false)
         {
             switch (DreamP)
             {
@@ -1280,7 +1323,7 @@ public class EndingEvent : SingleTon<EndingEvent>
                         {
                             already = true;
 
-                            //DreamDay = 현재날짜;
+                            DreamDay = PlayerPrefs.GetInt("Day");
 
                             //팝업창 setactive(true) -> Dream0 text 출력
 
@@ -1292,11 +1335,11 @@ public class EndingEvent : SingleTon<EndingEvent>
 
                 case 1:
                     {
-                        if (Random.Range(0, 100) < 1 /* && 현재날짜 > DreamDay+10 */ )
+                        if (Random.Range(0, 100) < 1 && PlayerPrefs.GetInt("Day") > DreamDay+10  )
                         {
                             already = true;
 
-                            //DreamDay = 현재날짜;
+                            DreamDay = PlayerPrefs.GetInt("Day");
 
                             
                             //팝업창 setactive(true) -> Dream1 text, 선택지 출력
@@ -1309,11 +1352,11 @@ public class EndingEvent : SingleTon<EndingEvent>
 
                 case 2:
                     {
-                        if (Random.Range(0, 100) < 3 /* && 현재날짜 > DreamDay+10 */)
+                        if (Random.Range(0, 100) < 3  && PlayerPrefs.GetInt("Day") > DreamDay+10 )
                         {
                             already = true;
 
-                            //DreamDay = 현재날짜;
+                            DreamDay = PlayerPrefs.GetInt("Day");
                             //Dream2 text , 선택지 출력
                             DreamP = 3;
                             
@@ -1326,7 +1369,7 @@ public class EndingEvent : SingleTon<EndingEvent>
                     }
                 case 3:
                     {
-                        if (Random.Range(0, 100) < 5/* && 현재날짜 > DreamDay+20*/)
+                        if (Random.Range(0, 100) < 5 && PlayerPrefs.GetInt("Day") > DreamDay+20)
                         {
                             already = true;
                             DreamP = 4;
@@ -1346,7 +1389,7 @@ public class EndingEvent : SingleTon<EndingEvent>
         }
     }
 
-    void WingEvent()//날개옷을 사용할 때 호출
+   public void WingEvent()//날개옷을 사용할 때 호출
     {
         if (WingTF == true)
         {
@@ -1354,9 +1397,9 @@ public class EndingEvent : SingleTon<EndingEvent>
         }
     }
 
-    void RainBowEvent() // 더운, 노말 맵에서만 호출
+    public void RainBowEvent() // 더운, 노말 맵에서만 호출  // 첫날 = 비올때
     {
-        if (RainBowTF == true)
+        if (RainBowTF == true && already == false)
         {
             switch (RainBowP)
             {
@@ -1367,7 +1410,7 @@ public class EndingEvent : SingleTon<EndingEvent>
                         {
                             already = true;
 
-                            //RainBowDay = 현재날짜;
+                            RainBowDay = PlayerPrefs.GetInt("Day");
 
                             //하늘에 비가 오는 만화컷 1~2초 대기 
                             //팝업창 setactive(true) -> RainBow1 text, 선택지 출력
@@ -1380,7 +1423,7 @@ public class EndingEvent : SingleTon<EndingEvent>
 
                 case 1:
                     {
-                        if (Random.Range(0, 100) < 30 /* && 현재날짜 == RainBowDay+1 */ )
+                        if (Random.Range(0, 100) < 30  && PlayerPrefs.GetInt("Day") == RainBowDay+1  )
                         {
                             already = true;
 
@@ -1400,7 +1443,7 @@ public class EndingEvent : SingleTon<EndingEvent>
                         {
                             already = true;
 
-                            //RainBowDay = 현재날짜;
+                            RainBowDay = PlayerPrefs.GetInt("Day");
 
                             //하늘에 비가 오는 만화컷 1~2초 대기 
                             //팝업창 setactive(true) -> RainBow3 text, 선택지 출력
@@ -1412,7 +1455,7 @@ public class EndingEvent : SingleTon<EndingEvent>
                     }
                 case 3:
                     {
-                        if (Random.Range(0, 100) < 30 /* && 현재날짜 == RainDay+1*/)
+                        if (Random.Range(0, 100) < 30  &&  PlayerPrefs.GetInt("Day") == RainBowDay+1)
                         {
                             already = true;
 
@@ -1448,7 +1491,7 @@ public class EndingEvent : SingleTon<EndingEvent>
         }
     }
 
-    void TimeEvent() // 타임머신이 사용할 때 호출
+    public void TimeEvent() // 타임머신이 사용할 때 호출
     {
         if (TimeTF == true)
         {
@@ -1456,7 +1499,7 @@ public class EndingEvent : SingleTon<EndingEvent>
         }
     }
 
-    void SpaceEvent() // 마법사가 공간이동 사용할 떄 호출
+    public void SpaceEvent() // 마법사가 공간이동 사용할 떄 호출
     {
         if (SpaceTF == true)
         {
@@ -1474,9 +1517,9 @@ public class EndingEvent : SingleTon<EndingEvent>
         }
     }
 
-    void IceEvent() // 빙판 맵에서만 호출
+    public void IceEvent() // 빙판 맵에서만 호출
     {
-        if (IceTF == true)
+        if (IceTF == true && already == false)
         {
             switch (IceP)
             {
@@ -1510,9 +1553,9 @@ public class EndingEvent : SingleTon<EndingEvent>
         }
     }
 
-    void LeafEvent() // 정글 맵에서만 호출
+    public void LeafEvent() // 정글 맵에서만 호출
     {
-        if (LeafTF == true)
+        if (LeafTF == true && already == false)
         {
             switch (LeafP)
             {
@@ -1554,7 +1597,7 @@ public class EndingEvent : SingleTon<EndingEvent>
 
     public void EagleEvent()
     {
-        if (EagleTF == true)
+        if (EagleTF == true && already == false)
         {
             switch (EagleP)
             {

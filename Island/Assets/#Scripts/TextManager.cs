@@ -24,16 +24,16 @@ public class TextManager : MonoBehaviour
     void Update()
     {
 
-        for (int i = 0; i < MaterialCountText.Length; i++)
+        for (int i = 0; i < 7; i++)
         {
             MaterialCountText[i].text = MaterialData.Instance.MaterialList[i].Count.ToString();
         }
 
-        for (int i = 0; i < FoodCountText.Length; i++)
+        for (int i = 0; i < 12; i++)
         {
             FoodCountText[i].text = FoodData.Instance.FoodList[i].Count.ToString();
         }
-        for (int i = 0; i < ToolCountText.Length; i++)
+        for (int i = 0; i < 27; i++)
         {
             ToolCountText[i].text = ToolData.Instance.ToolList[i].Count.ToString();
         }

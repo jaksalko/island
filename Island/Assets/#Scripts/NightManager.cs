@@ -20,6 +20,7 @@ public class NightManager : MonoBehaviour {
     public TextMeshProUGUI[] WorkText;
     public TextMeshProUGUI[] BeforeLvText;
     public TextMeshProUGUI[] AfterLvText;
+    public TextMeshProUGUI[] GageText;
     public Slider[] workSlider;
     float[] clothgage = { 0,200,500,1000,2000,3000};
     float[] shipgage = { 0,300, 100, 2000, 3000, 5000 };
@@ -43,7 +44,7 @@ public class NightManager : MonoBehaviour {
             
             float beforeNeed = clothgage[Work.Instance.SomethingList[0].Grade];//지금 레벨까지의 필요한 양
             
-            float todayWorked = 100;//Work.Instance.UseMat[1]*10;
+            float todayWorked = Work.Instance.UseMat[1]*10;
             x = 500 * (nowWorked - beforeNeed) / (nowNeed - beforeNeed);
             
 
@@ -55,6 +56,7 @@ public class NightManager : MonoBehaviour {
             WorkNameText[gagenum].text = "옷만들기";
             BeforeLvText[gagenum].text = "Lv"+Work.Instance.SomethingList[0].Grade.ToString();
             AfterLvText[gagenum].text = "Lv" + (Work.Instance.SomethingList[0].Grade + 1).ToString();
+            GageText[gagenum].text = nowWorked.ToString() + "+" + todayWorked.ToString() + " / " + nowNeed.ToString();
             gagenum++;
         }
 
@@ -75,6 +77,7 @@ public class NightManager : MonoBehaviour {
             WorkNameText[gagenum].text = "배만들기";
             BeforeLvText[gagenum].text = "Lv" + Work.Instance.SomethingList[1].Grade.ToString();
             AfterLvText[gagenum].text = "Lv" + (Work.Instance.SomethingList[1].Grade + 1).ToString();
+            GageText[gagenum].text = nowWorked.ToString() + "+" + todayWorked.ToString() + " / " + nowNeed.ToString();
             gagenum++;
         }
 
@@ -95,6 +98,7 @@ public class NightManager : MonoBehaviour {
             WorkNameText[gagenum].text = "농사짓기";
             BeforeLvText[gagenum].text = "씨앗에서";
             AfterLvText[gagenum].text = "이삭까지";
+            GageText[gagenum].text = nowWorked.ToString() + "+" + todayWorked.ToString() + " / " + nowNeed.ToString();
             gagenum++;
         }
 
@@ -115,6 +119,7 @@ public class NightManager : MonoBehaviour {
             WorkNameText[gagenum].text = "건축하기";
             BeforeLvText[gagenum].text = "Lv" + Work.Instance.SomethingList[3].Grade.ToString();
             AfterLvText[gagenum].text = "Lv" + (Work.Instance.SomethingList[3].Grade + 1).ToString();
+            GageText[gagenum].text = nowWorked.ToString() + "+" + todayWorked.ToString() + " / " + nowNeed.ToString();
             gagenum++;
         }
 
@@ -135,12 +140,15 @@ public class NightManager : MonoBehaviour {
             WorkNameText[gagenum].text = "통신장치 제작하기";
             BeforeLvText[gagenum].text = "Lv" + Work.Instance.SomethingList[4].Grade.ToString();
             AfterLvText[gagenum].text = "Lv" + (Work.Instance.SomethingList[4].Grade + 1).ToString();
+            GageText[gagenum].text = nowWorked.ToString() + "+" + todayWorked.ToString() + " / " + nowNeed.ToString();
             gagenum++;
         }
 
         for (int i = gagenum; i < 3; i++)
         {
             WorkGageOb[i].SetActive(false);
+            WorkText[i].text = "";
+            WorkNameText[i].text = "";
         }
         
         //Debug.Log(workSlider.value);
@@ -164,6 +172,7 @@ public class NightManager : MonoBehaviour {
                 WorkGageOb[i].SetActive(true);
             }
             Work.Instance.NewDay();
+            EndingEvent.Instance.already = false;
 
             PlayerPrefs.SetInt("Day", PlayerPrefs.GetInt("Day") + 1);
             DayText.text = "Day " + PlayerPrefs.GetInt("Day").ToString();

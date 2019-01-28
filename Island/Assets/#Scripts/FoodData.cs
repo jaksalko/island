@@ -49,7 +49,7 @@ public class FoodData : SingleTon<FoodData>
     {
         
         
-           // StartCoroutine(FoodClear());
+            StartCoroutine(FoodClear());
             StartCoroutine(FoodLoad());
         
 
@@ -73,26 +73,7 @@ public class FoodData : SingleTon<FoodData>
         }
 
     }
-    void OnApplicationPause(bool pause)
-    {
-        if (pause)
-        {
-            //for (int i = 0; i < mData.MaterialList.Length; i++)
-            //    mData.MaterialList[i].Count++;
-            //StartCoroutine(FoodSave());
-            isPaused = true;
-
-        }
-
-        else
-        {
-            if (isPaused)
-            {
-                StartCoroutine(FoodLoad());
-
-            }
-        }
-    }
+   
 
     void OnApplicationQuit()
     {

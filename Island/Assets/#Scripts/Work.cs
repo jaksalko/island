@@ -6,7 +6,7 @@ using System.IO;
 using UnityEngine.EventSystems;
 using System;
 using UnityEngine.UI;
-
+using TMPro;
 public class Something
 {
     public string Name;
@@ -23,8 +23,11 @@ public class Something
 
 public class Work : SingleTon<Work>
 {
+    public TextMeshProUGUI workYesClickTxt;// WorkSelect 에서 yes 클릭했을 때 나오는 팝업창 텍스트
+
     public bool[] isWork = { false,};
     public int temp;
+    public GameObject workPopup;//일 선택창 팝업
     public GameObject workSelectPopup;//일 선택시 팝업 백그라운드
     public Button Yes;//일수행 yes
     public Button No;//no
@@ -44,6 +47,9 @@ public class Work : SingleTon<Work>
 
     public List<Something> SomethingList = new List<Something>();
 
+
+    public Slider expSlider;
+    public GameObject expGage;
     // Use this for initialization
 
 
@@ -368,11 +374,11 @@ public class Work : SingleTon<Work>
         NowWorkNum = 0;
     }
 
-    public void YesButton()
+    public void YesButton()//제작버튼
     {
         int now = MyCharacterData.Instance.NowCharacterName; // 선택한 캐릭터 번호
         
-        workSelectPopup.SetActive(false);
+        //workSelectPopup.SetActive(false);
         switch (NowWorkNum)
         {
             case 1://옷
@@ -381,10 +387,10 @@ public class Work : SingleTon<Work>
 
 
 
-                    if (MaterialData.Instance.MaterialList[0].Count < 1 || temp < 1)//도구,재료가 없을때(일을 못함)
+                    if (MaterialData.Instance.MaterialList[0].Count < 0 || temp <0)//도구,재료가 없을때(일을 못함)
                     {
                         //일을 못합니다. 팝업 창 띄우기
-                        Debug.Log("일을 못합니다.");
+                        iTween.ShakePosition(workSelectPopup, new Vector3(0.5f, 0, 0), 0.5f);
 
 
                     }
@@ -394,14 +400,16 @@ public class Work : SingleTon<Work>
 
                         //확률따져서 날개옷 생성
 
-                        
 
+                        goAreaPopup.SetActive(true);
+                        workYesClickTxt.text = "옷(00+00/100)을 만드시겠습니까?";
 
                         Char[MyCharacterData.Instance.CharacterName.IndexOf(now)].SetActive(false);
 
                     }
-
-                    popupMode[0].SetActive(false);
+                    
+                   
+                    //popupMode[0].SetActive(false);
                     break;
 
                 }//case 1
@@ -416,18 +424,20 @@ public class Work : SingleTon<Work>
                     if (MaterialData.Instance.MaterialList[1].Count < 1 || temp < 1)
                     {
                         //일을 못합니다. 팝업 창 띄우기
-                        Debug.Log("일을 못합니다.");
+                        iTween.ShakePosition(workSelectPopup, new Vector3(0.5f, 0, 0), 0.5f);
                     }
                     else
                     {
                         isWork[NowWorkNum] = true;
 
-                       
+                        goAreaPopup.SetActive(true);
+                        workYesClickTxt.text = "배(00+00/100)을 만드시겠습니까?";
 
 
                         Char[MyCharacterData.Instance.CharacterName.IndexOf(now)].SetActive(false);
                     }
-                    popupMode[0].SetActive(false);
+                   
+                    
                     break;
                 }//case 2
 
@@ -443,7 +453,7 @@ public class Work : SingleTon<Work>
                     if (fdtemp<1 || temp < 1)// 또한 물고기, 고기, 쌀이 없을 때 안됨
                     {
                         //일을 못합니다. 팝업 창 띄우기
-                        Debug.Log("일을 못합니다.");
+                        iTween.ShakePosition(workSelectPopup, new Vector3(0.5f, 0, 0), 0.5f);
                     }
                     else
                     {
@@ -452,12 +462,13 @@ public class Work : SingleTon<Work>
                         Debug.Log(CharacterData.Instance.AllCharacter[now].Name + "일이 가능합니다" + CharacterData.Instance.AllCharacter[now].Work3);
                         //도구 단계에 따라 + 능력치 해줘야함
 
-                        
 
+                        goAreaPopup.SetActive(true);
+                        workYesClickTxt.text = "밥 0 개  고기요리 0 개 생선요리 0 개를 만드시겠습니까?";
 
                         Char[MyCharacterData.Instance.CharacterName.IndexOf(now)].SetActive(false);
                     }
-                    popupMode[4].SetActive(false);
+                  
                     UseFood[0] = UseFood[1] = UseFood[2] = 0;
                     break;
                 }
@@ -471,7 +482,7 @@ public class Work : SingleTon<Work>
                     if (MaterialData.Instance.MaterialList[2].Count < 1 || temp < 1)
                     {
                         //일을 못합니다. 팝업 창 띄우기
-                        Debug.Log("일을 못합니다.");
+                        iTween.ShakePosition(workSelectPopup, new Vector3(0.5f, 0, 0), 0.5f);
                     }
                     else
                     {
@@ -481,13 +492,14 @@ public class Work : SingleTon<Work>
                         EndingEvent.Instance.fishing = true;
                         EndingEvent.Instance.MerEvent();
 
-                        
+                        goAreaPopup.SetActive(true);
+                        workYesClickTxt.text = "물고기 0 마리를 잡으러 가시겠습니까?";
 
 
                         Char[MyCharacterData.Instance.CharacterName.IndexOf(now)].SetActive(false);
 
                     }
-                    popupMode[2].SetActive(false);
+                  
                     EndingEvent.Instance.fishing = false;
                     break;
                 }//case 4
@@ -502,7 +514,7 @@ public class Work : SingleTon<Work>
                     if (MaterialData.Instance.MaterialList[3].Count < 1 || temp < 1)//도구,재료가 없을때(일을 못함)
                     {
                         //일을 못합니다. 팝업 창 띄우기
-                        Debug.Log("일을 못합니다.");
+                        iTween.ShakePosition(workSelectPopup, new Vector3(0.5f, 0, 0), 0.5f);
 
 
                     }
@@ -510,13 +522,14 @@ public class Work : SingleTon<Work>
                     {
                         isWork[NowWorkNum] = true;
 
-                       
+                        goAreaPopup.SetActive(true);
+                        workYesClickTxt.text = " 벼를 0개 수확하러 가시겠습니까?";
 
 
                         Char[MyCharacterData.Instance.CharacterName.IndexOf(now)].SetActive(false);
                         //else 일을 안한다는 버튼
                     }
-                    popupMode[5].SetActive(false);
+                  
                     break;
                 }//case 5
 
@@ -528,7 +541,7 @@ public class Work : SingleTon<Work>
                     if (MaterialData.Instance.MaterialList[4].Count < 1 || temp < 1)//도구,재료가 없을때(일을 못함)
                     {
                         //일을 못합니다. 팝업 창 띄우기
-                        Debug.Log("일을 못합니다.");
+                        iTween.ShakePosition(workSelectPopup, new Vector3(0.5f, 0, 0), 0.5f);
 
 
                     }
@@ -536,7 +549,8 @@ public class Work : SingleTon<Work>
                     {
                         isWork[NowWorkNum] = true;
 
-
+                        goAreaPopup.SetActive(true);
+                        workYesClickTxt.text = "집(00+00/100)을 만드시겠습니까?";
 
 
 
@@ -545,7 +559,7 @@ public class Work : SingleTon<Work>
 
                         //else 일을 안한다는 버튼
                     }
-                    popupMode[0].SetActive(false);
+                   
                     break;
                 }//case 6
 
@@ -557,7 +571,7 @@ public class Work : SingleTon<Work>
                     if (MaterialData.Instance.MaterialList[5].Count < 1 || temp < 1)//도구,재료가 없을때(일을 못함)
                     {
                         //일을 못합니다. 팝업 창 띄우기
-                        Debug.Log("일을 못합니다.");
+                        iTween.ShakePosition(workSelectPopup, new Vector3(0.5f, 0, 0), 0.5f);
 
 
                     }
@@ -565,16 +579,17 @@ public class Work : SingleTon<Work>
                     {
                         isWork[NowWorkNum] = true;
 
-                        
+                        goAreaPopup.SetActive(true);
+                        workYesClickTxt.text = "통신기계(00+00/100)을 만드시겠습니까?";
 
-                            Char[MyCharacterData.Instance.CharacterName.IndexOf(now)].SetActive(false);
+                        Char[MyCharacterData.Instance.CharacterName.IndexOf(now)].SetActive(false);
                         
 
 
 
                         //else 일을 안한다는 버튼
                     }
-                    popupMode[0].SetActive(false);
+                 
                     break;
                 }//case 7
 
@@ -584,14 +599,15 @@ public class Work : SingleTon<Work>
                     if (MaterialData.Instance.MaterialList[6].Count<1 || temp < 1)// 또한 물고기, 고기, 쌀이 없을 때 안됨
                     {
                         //일을 못합니다. 팝업 창 띄우기
-                        Debug.Log("일을 못합니다.");
+                        iTween.ShakePosition(workSelectPopup, new Vector3(0.5f, 0, 0), 0.5f);
                     }
                     else
                     {
                         isWork[NowWorkNum] = true;
-
+                        goAreaPopup.SetActive(true);
+                        workYesClickTxt.text = "약을 0개  제조하시겠습니까?";
                     }
-                    popupMode[1].SetActive(false);
+                   
                     break;
                 }//case 8
 
@@ -609,7 +625,7 @@ public class Work : SingleTon<Work>
                     if (temp < 1)
                     {
                         //일을 못합니다. 팝업 창 띄우기
-                        Debug.Log("일을 못합니다.");
+                        iTween.ShakePosition(workSelectPopup, new Vector3(0.5f, 0, 0), 0.5f);
                     }
                     else
                     {
@@ -638,8 +654,7 @@ public class Work : SingleTon<Work>
                     EndingEvent.Instance.adven = true;
                     EndingEvent.Instance.BottleEvent();
                     
-                    goAreaPopup.SetActive(false);//지도 닫기
-                    popupMode[6].SetActive(false);
+                   
                    
                     Char[MyCharacterData.Instance.CharacterName.IndexOf(now)].SetActive(false);
                     break;
@@ -650,8 +665,41 @@ public class Work : SingleTon<Work>
         
         temp = 0;
     }
-
-    
+    public void NoClicked()                                                             //제작취소
+    {
+        workSelectPopup.SetActive(false);
+        for (int i = 0; i < 7; i++)
+        {
+            if (popupMode[i].activeSelf == true)
+            {
+                if (i == 6)
+                {
+                    goAreaPopup.SetActive(false);
+                }
+                popupMode[i].SetActive(false);
+                break;
+            }
+        }
+    }
+    public void WorkYes() {                                                          //여기서 이제 갯수랑 게이지같은게 변화시켜야함
+        for (int i = 0; i < 7; i++)
+        {
+            if (popupMode[i].activeSelf == true)
+            {
+                popupMode[i].SetActive(false);
+                break;
+            }
+        }
+        goAreaPopup.SetActive(false);
+        workSelectPopup.SetActive(false);
+        workPopup.SetActive(false);
+        
+    }
+    public void WorkNo() {                                                      //마지막 팝업창에서 취소버튼 이전창으로만 돌아가면 되는데 탐험을선택했을때는 지도를 꺼버림
+        goAreaPopup.SetActive(false);
+        if (popupMode[6].activeSelf == true)
+            popupMode[6].SetActive(false);
+    }//마지막 일할지 안할지 선택할 떄 No 버튼
 
     public void MatQuanUpClicked()
     {
@@ -1053,6 +1101,8 @@ public class Work : SingleTon<Work>
         }
 
     }
+
+
     public void work()
     {
         
@@ -1077,9 +1127,23 @@ public class Work : SingleTon<Work>
                     normalModeMatImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("Material/cloth");
                     NowWorkNum = 1;
 
+                    float nowWorked = 3000;//현재 한 일의 양(누적)
 
-                    
-                    
+                    float nowNeed = 4000;//지금 레벨업에 필요한 양
+
+                    float beforeNeed = 200;//지금 레벨까지의 필요한 양
+
+                    float todayWorked = 500;//Work.Instance.UseMat[1]*10;
+                    float x = 395 * (nowWorked - beforeNeed) / (nowNeed - beforeNeed);
+
+
+                    var gageTransform = expGage.transform as RectTransform;
+                    gageTransform.sizeDelta = new Vector2(x, gageTransform.sizeDelta.y);
+                    expGage.transform.localPosition = new Vector3((x / 2 - 305), gageTransform.localPosition.y, 0);
+                    expSlider.value = ((nowWorked + todayWorked - beforeNeed) / (nowNeed - beforeNeed));
+
+
+
                     break;
                 }
 
@@ -1168,28 +1232,17 @@ public class Work : SingleTon<Work>
     }
 
 
-    public void NoClicked() {
-        workSelectPopup.SetActive(false);
-        for (int i = 0; i < 7; i++)
-        {
-            if (popupMode[i].activeSelf == true)
-            {
-                if (i == 6)
-                {
-                    goAreaPopup.SetActive(false);
-                }
-                popupMode[i].SetActive(false);
-                break;
-            }
-        }
-    }
+  
     public void AreaClicked() {
         string str = EventSystem.current.currentSelectedGameObject.name;
         Debug.Log(str);
         if (str == "Area1") {   mapBack.GetComponent<Image>().sprite = Resources.Load<Sprite>("mapBack_selectedA");}
         else if (str == "Area2") { mapBack.GetComponent<Image>().sprite = Resources.Load<Sprite>("mapBack_selectedB"); }
         else if (str == "Area3") { mapBack.GetComponent<Image>().sprite = Resources.Load<Sprite>("mapBack_selectedC"); }
+        str = str.Replace("Area", "");
+        workYesClickTxt.text = str + "지역을 탐험하시겠습니까?";
         goAreaPopup.SetActive(true);
+        
     }
 
     IEnumerator SomethingClear()

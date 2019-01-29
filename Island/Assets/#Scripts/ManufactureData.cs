@@ -36,7 +36,8 @@ public class ManufactureData : SingleTon<ManufactureData> {
 
         clear();
         load();
-        ManuList[5].Grade = 1;
+        for(int i=0;i<9;i++)
+        ManuList[i].Grade = 1;
         
 
     }

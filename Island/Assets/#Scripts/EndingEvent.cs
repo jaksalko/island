@@ -803,7 +803,7 @@ public class EndingEvent : SingleTon<EndingEvent>
                             already = true;
                             
                             WhaleDay = PlayerPrefs.GetInt("Day");
-
+                            AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
                             //섬이 흔들리는 만화컷 1~2초 대기 
                             //팝업창 setactive(true) -> Whale1 text, 선택지 출력
 
@@ -872,7 +872,7 @@ public class EndingEvent : SingleTon<EndingEvent>
                         if (Random.Range(0, 100) == 0 && adven==true)
                         {
                             already = true;
-
+                            AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
                             Debug.Log("물병 획득");
                             ManufactureData.Instance.ManuList[4].Grade = 1;
 
@@ -925,10 +925,10 @@ public class EndingEvent : SingleTon<EndingEvent>
                         if (Random.Range(0, 100) <30)
                         {
                             already = true;
+                            AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
 
-                            
 
-                             
+
                             //팝업창 setactive(true) -> Engine0 text, 선택지 출력
 
                             EngineP = 1;
@@ -1041,7 +1041,7 @@ public class EndingEvent : SingleTon<EndingEvent>
                         {
                             already = true;
 
-
+                            AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
 
 
                             //팝업창 setactive(true) -> ship0 text, 선택지 출력
@@ -1143,7 +1143,7 @@ public class EndingEvent : SingleTon<EndingEvent>
                         {
                             already = true;
 
-
+                            AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
 
 
                             // Mer0 text 출력
@@ -1244,8 +1244,8 @@ public class EndingEvent : SingleTon<EndingEvent>
                         if (Random.Range(0, 100) < 30)
                         {
                             already = true;
+                            AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
 
-                            
                             //Hero0 text 출력
 
                             HeroP = 1;
@@ -1322,7 +1322,7 @@ public class EndingEvent : SingleTon<EndingEvent>
                         if (Random.Range(0, 100) <30)
                         {
                             already = true;
-
+                            AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
                             DreamDay = PlayerPrefs.GetInt("Day");
 
                             //팝업창 setactive(true) -> Dream0 text 출력
@@ -1393,7 +1393,8 @@ public class EndingEvent : SingleTon<EndingEvent>
     {
         if (WingTF == true)
         {
-           //Wing1 text , 선택지 출력
+            AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
+            //Wing1 text , 선택지 출력
         }
     }
 
@@ -1408,6 +1409,7 @@ public class EndingEvent : SingleTon<EndingEvent>
                     {
                         if (Random.Range(0, 100) == 0)
                         {
+                            AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
                             already = true;
 
                             RainBowDay = PlayerPrefs.GetInt("Day");
@@ -1495,6 +1497,7 @@ public class EndingEvent : SingleTon<EndingEvent>
     {
         if (TimeTF == true)
         {
+            AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
             //Time1 text , 선택지 출력
         }
     }
@@ -1507,8 +1510,9 @@ public class EndingEvent : SingleTon<EndingEvent>
             {
                 case 0:
                     {
+                        AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
                         //Space1 text , 선택지 출력
-                        
+
 
                         break;
                     }
@@ -1527,6 +1531,7 @@ public class EndingEvent : SingleTon<EndingEvent>
                     {
                         if (Random.Range(0, 100) == 0 && adven == true)
                         {
+                            AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
                             already = true;
                             //바다위에 거대한 빙판이 떠다니는 만화컷
                             //Ice1 text , 선택지 출력
@@ -1563,6 +1568,7 @@ public class EndingEvent : SingleTon<EndingEvent>
                     {
                         if (Random.Range(0, 100) == 0 && adven == true)
                         {
+                            AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
                             already = true;
                             LeafP = 1;
                             //거대한 나뭇잎을 발견한 만화컷
@@ -1605,6 +1611,7 @@ public class EndingEvent : SingleTon<EndingEvent>
                     {
                         if (Random.Range(0, 100) == 0 && hunting == true)
                         {
+                            AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
                             already = true;
                             EagleP = 1;
                             EagleTF = false;

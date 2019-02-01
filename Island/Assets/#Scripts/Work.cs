@@ -24,7 +24,7 @@ public class Something
 public class Work : SingleTon<Work>
 {
     public TextMeshProUGUI workYesClickTxt;// WorkSelect 에서 yes 클릭했을 때 나오는 팝업창 텍스트
-
+    public TextMeshProUGUI DayText;
     public bool[] isWork = { false,};
     public int temp;
     public GameObject workPopup;//일 선택창 팝업
@@ -81,11 +81,12 @@ public class Work : SingleTon<Work>
 
     public void Start()
     {
-        PlayerPrefs.SetInt("Day", 1);
+        //PlayerPrefs.SetInt("Day", 1);
 
         StartCoroutine(SomethingLoad());
 
         isWork[1] = true;
+        DayText.text = "Day " + PlayerPrefs.GetInt("Day");
     }
 
     public int ToolAbility(int max)
@@ -116,6 +117,8 @@ public class Work : SingleTon<Work>
 
     public void NewDay()
     {
+        DayText.text = "Day " + PlayerPrefs.GetInt("Day");
+
         ManufactureData.Instance.FreshManu();
 
         EndingEvent.Instance.WhaleEvent();

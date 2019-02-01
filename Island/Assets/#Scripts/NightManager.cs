@@ -6,7 +6,7 @@ using System;
 using UnityEngine.UI;
 using TMPro;
 
-public class NightManager : MonoBehaviour {
+public class NightManager : SingleTon<NightManager> {
     public GameObject nightPop;
     public Button nextButton;
     public GameObject[] nightPage;
@@ -15,7 +15,7 @@ public class NightManager : MonoBehaviour {
     public GameObject goNightAdPopup;
     public GameObject toggle;
     public GameObject[] workedGage;//이미 수행한 일의 양
-    public TextMeshProUGUI DayText;
+    
     public TextMeshProUGUI[] WorkNameText;
     public TextMeshProUGUI[] WorkText;
     public TextMeshProUGUI[] BeforeLvText;
@@ -175,7 +175,8 @@ public class NightManager : MonoBehaviour {
             EndingEvent.Instance.already = false;
 
             PlayerPrefs.SetInt("Day", PlayerPrefs.GetInt("Day") + 1);
-            DayText.text = "Day " + PlayerPrefs.GetInt("Day").ToString();
+            Work.Instance.DayText.text = "Day " + PlayerPrefs.GetInt("Day").ToString();
+            Debug.Log(PlayerPrefs.GetInt("Day").ToString());
         }
         else
         {

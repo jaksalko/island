@@ -39,7 +39,7 @@ ExportedObj/
 *.unityproj
  
 *.booproj
- 
+ *.meta *.json
  
  
 # ============ #
@@ -71,3 +71,4 @@ ProjectSettings.asset
 ProjectVersion.txt
 
 
+ 

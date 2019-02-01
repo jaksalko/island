@@ -39,7 +39,7 @@ ExportedObj/
 *.unityproj
  
 *.booproj
- 
+ *.meta *.json
  
  
 # ============ #
@@ -72,6 +72,10 @@ ProjectVersion.txt
 
 
 <<<<<<< HEAD
+ 
+=======
+<<<<<<< HEAD
 
 =======
 >>>>>>> 5c41f2231e4e98f49a03c165bc82c71cd13bbe03
+>>>>>>> b5d43f583f5cbb028d330aad909f2683e60c4d7a

@@ -40,10 +40,12 @@ public class MyCharacterData : SingleTon<MyCharacterData>
 
     void Start()
     {
+        StartCoroutine(MyCharacterClear());
+
         StartCoroutine(MyCharacterLoad());
-        for (int i = 0; i < 3; i++)
-            Debug.Log(CharacterName[i]);
-    }
+        //MaterialData.Instance.MaterialList[0].Count += 100;
+
+        }
 
 
 
@@ -74,7 +76,10 @@ public class MyCharacterData : SingleTon<MyCharacterData>
 
         JsonData CharacterJson = JsonMapper.ToJson(TempCharacter);
 
-        File.WriteAllText(Application.dataPath + "/Resources/MyCharacterData.json", CharacterJson.ToString());
+        if (EndingEvent.Instance.path == Application.persistentDataPath)
+            File.WriteAllText(Application.persistentDataPath + "/MyCharacterData.json", CharacterJson.ToString());
+        else
+            File.WriteAllText(EndingEvent.Instance.path + "/Resources/MyCharacterData.json", CharacterJson.ToString());
 
         yield return null;
 
@@ -106,7 +111,10 @@ public class MyCharacterData : SingleTon<MyCharacterData>
 
         JsonData CharacterJson = JsonMapper.ToJson(TempCharacter);
 
-        File.WriteAllText(Application.dataPath + "/Resources/MyCharacterData.json", CharacterJson.ToString());
+        if (EndingEvent.Instance.path == Application.persistentDataPath)
+            File.WriteAllText(Application.persistentDataPath + "/MyCharacterData.json", CharacterJson.ToString());
+        else
+            File.WriteAllText(EndingEvent.Instance.path + "/Resources/MyCharacterData.json", CharacterJson.ToString());
 
         yield return null;
 
@@ -117,7 +125,12 @@ public class MyCharacterData : SingleTon<MyCharacterData>
     {
 
         //string FoodString = File.ReadAllText(Application.persistentDataPath + "/FoodData.json");
-        string MyCharacterString = File.ReadAllText(Application.dataPath + "/Resources/MyCharacterData.json");
+        string MyCharacterString;
+        if (EndingEvent.Instance.path == Application.persistentDataPath)
+            MyCharacterString = File.ReadAllText(Application.persistentDataPath + "/MyCharacterData.json");
+        else
+            MyCharacterString = File.ReadAllText(EndingEvent.Instance.path + "/Resources/MyCharacterData.json");
+
 
         Debug.Log(MyCharacterString); // 첫 줄 출력
 

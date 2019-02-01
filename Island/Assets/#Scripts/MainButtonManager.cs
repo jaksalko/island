@@ -25,106 +25,7 @@ public class MainButtonManager : MonoBehaviour
         // menuanimator = gameObject.GetComponent<MenuAnimator>().state;
     }
 
-    public void PeopleiconClick(Button button)
-    {
-        if ((statPopup[0].activeSelf == false && statPopup[1].activeSelf == false && statPopup[2].activeSelf == false))
-        {
-            switch (button.ToString())
-            {
-                case ("StatButton1 (UnityEngine.UI.Button)"):
-                    statPopup[0].SetActive(true);
-                    break;
-                case ("StatButton2 (UnityEngine.UI.Button)"):
-                    statPopup[1].SetActive(true);
-                    break;
-                case ("StatButton3 (UnityEngine.UI.Button)"):
-
-                    statPopup[2].SetActive(true);
-                    break;
-            }
-
-        }
-        else if (statPopup[0].activeSelf == true)
-        {
-            statPopup[0].SetActive(false);
-            switch (button.ToString())
-            {
-                case ("StatButton1 (UnityEngine.UI.Button)"):
-
-                    break;
-                case ("StatButton2 (UnityEngine.UI.Button)"):
-                    statPopup[1].SetActive(true);
-                    break;
-                case ("StatButton3 (UnityEngine.UI.Button)"):
-                    statPopup[2].SetActive(true);
-                    break;
-            }
-        }
-        else if (statPopup[1].activeSelf == true)
-        {
-
-            statPopup[1].SetActive(false);
-            switch (button.ToString())
-            {
-                case ("StatButton1 (UnityEngine.UI.Button)"):
-                    statPopup[0].SetActive(true);
-                    break;
-                case ("StatButton2 (UnityEngine.UI.Button)"):
-
-                    break;
-                case ("StatButton3 (UnityEngine.UI.Button)"):
-                    statPopup[2].SetActive(true);
-                    break;
-            }
-        }
-        else if (statPopup[2].activeSelf == true)
-        {
-            statPopup[2].SetActive(false);
-            switch (button.ToString())
-            {
-                case ("StatButton1 (UnityEngine.UI.Button)"):
-                    statPopup[0].SetActive(true);
-                    break;
-                case ("StatButton2 (UnityEngine.UI.Button)"):
-                    statPopup[1].SetActive(true);
-                    break;
-                case ("StatButton3 (UnityEngine.UI.Button)"):
-
-                    break;
-            }
-        }
-
-        /*if (statPopup[0].active == false)
-        {
-            switch (button.ToString())
-            {
-                case ("StatButton1 (UnityEngine.UI.Button)"):
-                    statPopup[0].SetActive(true);
-                    break;
-                case ("StatButton2 (UnityEngine.UI.Button)"):
-                    statPopup.SetActive(true);
-                    break;
-                case ("StatButton3 (UnityEngine.UI.Button)"):
-                    statPopup.SetActive(true);
-                    break;
-            }
-        }
-        else
-        {
-            switch (button.ToString())
-            {
-                case ("StatButton1 (UnityEngine.UI.Button)"):
-                    statPopup.SetActive(false);
-                    break;
-                case ("StatButton2 (UnityEngine.UI.Button)"):
-                    statPopup.SetActive(false);
-                    break;
-                case ("StatButton3 (UnityEngine.UI.Button)"):
-                    statPopup.SetActive(false);
-                    break;
-            }
-        }*/
-    }
+   
     public void PeopleClick(Button button)
     {
 
@@ -139,7 +40,7 @@ public class MainButtonManager : MonoBehaviour
                     for (int i = 0; i < WorkNameText.Length; i++)
                     {
 
-                        WorkNameText[i].text = Work[i].ToString();
+                        WorkNameText[i].text = Work[i];
 
                     }
                     break;
@@ -150,7 +51,7 @@ public class MainButtonManager : MonoBehaviour
                     for (int i = 0; i < WorkNameText.Length; i++)
                     {
 
-                        WorkNameText[i].text = Work[i].ToString();
+                        WorkNameText[i].text = Work[i];
 
                     }
                     break;
@@ -161,13 +62,13 @@ public class MainButtonManager : MonoBehaviour
                     for (int i = 0; i < WorkNameText.Length; i++)
                     {
 
-                        WorkNameText[i].text = Work[i].ToString();
+                        WorkNameText[i].text = Work[i];
 
                     }
                     break;
                 }
         }
-        Debug.Log("캐릭터 번호" + MyCharacterData.Instance.NowCharacterName);
+        //Debug.Log("캐릭터 번호" + MyCharacterData.Instance.NowCharacterName);
        
         workPopup.SetActive(true);
 

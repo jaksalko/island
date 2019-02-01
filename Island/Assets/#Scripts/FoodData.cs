@@ -125,7 +125,10 @@ public class FoodData : SingleTon<FoodData>
         }
 
         JsonData FoodJson = JsonMapper.ToJson(TempList);
-        File.WriteAllText(Application.dataPath + "/Resources/FoodData.json", FoodJson.ToString());
+        if (EndingEvent.Instance.path == Application.persistentDataPath)
+            File.WriteAllText(Application.persistentDataPath + "/FoodData.json", FoodJson.ToString());
+        else
+            File.WriteAllText(EndingEvent.Instance.path + "/Resources/FoodData.json", FoodJson.ToString());
         //File.WriteAllText(Application.persistentDataPath + "/FoodData.json", FoodJson.ToString());//안드로이드
         //컴퓨터
 
@@ -152,7 +155,11 @@ public class FoodData : SingleTon<FoodData>
         JsonData FoodJson = JsonMapper.ToJson(TempList);
 
         //File.WriteAllText(Application.persistentDataPath + "/FoodData.json", FoodJson.ToString());
-        File.WriteAllText(Application.dataPath + "/Resources/FoodData.json", FoodJson.ToString());
+        
+        if (EndingEvent.Instance.path == Application.persistentDataPath)
+            File.WriteAllText(Application.persistentDataPath + "/FoodData.json", FoodJson.ToString());
+        else
+            File.WriteAllText(EndingEvent.Instance.path + "/Resources/FoodData.json", FoodJson.ToString());
 
         yield return null;
     }
@@ -164,7 +171,12 @@ public class FoodData : SingleTon<FoodData>
     {
 
         //string FoodString = File.ReadAllText(Application.persistentDataPath + "/FoodData.json");
-        string FoodString = File.ReadAllText(Application.dataPath + "/Resources/FoodData.json");
+        string FoodString;
+        if (EndingEvent.Instance.path == Application.persistentDataPath)
+            FoodString = File.ReadAllText(Application.persistentDataPath + "/FoodData.json");
+        else
+            FoodString = File.ReadAllText(EndingEvent.Instance.path + "/Resources/FoodData.json");
+
 
         Debug.Log(FoodString); // 첫 줄 출력
 

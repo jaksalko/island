@@ -94,7 +94,10 @@ public class ToolData : SingleTon<ToolData>
 
         JsonData ToolJson = JsonMapper.ToJson(TempList);
         //File.WriteAllText(Application.persistentDataPath + "/ToolData.json", ToolJson.ToString());
-        File.WriteAllText(Application.dataPath + "/Resources/ToolData.json", ToolJson.ToString());
+        if (EndingEvent.Instance.path == Application.persistentDataPath)
+            File.WriteAllText(Application.persistentDataPath + "/ToolData.json", ToolJson.ToString());
+        else
+            File.WriteAllText(EndingEvent.Instance.path + "/Resources/ToolData.json", ToolJson.ToString());
 
         yield return null;
     }
@@ -121,17 +124,27 @@ public class ToolData : SingleTon<ToolData>
 
         JsonData ToolJson = JsonMapper.ToJson(TempList);
         //File.WriteAllText(Application.persistentDataPath + "/ToolData.json", ToolJson.ToString());
-        File.WriteAllText(Application.dataPath + "/Resources/ToolData.json", ToolJson.ToString());
-        
+        if (EndingEvent.Instance.path == Application.persistentDataPath)
+            File.WriteAllText(Application.persistentDataPath + "/ToolData.json", ToolJson.ToString());
+        else
+            File.WriteAllText(EndingEvent.Instance.path + "/Resources/ToolData.json", ToolJson.ToString());
+
+
         yield return null;
     }
     // Update is called once per frame
 
     IEnumerator ToolLoad()
     {
-       
+
         //string ToolString = File.ReadAllText(Application.persistentDataPath + "/ToolData.json");
-        string ToolString = File.ReadAllText(Application.dataPath + "/Resources/ToolData.json");
+        string ToolString;
+
+        if (EndingEvent.Instance.path == Application.persistentDataPath)
+            ToolString = File.ReadAllText(Application.persistentDataPath + "/ToolData.json");
+        else
+            ToolString = File.ReadAllText(EndingEvent.Instance.path + "/Resources/ToolData.json");
+
 
         Debug.Log(ToolString); // 첫 줄 출력
 

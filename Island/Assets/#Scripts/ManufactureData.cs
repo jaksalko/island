@@ -488,7 +488,10 @@ public class ManufactureData : SingleTon<ManufactureData> {
 
         JsonData ManuJson = JsonMapper.ToJson(TempList);
         //File.WriteAllText(Application.persistentDataPath + "/ManuData.json", ManuJson.ToString());
-        File.WriteAllText(Application.dataPath + "/Resources/ManuData.json", ManuJson.ToString());
+        if (EndingEvent.Instance.path == Application.persistentDataPath)
+            File.WriteAllText(Application.persistentDataPath + "/ManuData.json", ManuJson.ToString());
+        else
+            File.WriteAllText(EndingEvent.Instance.path + "/Resources/ManuData.json", ManuJson.ToString());
 
         yield return null;
     }
@@ -515,7 +518,10 @@ public class ManufactureData : SingleTon<ManufactureData> {
 
         JsonData ManuJson = JsonMapper.ToJson(TempList);
         //File.WriteAllText(Application.persistentDataPath + "/ManuData.json", ManuJson.ToString());
-        File.WriteAllText(Application.dataPath + "/Resources/ManuData.json", ManuJson.ToString());
+        if (EndingEvent.Instance.path == Application.persistentDataPath)
+            File.WriteAllText(Application.persistentDataPath + "/ManuData.json", ManuJson.ToString());
+        else
+            File.WriteAllText(EndingEvent.Instance.path + "/Resources/ManuData.json", ManuJson.ToString());
 
         yield return null;
     }
@@ -525,7 +531,13 @@ public class ManufactureData : SingleTon<ManufactureData> {
     {
 
         //string ManuString = File.ReadAllText(Application.persistentDataPath + "/ManuData.json");
-        string ManuString = File.ReadAllText(Application.dataPath + "/Resources/ManuData.json");
+        string ManuString;
+
+        if (EndingEvent.Instance.path == Application.persistentDataPath)
+            ManuString = File.ReadAllText(Application.persistentDataPath + "/ManuData.json");
+        else
+            ManuString = File.ReadAllText(EndingEvent.Instance.path + "/Resources/ManuData.json");
+
 
         Debug.Log(ManuString); // 첫 줄 출력
 

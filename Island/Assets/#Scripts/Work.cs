@@ -73,6 +73,7 @@ public class Work : SingleTon<Work>
 
     public List<Something> SomethingList = new List<Something>();
 
+    string path;
 
     public Slider expSlider;
     public GameObject expGage;
@@ -81,8 +82,10 @@ public class Work : SingleTon<Work>
 
     public void Start()
     {
-        //PlayerPrefs.SetInt("Day", 1);
 
+
+        //PlayerPrefs.SetInt("Day", 1);
+        StartCoroutine(SomethingClear());
         StartCoroutine(SomethingLoad());
 
         isWork[1] = true;
@@ -117,6 +120,8 @@ public class Work : SingleTon<Work>
 
     public void NewDay()
     {
+        
+
         DayText.text = "Day " + PlayerPrefs.GetInt("Day");
 
         ManufactureData.Instance.FreshManu();
@@ -1822,7 +1827,11 @@ public class Work : SingleTon<Work>
         JsonData SomethingJson = JsonMapper.ToJson(TempList);
 
         //File.WriteAllText(Application.persistentDataPath + "/Something.json", SomethingJson.ToString());
-        File.WriteAllText(Application.dataPath + "/Resources/Something.json", SomethingJson.ToString());
+        if (EndingEvent.Instance.path == Application.persistentDataPath)
+            File.WriteAllText(Application.persistentDataPath + "/Something.json", SomethingJson.ToString());
+        else
+            File.WriteAllText(EndingEvent.Instance.path + "/Resources/Something.json", SomethingJson.ToString());
+
 
         yield return null;
     }
@@ -1846,9 +1855,11 @@ public class Work : SingleTon<Work>
 
         
         JsonData SomethingJson = JsonMapper.ToJson(TempList);
-        File.WriteAllText(Application.dataPath + "/Resources/Something.json", SomethingJson.ToString());
-        //File.WriteAllText(Application.persistentDataPath + "/Something.json", SomethingJson.ToString());//안드로이드
-        //컴퓨터
+        if (EndingEvent.Instance.path == Application.persistentDataPath)
+            File.WriteAllText(Application.persistentDataPath + "/Something.json", SomethingJson.ToString());
+        else
+            File.WriteAllText(EndingEvent.Instance.path + "/Resources/Something.json", SomethingJson.ToString());
+
 
 
         yield return null;
@@ -1858,7 +1869,13 @@ public class Work : SingleTon<Work>
     {
 
         //string SomethingString = File.ReadAllText(Application.persistentDataPath + "/Something.json");
-        string SomethingString = File.ReadAllText(Application.dataPath + "/Resources/Something.json");
+        string SomethingString;
+
+        if (EndingEvent.Instance.path == Application.persistentDataPath)
+            SomethingString = File.ReadAllText(Application.persistentDataPath + "/Something.json");
+        else
+            SomethingString = File.ReadAllText(EndingEvent.Instance.path + "/Resources/Something.json");
+
 
         Debug.Log(SomethingString); // 첫 줄 출력
 

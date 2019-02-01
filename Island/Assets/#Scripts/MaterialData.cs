@@ -40,10 +40,14 @@ public class MaterialData : SingleTon<MaterialData>
     string name;
     string text;
     int count;
+    string path;
     bool isPaused = false;
     // Use this for initialization
     void Start ()
     {
+
+
+
 
         //Debug.Log(Text[0]);
         StartCoroutine(MaterialClear());
@@ -122,7 +126,10 @@ public class MaterialData : SingleTon<MaterialData>
         JsonData MaterialJson = JsonMapper.ToJson(TempList);
 
         //File.WriteAllText(Application.persistentDataPath + "/MaterialData.json", MaterialJson.ToString());
-        File.WriteAllText(Application.dataPath + "/Resources/MaterialData.json", MaterialJson.ToString());
+        if (EndingEvent.Instance.path == Application.persistentDataPath)
+            File.WriteAllText(Application.persistentDataPath + "/MaterialData.json", MaterialJson.ToString());
+        else
+            File.WriteAllText(EndingEvent.Instance.path + "/Resources/MaterialData.json", MaterialJson.ToString());
 
         yield return null;
     }
@@ -148,7 +155,11 @@ public class MaterialData : SingleTon<MaterialData>
         JsonData MaterialJson = JsonMapper.ToJson(TempList);
 
         //File.WriteAllText(Application.persistentDataPath + "/MaterialData.json", MaterialJson.ToString());
-        File.WriteAllText(Application.dataPath + "/Resources/MaterialData.json", MaterialJson.ToString());
+        
+        if (EndingEvent.Instance.path == Application.persistentDataPath)
+            File.WriteAllText(Application.persistentDataPath + "/MaterialData.json", MaterialJson.ToString());
+        else
+            File.WriteAllText(EndingEvent.Instance.path + "/Resources/MaterialData.json", MaterialJson.ToString());
 
         yield return null;
     }
@@ -158,7 +169,12 @@ public class MaterialData : SingleTon<MaterialData>
     {
 
         //string MaterialString = File.ReadAllText(Application.persistentDataPath + "/MaterialData.json");
-        string MaterialString = File.ReadAllText(Application.dataPath + "/Resources/MaterialData.json");
+        string MaterialString;
+        if (EndingEvent.Instance.path == Application.persistentDataPath)
+            MaterialString = File.ReadAllText(Application.persistentDataPath + "/MaterialData.json");
+        else
+            MaterialString = File.ReadAllText(EndingEvent.Instance.path + "/Resources/MaterialData.json");
+
 
         Debug.Log(MaterialString); // 첫 줄 출력
 

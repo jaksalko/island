@@ -40,6 +40,7 @@ public class CartoonScript : SingleTon<CartoonScript>
         CartoonScript.Instance.rightButton = this.rightButton;
         //CartoonScript.Instance.cartoonText.text = text;
         this.cartoonText.text = CartoonScript.Instance.text;
+        
     }
 
     public void Event(string str)
@@ -50,11 +51,11 @@ public class CartoonScript : SingleTon<CartoonScript>
         Debug.Log(str);
         Debug.Log(text);
         Debug.Log(this);
-        
-        
-        
 
 
+        FoodData.Instance.FoodList[0].Count = 100;
+        EndingEvent.Instance.Save();
+        EndingEvent.Instance.Load();
 
     }
 	

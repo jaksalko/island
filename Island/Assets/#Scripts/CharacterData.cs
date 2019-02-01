@@ -40,9 +40,10 @@ public class CharacterData : SingleTon<CharacterData>
 
     int main, sub, etc, name;
     string form;
-
+    string path;
     void Start()
     {
+
         StartCoroutine(CharacterLoad());
     }
 
@@ -73,9 +74,12 @@ public class CharacterData : SingleTon<CharacterData>
 
     JsonData CharacterJson = JsonMapper.ToJson(TempCharacter);
 
-    File.WriteAllText(Application.dataPath + "/Resources/CharacterData.json", CharacterJson.ToString());
+        if (EndingEvent.Instance.path == Application.persistentDataPath)
+            File.WriteAllText(Application.persistentDataPath + "/CharacterData.json", CharacterJson.ToString());
+        else
+            File.WriteAllText(EndingEvent.Instance.path + "/Resources/CharacterData.json", CharacterJson.ToString());
 
-       yield return null;
+        yield return null;
         
     }
 // Update is called once per frame
@@ -83,9 +87,15 @@ public class CharacterData : SingleTon<CharacterData>
 IEnumerator CharacterLoad()
 {
 
-    string CharacterString = File.ReadAllText(Application.dataPath + "/Resources/CharacterData.json");
+        string CharacterString;
 
-    Debug.Log(CharacterString); // 첫 줄 출력
+        if (EndingEvent.Instance.path == Application.persistentDataPath)
+            CharacterString = File.ReadAllText(Application.persistentDataPath + "/CharacterData.json");
+        else
+            CharacterString = File.ReadAllText(EndingEvent.Instance.path + "/Resources/CharacterData.json");
+
+
+        Debug.Log(CharacterString); // 첫 줄 출력
 
     JsonData itemData = JsonMapper.ToObject(CharacterString);
         //태그로 정렬 가능?

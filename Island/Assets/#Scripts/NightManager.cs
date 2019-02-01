@@ -35,7 +35,7 @@ public class NightManager : SingleTon<NightManager> {
 
     public void Next() //////////////**********************Work Mode Method*****************************
     {
-
+        Debug.Log("Next");
         if(Work.Instance.isWork[1])
         {
             float nowWorked = Work.Instance.SomethingList[0].Perfection;//현재 한 일의 양(누적)
@@ -46,7 +46,7 @@ public class NightManager : SingleTon<NightManager> {
             
             float todayWorked = Work.Instance.UseMat[1]*10;
             x = 500 * (nowWorked - beforeNeed) / (nowNeed - beforeNeed);
-            
+            Debug.Log("Next1");
 
             var gageTransform = workedGage[gagenum].transform as RectTransform;
             gageTransform.sizeDelta = new Vector2(x, gageTransform.sizeDelta.y);
@@ -58,6 +58,7 @@ public class NightManager : SingleTon<NightManager> {
             AfterLvText[gagenum].text = "Lv" + (Work.Instance.SomethingList[0].Grade + 1).ToString();
             GageText[gagenum].text = nowWorked.ToString() + "+" + todayWorked.ToString() + " / " + nowNeed.ToString();
             gagenum++;
+            Debug.Log("Next2");
         }
 
         if (Work.Instance.isWork[2])

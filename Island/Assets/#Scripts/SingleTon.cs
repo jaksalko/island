@@ -26,7 +26,9 @@ public class SingleTon<T> : MonoBehaviour where T : MonoBehaviour
             {
                 instance = new GameObject("@" + typeof(T).ToString(),
                                            typeof(T)).GetComponent<T>();
+                
                 DontDestroyOnLoad(instance);
+                Debug.Log(instance);
             }
             return instance;
         }

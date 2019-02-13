@@ -41,7 +41,7 @@ public class ToolData : SingleTon<ToolData>
 
 
 
-        clear();
+        
        load();
         
         
@@ -50,9 +50,7 @@ public class ToolData : SingleTon<ToolData>
     
     void OnApplicationQuit()
     {
-
-        Debug.Log("강제종료ToolData");
-        StartCoroutine(ToolSave());
+        
 
     }
     public void save()

@@ -7,6 +7,7 @@ using UnityEngine.EventSystems;
 using System;
 using UnityEngine.UI;
 using TMPro;
+
 public class Something
 {
     public string Name;
@@ -25,7 +26,7 @@ public class Work : SingleTon<Work>
 {
     public TextMeshProUGUI workYesClickTxt;// WorkSelect 에서 yes 클릭했을 때 나오는 팝업창 텍스트
     public TextMeshProUGUI DayText;
-    public bool[] isWork = { false,};
+    public bool[] isWork;
     public int temp;
     public GameObject workPopup;//일 선택창 팝업
     public GameObject workSelectPopup;//일 선택시 팝업 백그라운드
@@ -82,14 +83,36 @@ public class Work : SingleTon<Work>
 
     public void Start()
     {
+        if (!PlayerPrefs.HasKey("Start"))//저장되지 않았을 때
+        {
+            MyCharacterData.Instance.Clear();
+            MaterialData.Instance.Clear();
+            Work.Instance.Clear();
+            ManufactureData.Instance.clear();
+            EndingEvent.Instance.Clear();
+            FoodData.Instance.Clear();
+            ToolData.Instance.clear();
+            CharacterData.Instance.Load();
+            PlayerPrefs.SetInt("Start", 1);
+            Debug.Log("클리어");
+        }
 
-
-        //PlayerPrefs.SetInt("Day", 1);
-        StartCoroutine(SomethingClear());
         StartCoroutine(SomethingLoad());
-
-        isWork[1] = true;
+        
         DayText.text = "Day " + PlayerPrefs.GetInt("Day");
+    }
+
+    public void Save()
+    {
+        StartCoroutine(SomethingSave());
+    }
+    public void Load()
+    {
+        StartCoroutine(SomethingLoad());
+    }
+    public void Clear()
+    {
+        StartCoroutine(SomethingClear());
     }
 
     public int ToolAbility(int max)
@@ -120,7 +143,8 @@ public class Work : SingleTon<Work>
 
     public void NewDay()
     {
-        
+        EndingEvent.Instance.Save();
+        EndingEvent.Instance.Load();
 
         DayText.text = "Day " + PlayerPrefs.GetInt("Day");
 
@@ -439,7 +463,6 @@ public class Work : SingleTon<Work>
 
     public void YesButton()//제작버튼
     {
-        int now = MyCharacterData.Instance.NowCharacterName; // 선택한 캐릭터 번호
         
         //workSelectPopup.SetActive(false);
         switch (NowWorkNum)
@@ -450,7 +473,7 @@ public class Work : SingleTon<Work>
 
 
 
-                    if (MaterialData.Instance.MaterialList[0].Count < 0 || temp <0)//도구,재료가 없을때(일을 못함)
+                    if (MaterialData.Instance.MaterialList[0].Count < 1 || temp <1)//도구,재료가 없을때(일을 못함)
                     {
                         //일을 못합니다. 팝업 창 띄우기
                         iTween.ShakePosition(workSelectPopup, new Vector3(0.5f, 0, 0), 0.5f);
@@ -459,15 +482,13 @@ public class Work : SingleTon<Work>
                     }
                     else
                     {
-                        isWork[NowWorkNum] = true;
 
                         //확률따져서 날개옷 생성
 
 
                         goAreaPopup.SetActive(true);
                         workYesClickTxt.text = "옷(00+00/100)을 만드시겠습니까?";
-
-                        Char[MyCharacterData.Instance.CharacterName.IndexOf(now)].SetActive(false);
+                        
 
                     }
                     
@@ -480,9 +501,7 @@ public class Work : SingleTon<Work>
             case 2://배
                 {
                     
-
-                    Toolmax = Math.Max(ToolData.Instance.ToolList[(1 * 3) + 0].Count, ToolData.Instance.ToolList[(1 * 3) + 1].Count);
-                    Toolmax = Math.Max(Toolmax, ToolData.Instance.ToolList[(1 * 3) + 2].Count);
+                    
 
                     if (MaterialData.Instance.MaterialList[1].Count < 1 || temp < 1)
                     {
@@ -491,13 +510,11 @@ public class Work : SingleTon<Work>
                     }
                     else
                     {
-                        isWork[NowWorkNum] = true;
 
                         goAreaPopup.SetActive(true);
                         workYesClickTxt.text = "배(00+00/100)을 만드시겠습니까?";
 
-
-                        Char[MyCharacterData.Instance.CharacterName.IndexOf(now)].SetActive(false);
+                        
                     }
                    
                     
@@ -520,19 +537,16 @@ public class Work : SingleTon<Work>
                     }
                     else
                     {
-                        isWork[NowWorkNum] = true;
 
-                        Debug.Log(CharacterData.Instance.AllCharacter[now].Name + "일이 가능합니다" + CharacterData.Instance.AllCharacter[now].Work3);
+
                         //도구 단계에 따라 + 능력치 해줘야함
 
 
                         goAreaPopup.SetActive(true);
                         workYesClickTxt.text = "밥 0 개  고기요리 0 개 생선요리 0 개를 만드시겠습니까?";
 
-                        Char[MyCharacterData.Instance.CharacterName.IndexOf(now)].SetActive(false);
                     }
                   
-                    UseFood[0] = UseFood[1] = UseFood[2] = 0;
                     break;
                 }
 
@@ -549,21 +563,15 @@ public class Work : SingleTon<Work>
                     }
                     else
                     {
-                        isWork[NowWorkNum] = true;
 
-                        EndingEvent.Instance.MerTF = true;
-                        EndingEvent.Instance.fishing = true;
-                        EndingEvent.Instance.MerEvent();
 
                         goAreaPopup.SetActive(true);
                         workYesClickTxt.text = "물고기 0 마리를 잡으러 가시겠습니까?";
 
-
-                        Char[MyCharacterData.Instance.CharacterName.IndexOf(now)].SetActive(false);
+                        
 
                     }
                   
-                    EndingEvent.Instance.fishing = false;
                     break;
                 }//case 4
 
@@ -583,13 +591,11 @@ public class Work : SingleTon<Work>
                     }
                     else
                     {
-                        isWork[NowWorkNum] = true;
 
                         goAreaPopup.SetActive(true);
                         workYesClickTxt.text = " 벼를 0개 수확하러 가시겠습니까?";
 
-
-                        Char[MyCharacterData.Instance.CharacterName.IndexOf(now)].SetActive(false);
+                        
                         //else 일을 안한다는 버튼
                     }
                   
@@ -610,7 +616,6 @@ public class Work : SingleTon<Work>
                     }
                     else
                     {
-                        isWork[NowWorkNum] = true;
 
                         goAreaPopup.SetActive(true);
                         workYesClickTxt.text = "집(00+00/100)을 만드시겠습니까?";
@@ -618,7 +623,7 @@ public class Work : SingleTon<Work>
 
 
 
-                        Char[MyCharacterData.Instance.CharacterName.IndexOf(now)].SetActive(false);
+                        
 
                         //else 일을 안한다는 버튼
                     }
@@ -640,17 +645,14 @@ public class Work : SingleTon<Work>
                     }
                     else
                     {
-                        isWork[NowWorkNum] = true;
 
                         goAreaPopup.SetActive(true);
                         workYesClickTxt.text = "통신기계(00+00/100)을 만드시겠습니까?";
-
-                        Char[MyCharacterData.Instance.CharacterName.IndexOf(now)].SetActive(false);
+                        
                         
 
 
-
-                        //else 일을 안한다는 버튼
+                        
                     }
                  
                     break;
@@ -666,10 +668,9 @@ public class Work : SingleTon<Work>
                     }
                     else
                     {
-                        isWork[NowWorkNum] = true;
+                        
                         goAreaPopup.SetActive(true);
                         workYesClickTxt.text = "약을 0개  제조하시겠습니까?";
-                        Char[MyCharacterData.Instance.CharacterName.IndexOf(now)].SetActive(false);
                     }
                    
                     break;
@@ -677,51 +678,13 @@ public class Work : SingleTon<Work>
 
             case 9://수렵
                 {
-                    for (int i = 0; i < 3; i++)
-                    {
-                        temp += ToolData.Instance.ToolList[(8 * 3) + i].Count;
-                        if (ToolData.Instance.ToolList[(8 * 3) + i].Count > 0)
-                        {
-                            Toolmax = i + 1;
-                        }
-                    }
-
-                    if (temp < 1)
-                    {
-                        //일을 못합니다. 팝업 창 띄우기
-                        iTween.ShakePosition(workSelectPopup, new Vector3(0.5f, 0, 0), 0.5f);
-                    }
-                    else
-                    {
-                        isWork[NowWorkNum] = true;
-
-                        EndingEvent.Instance.hunting = true;
-                        EndingEvent.Instance.EagleEvent();
-
-                        
-
-                        //Text로 능력치에 따라 얻어 올 수 있는 고기의 수 표시
-                        //Text로 능력치에 따라 수렵에 성공할 확률 표시?
-
-
-                        Char[MyCharacterData.Instance.CharacterName.IndexOf(now)].SetActive(false);
-                    }
-                    popupMode[3].SetActive(false);
+                    
                     break;
                 }//case 9
 
             case 10://탐험
                 {
-                    isWork[NowWorkNum] = true;
-
-
-                    EndingEvent.Instance.adven = true;
                     
-                        EndingEvent.Instance.BottleEvent();
-                    
-                   
-                   
-                    Char[MyCharacterData.Instance.CharacterName.IndexOf(now)].SetActive(false);
                     break;
                 }//case 10
         }
@@ -763,58 +726,197 @@ public class Work : SingleTon<Work>
     }
     public void WorkYes() {                                                          //여기서 이제 갯수랑 게이지같은게 변화시켜야함
 
-        Debug.Log(NowWorkNum);
+        int now = MyCharacterData.Instance.NowCharacterName; // 선택한 캐릭터 번호
+        Debug.Log(now +"캐릭터이며"+NowWorkNum+"번쨰 일이다");
         switch (NowWorkNum)
         {
             case 1:
                 {
-                    MaterialData.Instance.MaterialList[0].Count -= UseMat[NowWorkNum];
+                    if (isWork[NowWorkNum] == false)
+                    {
+                        isWork[NowWorkNum] = true;
+                        MaterialData.Instance.MaterialList[0].Count -= UseMat[NowWorkNum];
+
+                        Debug.Log(MyCharacterData.Instance.CharacterName.IndexOf(now));
+                        Char[MyCharacterData.Instance.CharacterName.IndexOf(now)].SetActive(false);
+                    }
+                    else
+                    {
+                        Debug.Log("이미 다른 캐릭터가 진행한 일입니다.");
+                    }
                     break;
                 }
             case 2:
                 {
-                    MaterialData.Instance.MaterialList[1].Count -= UseMat[NowWorkNum];
+                    if (isWork[NowWorkNum] == false)
+                    {
+                        isWork[NowWorkNum] = true;
+                        MaterialData.Instance.MaterialList[1].Count -= UseMat[NowWorkNum];
+
+                    Char[MyCharacterData.Instance.CharacterName.IndexOf(now)].SetActive(false);
+                    }
+                    else
+                    {
+                        Debug.Log("이미 다른 캐릭터가 진행한 일입니다.");
+                    }
                     break;
                 }
             case 3:
                 {
-                   // MaterialData.Instance.MaterialList[NowWorkNum - 1].Count -= UseMat[NowWorkNum];
+                    if (isWork[NowWorkNum] == false)
+                    {
+                        isWork[NowWorkNum] = true;
+                        UseFood[0] = UseFood[1] = UseFood[2] = 0;
+                    // MaterialData.Instance.MaterialList[NowWorkNum - 1].Count -= UseMat[NowWorkNum];
+
+                    Char[MyCharacterData.Instance.CharacterName.IndexOf(now)].SetActive(false);
+                    }
+                    else
+                    {
+                        Debug.Log("이미 다른 캐릭터가 진행한 일입니다.");
+                    }
                     break;
                 }
             case 4:
                 {
-                    MaterialData.Instance.MaterialList[2].Count -= UseMat[NowWorkNum];
+                    if (isWork[NowWorkNum] == false)
+                    {
+                        isWork[NowWorkNum] = true;
+                        MaterialData.Instance.MaterialList[2].Count -= UseMat[NowWorkNum];
+
+                    EndingEvent.Instance.MerTF = true;
+                    EndingEvent.Instance.fishing = true;
+                    EndingEvent.Instance.MerEvent();
+                    EndingEvent.Instance.fishing = false;
+                    Char[MyCharacterData.Instance.CharacterName.IndexOf(now)].SetActive(false);
+                    }
+                    else
+                    {
+                        Debug.Log("이미 다른 캐릭터가 진행한 일입니다.");
+                    }
                     break;
                 }
             case 5:
                 {
-                    MaterialData.Instance.MaterialList[3].Count -= UseMat[NowWorkNum];
+                    if (isWork[NowWorkNum] == false)
+                    {
+                        isWork[NowWorkNum] = true;
+                        MaterialData.Instance.MaterialList[3].Count -= UseMat[NowWorkNum];
+                    Char[MyCharacterData.Instance.CharacterName.IndexOf(now)].SetActive(false);
+                    }
+                    else
+                    {
+                        Debug.Log("이미 다른 캐릭터가 진행한 일입니다.");
+                    }
                     break;
                 }
             case 6:
                 {
-                    MaterialData.Instance.MaterialList[4].Count -= UseMat[NowWorkNum];
+                    if (isWork[NowWorkNum] == false)
+                    {
+                        isWork[NowWorkNum] = true;
+                        MaterialData.Instance.MaterialList[4].Count -= UseMat[NowWorkNum];
+                    Char[MyCharacterData.Instance.CharacterName.IndexOf(now)].SetActive(false);
+                    }
+                    else
+                    {
+                        Debug.Log("이미 다른 캐릭터가 진행한 일입니다.");
+                    }
                     break;
                 }
             case 7:
                 {
-                    MaterialData.Instance.MaterialList[5].Count -= UseMat[NowWorkNum];
+                    if (isWork[NowWorkNum] == false)
+                    {
+                        isWork[NowWorkNum] = true;
+                        MaterialData.Instance.MaterialList[5].Count -= UseMat[NowWorkNum];
+                    Char[MyCharacterData.Instance.CharacterName.IndexOf(now)].SetActive(false);
+                    }
+                    else
+                    {
+                        Debug.Log("이미 다른 캐릭터가 진행한 일입니다.");
+                    }
                     break;
                 }
             case 8:
                 {
-                    MaterialData.Instance.MaterialList[6].Count -= UseMat[NowWorkNum];
+                    if (isWork[NowWorkNum] == false)
+                    {
+                        isWork[NowWorkNum] = true;
+                        MaterialData.Instance.MaterialList[6].Count -= UseMat[NowWorkNum];
+                    Char[MyCharacterData.Instance.CharacterName.IndexOf(now)].SetActive(false);
+                    }
+                    else
+                    {
+                        Debug.Log("이미 다른 캐릭터가 진행한 일입니다.");
+                    }
                     break;
                 }
             case 9:
+                { 
+                if (isWork[NowWorkNum] == false)
                 {
-                   // MaterialData.Instance.MaterialList[NowWorkNum - 1].Count -= UseMat[NowWorkNum];
+                        isWork[NowWorkNum] = true;
+                        for (int i = 0; i < 3; i++)
+                    {
+                        temp += ToolData.Instance.ToolList[(8 * 3) + i].Count;
+                        if (ToolData.Instance.ToolList[(8 * 3) + i].Count > 0)
+                        {
+                            Toolmax = i + 1;
+                        }
+                    }
+
+                    if (temp < 1)
+                    {
+                        //일을 못합니다. 팝업 창 띄우기
+                        iTween.ShakePosition(workSelectPopup, new Vector3(0.5f, 0, 0), 0.5f);
+                    }
+                    else
+                    {
+                        isWork[NowWorkNum] = true;
+
+                        EndingEvent.Instance.hunting = true;
+                        EndingEvent.Instance.EagleEvent();
+
+
+
+                        //Text로 능력치에 따라 얻어 올 수 있는 고기의 수 표시
+                        //Text로 능력치에 따라 수렵에 성공할 확률 표시?
+
+
+                        Char[MyCharacterData.Instance.CharacterName.IndexOf(now)].SetActive(false);
+                    }
+                    popupMode[3].SetActive(false);
+                        // MaterialData.Instance.MaterialList[NowWorkNum - 1].Count -= UseMat[NowWorkNum];
+                    }
+                    else
+                    {
+                        Debug.Log("이미 다른 캐릭터가 진행한 일입니다.");
+                    }
                     break;
                 }
             case 10:
                 {
-                   // MaterialData.Instance.MaterialList[NowWorkNum - 1].Count -= UseMat[NowWorkNum];
-                    break;
+                    if (isWork[NowWorkNum] == false)
+                    {
+                        isWork[NowWorkNum] = true;
+
+                    Debug.Log("탐험버튼 누름");
+
+                    EndingEvent.Instance.adven = true;
+
+                    EndingEvent.Instance.BottleEvent();
+
+
+
+                    Char[MyCharacterData.Instance.CharacterName.IndexOf(now)].SetActive(false);
+                        // MaterialData.Instance.MaterialList[NowWorkNum - 1].Count -= UseMat[NowWorkNum];
+                    }
+                    else
+                    {
+                            Debug.Log("이미 다른 캐릭터가 진행한 일입니다.");
+                        }
+                        break;
                 }
             case 11:
                 {
@@ -862,13 +964,14 @@ public class Work : SingleTon<Work>
         //각각의 PopupMode의 Up/Down 버튼마다 TextMesh가 다르기 때문에 메소드도 각각 만들어줘야한다
         Debug.Log("Matup");
         string str = EventSystem.current.currentSelectedGameObject.name;
-        int now = MyCharacterData.Instance.NowCharacterName-1;
+        int now = MyCharacterData.Instance.NowCharacterName;
         int min=0;
 
         switch (NowWorkNum)
         {
             case 1://옷
                 {
+                    
                     for (int i = 0; i < 3; i++)
                     {
                         /*****************************************************************
@@ -882,13 +985,29 @@ public class Work : SingleTon<Work>
                         }
 
                     }//도구가 존재하는지 확인한다
-
+                    
                     Debug.Log(now);
-                    min = Math.Min((CharacterData.Instance.AllCharacter[now].Work1 + ToolAbility(Toolmax)) / 10, MaterialData.Instance.MaterialList[0].Count);
+                    iTween.ShakePosition(workSelectPopup, new Vector3(0.5f, 0, 0), 0.5f);
+                    /*여기 안됨*/
+                    if ((CharacterData.Instance.AllCharacter[now].Work1 + ToolAbility(Toolmax)) / 10 < MaterialData.Instance.MaterialList[0].Count)
+                    {
+                        min = (CharacterData.Instance.AllCharacter[now].Work1 + ToolAbility(Toolmax)) / 10;
+
+                    }
+                    else
+                    {
+                        min = MaterialData.Instance.MaterialList[0].Count;
+                    }
+
+                    
                     Debug.Log(CharacterData.Instance.AllCharacter[now].Work1);
                     Debug.Log(ToolAbility(Toolmax));
 
                     Debug.Log(min);
+
+
+                   // iTween.ShakePosition(workSelectPopup, new Vector3(0.5f, 0, 0), 0.5f);
+
                     if (UseMat[NowWorkNum] < min )
                     {
                         UseMat[NowWorkNum]++;
@@ -1431,7 +1550,7 @@ public class Work : SingleTon<Work>
     {
         
         string str = EventSystem.current.currentSelectedGameObject.name;
-        
+        Debug.Log(str);
         switch (str)//일을 선택했을 시 도구 / 재료가 없으면 팝업창이 나와야함
         {
             //재료가 필요한 일 

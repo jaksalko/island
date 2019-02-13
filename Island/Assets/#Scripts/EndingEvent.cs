@@ -190,7 +190,6 @@ public class EndingEvent : SingleTon<EndingEvent>
         //이것들 모두 json에 저장해서 게임이 재시작될 때 로드해야함
         //fishing = adven = hunting = false;
         //already = false;
-        StartCoroutine(EndingClear());
         Load();
         
     }
@@ -210,6 +209,10 @@ public class EndingEvent : SingleTon<EndingEvent>
     {
         StartCoroutine(EndingSave());
     }
+    public void Clear()
+    {
+        StartCoroutine(EndingClear());
+    }
     void OnApplicationQuit()
     {
 
@@ -222,10 +225,7 @@ public class EndingEvent : SingleTon<EndingEvent>
         PlayerPrefs.SetInt("already", (already ? 1 : 0));
 
     }
-    public void save()
-    {
-        //StartCoroutine(FoodSave());
-    }
+
 
     //private string ToKor(Foodd f)
     //{
@@ -846,7 +846,7 @@ public class EndingEvent : SingleTon<EndingEvent>
 
                             WhaleP = 1;
                             CartoonScript.Instance.Event(Whale1);
-                            AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
+                            Save();  AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
 
                         }
                         break;
@@ -868,7 +868,7 @@ public class EndingEvent : SingleTon<EndingEvent>
 
                             WhaleP = 2;
                             CartoonScript.Instance.Event(Whale2);
-                            AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
+                            Save();  AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
                         }
 
                             break;
@@ -882,7 +882,7 @@ public class EndingEvent : SingleTon<EndingEvent>
 
                             WhaleDay = PlayerPrefs.GetInt("Day");
                             CartoonScript.Instance.Event(WhaleEnding);
-                            AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
+                            Save();  AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
 
                             //고래등 위에 섬이 있는 만화컷 1~2초 대기
                             //저 멀리 섬의 마을이 보이는 만화컷 1~2초 대기
@@ -928,7 +928,7 @@ public class EndingEvent : SingleTon<EndingEvent>
                             BottleP = 1;
                             BottleTF = false;
                             CartoonScript.Instance.Event(Bottle1);
-                            AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
+                            Save();  AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
 
                             /**********************************************************************************/
                             // 물병을 주운 상황에서는 false 이고 물병을 사용했을 시 true로 바꿔준다.
@@ -953,7 +953,7 @@ public class EndingEvent : SingleTon<EndingEvent>
 
                             BottleP = 2;
                             CartoonScript.Instance.Event(Bottle1);
-                            AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
+                            Save();  AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
 
                         }
 
@@ -986,7 +986,7 @@ public class EndingEvent : SingleTon<EndingEvent>
                             EngineP = 1;
                             EngineTF = false;
                             CartoonScript.Instance.Event(Engine0);
-                            AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
+                            Save();  AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
 
                             /*********************************************************************************
                              * 통신장치 사용하는 메소드
@@ -1046,7 +1046,7 @@ public class EndingEvent : SingleTon<EndingEvent>
 
                             EngineP = 2;
                             CartoonScript.Instance.Event(Engine1_1);
-                            AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
+                            Save();  AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
 
                         }
                         else
@@ -1056,7 +1056,7 @@ public class EndingEvent : SingleTon<EndingEvent>
                             //Engine1_2 text 출력
                             EngineTF = false;
                             CartoonScript.Instance.Event(Engine1_2);
-                            AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
+                            Save();  AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
 
                         }
 
@@ -1071,7 +1071,7 @@ public class EndingEvent : SingleTon<EndingEvent>
                             //멀리서 배가 다가오는 만화컷 1~2초
                             //Engine2 text 출력 , 선택지 출력
                             CartoonScript.Instance.Event(Engine2);
-                            AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
+                            Save();  AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
 
 
                         }
@@ -1113,7 +1113,7 @@ public class EndingEvent : SingleTon<EndingEvent>
                             ShipP = 1;
                             ShipTF = false;
                             CartoonScript.Instance.Event(Ship0);
-                            AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
+                            Save();  AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
 
                             /*********************************************************************************
                              * 배 사용하는 메소드
@@ -1171,7 +1171,7 @@ public class EndingEvent : SingleTon<EndingEvent>
 
                             ShipP = 2;
                             CartoonScript.Instance.Event(Ship1_1);
-                            AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
+                            Save();  AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
 
                         }
                         else
@@ -1183,7 +1183,7 @@ public class EndingEvent : SingleTon<EndingEvent>
                             //엔딩 실패 애니메이션 출력, ShipFail text 출력
                             ShipTF = false;
                             CartoonScript.Instance.Event(Ship1_2);
-                            AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
+                            Save();  AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
 
                         }
 
@@ -1223,7 +1223,7 @@ public class EndingEvent : SingleTon<EndingEvent>
                             MerP = 1;
                             MerTF = false;
                             CartoonScript.Instance.Event(Mer0);
-                            AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
+                            Save();  AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
 
                             /*********************************************************************************
                              * 낚시를 하는 메소드에서
@@ -1245,7 +1245,7 @@ public class EndingEvent : SingleTon<EndingEvent>
                             //Mer1 text, 선택지 출력
                             MerP = 2;
                             CartoonScript.Instance.Event(Mer1);
-                            AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
+                            Save();  AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
 
                         }
 
@@ -1261,7 +1261,7 @@ public class EndingEvent : SingleTon<EndingEvent>
                             // Mer2 text , 선택지 출력
                             MerP = 3;
                             CartoonScript.Instance.Event(Mer2);
-                            AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
+                            Save();  AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
 
                         }
 
@@ -1279,7 +1279,7 @@ public class EndingEvent : SingleTon<EndingEvent>
                             MerDay = PlayerPrefs.GetInt("Day");
                             MerP = 4;
                             CartoonScript.Instance.Event(Mer3);
-                            AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
+                            Save();  AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
 
                         }
 
@@ -1296,7 +1296,7 @@ public class EndingEvent : SingleTon<EndingEvent>
                             //Mer4 text 나머지 출력
                             //선택지 출력
                             CartoonScript.Instance.Event(Mer4);
-                            AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
+                            Save();  AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
 
                         }
                             break;
@@ -1334,7 +1334,7 @@ public class EndingEvent : SingleTon<EndingEvent>
 
                             HeroP = 1;
                             CartoonScript.Instance.Event(Hero0);
-                            AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
+                            Save();  AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
 
 
                         }
@@ -1354,7 +1354,7 @@ public class EndingEvent : SingleTon<EndingEvent>
 
                             HeroP = 2;
                             CartoonScript.Instance.Event(Hero1);
-                            AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
+                            Save();  AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
 
                         }
 
@@ -1372,7 +1372,7 @@ public class EndingEvent : SingleTon<EndingEvent>
                             //하늘위에 뭔가 반짝거리는 만화컷 1~2초 대기
                             //Hero2 text , 선택지 출력
                             CartoonScript.Instance.Event(Hero2);
-                            AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
+                            Save();  AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
 
 
                         }
@@ -1389,7 +1389,7 @@ public class EndingEvent : SingleTon<EndingEvent>
                             //Hero3 text , 선택지 출력
                             //
                             CartoonScript.Instance.Event(Hero3);
-                            AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
+                            Save();  AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
 
 
                         }
@@ -1424,7 +1424,7 @@ public class EndingEvent : SingleTon<EndingEvent>
 
                             DreamP = 1;
                             CartoonScript.Instance.Event(Dream0);
-                            AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
+                            Save();  AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
 
                         }
                         break;
@@ -1443,7 +1443,7 @@ public class EndingEvent : SingleTon<EndingEvent>
 
                             DreamP = 2;
                             CartoonScript.Instance.Event(Dream1);
-                            AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
+                            Save();  AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
 
                         }
 
@@ -1461,7 +1461,7 @@ public class EndingEvent : SingleTon<EndingEvent>
                             DreamP = 3;
 
                             CartoonScript.Instance.Event(Dream2);
-                            AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
+                            Save();  AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
 
 
 
@@ -1478,7 +1478,7 @@ public class EndingEvent : SingleTon<EndingEvent>
                             //방 침대에서 일어나 앉아 있는 만화컷
                             //Dream3 text, 선택지 출력
                             CartoonScript.Instance.Event(Dream3);
-                            AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
+                            Save();  AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
 
                         }
 
@@ -1499,7 +1499,7 @@ public class EndingEvent : SingleTon<EndingEvent>
         if (WingTF == true)
         {
             CartoonScript.Instance.Event(Wing1);
-            AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
+            Save();  AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
 
             //Wing1 text , 선택지 출력
         }
@@ -1526,7 +1526,7 @@ public class EndingEvent : SingleTon<EndingEvent>
 
                             RainBowP = 1;
                             CartoonScript.Instance.Event(RainBow1);
-                            AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
+                            Save();  AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
 
 
                         }
@@ -1545,7 +1545,7 @@ public class EndingEvent : SingleTon<EndingEvent>
 
                             RainBowP = 2;
                             CartoonScript.Instance.Event(RainBow2);
-                            AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
+                            Save();  AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
 
                         }
 
@@ -1565,7 +1565,7 @@ public class EndingEvent : SingleTon<EndingEvent>
 
                             RainBowP = 3;
                             CartoonScript.Instance.Event(RainBow3);
-                            AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
+                            Save();  AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
 
                         }
                         break;
@@ -1581,7 +1581,7 @@ public class EndingEvent : SingleTon<EndingEvent>
                             // RainBow4 text, 선택지 출력
                             RainBowP = 4;
                             CartoonScript.Instance.Event(RainBow4);
-                            AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
+                            Save();  AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
 
                         }
                         break;
@@ -1598,7 +1598,7 @@ public class EndingEvent : SingleTon<EndingEvent>
                             //팝업창 setactive(true) -> RainBow1 text, 선택지 출력
 
                             CartoonScript.Instance.Event(RainBow1);
-                            AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
+                            Save();  AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
 
 
                         }
@@ -1619,7 +1619,7 @@ public class EndingEvent : SingleTon<EndingEvent>
         if (TimeTF == true)
         {
             CartoonScript.Instance.Event(Time1);
-            AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
+            Save();  AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
 
             //Time1 text , 선택지 출력
         }
@@ -1634,7 +1634,7 @@ public class EndingEvent : SingleTon<EndingEvent>
                 case 0:
                     {
                         CartoonScript.Instance.Event(Space1);
-                        AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
+                        Save();  AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
 
                         //Space1 text , 선택지 출력
 
@@ -1663,7 +1663,7 @@ public class EndingEvent : SingleTon<EndingEvent>
                             IceTF = false;
                             IceP = 1;
                             CartoonScript.Instance.Event(Ice1);
-                            AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
+                            Save();  AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
 
                             /***********************************************
                              *  
@@ -1679,7 +1679,7 @@ public class EndingEvent : SingleTon<EndingEvent>
                         {
                             //Ice2 text , 선택지 출력 
                             CartoonScript.Instance.Event(Ice2);
-                            AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
+                            Save();  AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
 
                         }
 
@@ -1707,7 +1707,7 @@ public class EndingEvent : SingleTon<EndingEvent>
 
                             //나뭇잎 제작창에서 사용시 , LeafTF = true , LeafEvent() 호출
                             CartoonScript.Instance.Event(Leaf1);
-                            AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
+                            Save();  AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
 
                         }
 
@@ -1721,7 +1721,7 @@ public class EndingEvent : SingleTon<EndingEvent>
                             //엔딩 씬 불러오기
                             //엔딩 애니메이션, LeafEnding text 출력
                             CartoonScript.Instance.Event(LeafEnding);
-                            AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
+                            Save();  AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
 
                         }
                         else
@@ -1730,7 +1730,7 @@ public class EndingEvent : SingleTon<EndingEvent>
                             //엔딩 씬 불러오기
                             //엔딩 애니메이션, LeafFail text 출력
                             CartoonScript.Instance.Event(LeafFail);
-                            AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
+                            Save();  AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
 
                         }
                         break;
@@ -1760,7 +1760,7 @@ public class EndingEvent : SingleTon<EndingEvent>
                             //독수리 제작창에서 탈출 사용시 , EagleTF = true , EagleEvent() 호출
                             //탐험시 독수리를 타고 다른섬으로 가서 파밍(재료, 도구, 음식 세가지 전부 파밍 가능)
                             CartoonScript.Instance.Event(Eagle1);
-                            AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
+                            Save();  AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
 
                         }
 
@@ -1774,7 +1774,7 @@ public class EndingEvent : SingleTon<EndingEvent>
                             //엔딩 씬 불러오기
                             //엔딩 애니메이션, EagleEnding text 출력
                             CartoonScript.Instance.Event(EagleEnding);
-                            AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
+                            Save();  AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
 
                         }
                         else
@@ -1783,7 +1783,7 @@ public class EndingEvent : SingleTon<EndingEvent>
                             //엔딩 씬 불러오기
                             //엔딩 애니메이션, EagleFail text 출력
                             CartoonScript.Instance.Event(EagleFail);
-                            AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
+                            Save();  AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
 
                         }
                         break;

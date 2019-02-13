@@ -49,7 +49,7 @@ public class FoodData : SingleTon<FoodData>
     {
         
         
-            StartCoroutine(FoodClear());
+            
             StartCoroutine(FoodLoad());
         
 
@@ -82,10 +82,19 @@ public class FoodData : SingleTon<FoodData>
         //StartCoroutine(FoodSave());
 
     }
-    public void save()
+    public void Save()
     {
         StartCoroutine(FoodSave());
     }
+    public void Load()
+    {
+        StartCoroutine(FoodLoad());
+    }
+    public void Clear()
+    {
+        StartCoroutine(FoodClear());
+    }
+
 
     //private string ToKor(Foodd f)
     //{

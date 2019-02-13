@@ -46,7 +46,10 @@ public class CharacterData : SingleTon<CharacterData>
 
         StartCoroutine(CharacterLoad());
     }
-
+    public void Load()
+    {
+        StartCoroutine(CharacterLoad());
+    }
     
 
     IEnumerator CharacterSave()

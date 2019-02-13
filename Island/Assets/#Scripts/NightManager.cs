@@ -151,7 +151,9 @@ public class NightManager : SingleTon<NightManager> {
             WorkText[i].text = "";
             WorkNameText[i].text = "";
         }
-        
+
+       
+
         //Debug.Log(workSlider.value);
     }
 
@@ -163,6 +165,14 @@ public class NightManager : SingleTon<NightManager> {
         // pagenum++;
         if (pagenum == 3)//마지막페이지에서 '다음' 버튼을 눌렀을 때
         {
+            Work.Instance.NewDay();
+            MyCharacterData.Instance.Save();
+            MaterialData.Instance.Save();
+            Work.Instance.Save();
+            ManufactureData.Instance.save();
+            EndingEvent.Instance.Save();
+            FoodData.Instance.Save();
+            ToolData.Instance.save();
             nightPop.SetActive(false);
             nightPage[3].SetActive(false);
             nightPage[0].SetActive(true);
@@ -172,7 +182,7 @@ public class NightManager : SingleTon<NightManager> {
             {
                 WorkGageOb[i].SetActive(true);
             }
-            Work.Instance.NewDay();
+            
             EndingEvent.Instance.already = false;
 
             PlayerPrefs.SetInt("Day", PlayerPrefs.GetInt("Day") + 1);

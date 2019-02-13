@@ -40,12 +40,23 @@ public class MyCharacterData : SingleTon<MyCharacterData>
 
     void Start()
     {
-        StartCoroutine(MyCharacterClear());
-
-        StartCoroutine(MyCharacterLoad());
+        Load();
         //MaterialData.Instance.MaterialList[0].Count += 100;
 
-        }
+    }
+
+    public void Save()
+    {
+        StartCoroutine(MyCharacterSave());
+    }
+    public void Load()
+    {
+        StartCoroutine(MyCharacterLoad());
+    }
+    public void Clear()
+    {
+        StartCoroutine(MyCharacterClear());
+    }
 
 
 
@@ -159,13 +170,13 @@ public class MyCharacterData : SingleTon<MyCharacterData>
             //count = int.Parse(Data[i]["Count"].ToString());
 
             mc = new MyCharacter(
-                int.Parse(Data[i]["Name"].ToString()), 
+                i, 
                 int.Parse(Data[i]["Hungry"].ToString()),
                 int.Parse(Data[i]["Thirsty"].ToString()), 
                 int.Parse(Data[i]["Ill"].ToString()), 
                 Data[i]["Condition"].ToString());
 
-            CharacterName[i] = int.Parse(Data[i]["Name"].ToString());
+            CharacterName[i] = i;
 
             ThreeCharacter.Add(mc);
 

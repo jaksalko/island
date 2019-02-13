@@ -48,10 +48,21 @@ public class MaterialData : SingleTon<MaterialData>
 
 
 
-
-        //Debug.Log(Text[0]);
-        StartCoroutine(MaterialClear());
+        
         StartCoroutine(MaterialLoad());
+    }
+
+    public void Save()
+    {
+        StartCoroutine(MaterialSave());
+    }
+    public void Load()
+    {
+        StartCoroutine(MaterialLoad());
+    }
+    public void Clear()
+    {
+        StartCoroutine(MaterialClear());
     }
 
     public void Press(Button bu)
@@ -78,10 +89,9 @@ public class MaterialData : SingleTon<MaterialData>
 
             MaterialList[1].Count++;
             ToolData.Instance.ToolList[1].Count++;
-            ToolData.Instance.save();
+           
             FoodData.Instance.FoodList[1].Count++;
-            FoodData.Instance.save();
-            StartCoroutine(MaterialSave());
+          
 
             
         }
@@ -91,9 +101,7 @@ public class MaterialData : SingleTon<MaterialData>
 
     void OnApplicationQuit()
     {
-
-        Debug.Log("강제종료MaterialData");
-        StartCoroutine(MaterialSave());
+        
 
     }
    

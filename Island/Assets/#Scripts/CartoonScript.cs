@@ -53,9 +53,7 @@ public class CartoonScript : SingleTon<CartoonScript>
         Debug.Log(this);
 
 
-        FoodData.Instance.FoodList[0].Count = 100;
-        EndingEvent.Instance.Save();
-        EndingEvent.Instance.Load();
+        
 
     }
 	

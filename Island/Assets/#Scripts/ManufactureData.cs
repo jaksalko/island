@@ -32,12 +32,8 @@ public class ManufactureData : SingleTon<ManufactureData> {
     void Start()
     {
 
-
-
-        clear();
+        
         load();
-        for(int i=0;i<9;i++)
-        ManuList[i].Grade = 1;
         
 
     }
@@ -45,9 +41,7 @@ public class ManufactureData : SingleTon<ManufactureData> {
 
     void OnApplicationQuit()
     {
-
-        Debug.Log("강제종료ToolData");
-        StartCoroutine(ManuSave());
+        
 
     }
     public void save()

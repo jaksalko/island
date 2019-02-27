@@ -17,13 +17,19 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/#Scenes/ChooseCharScene.unity
     guid: dda157716c9b9734fad05de9481e710e
-  - enabled: 1
+  - enabled: 0
     path: Assets/#Scenes/MainScene 3.unity
     guid: ee7c4cb6b08e80341a8fea35fabe5709
-  - enabled: 1
+  - enabled: 0
     path: Assets/#Scenes/EventScene.unity
     guid: b3f99aae718f4f649a8f9d08ba913dcd
-  - enabled: 1
+  - enabled: 0
     path: Assets/#Scenes/FishGame.unity
     guid: 2ce30e447d7ccbb46a620b09021e165e
+  - enabled: 0
+    path: Assets/#Scenes/FarmingGame.unity
+    guid: 532bedf048318f047b451251cf8bb7bc
+  - enabled: 1
+    path: Assets/#Scenes/HuntingGame.unity
+    guid: 944d172adf24e724daa7f56218e550a5
   m_configObjects: {}

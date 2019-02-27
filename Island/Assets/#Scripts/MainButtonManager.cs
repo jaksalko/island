@@ -96,7 +96,7 @@ public class MainButtonManager : MonoBehaviour
                     MenuAnimator.Instance.state = "triggerOff";
                 }
 
-
+                MenuAnimator.Instance.TriggerCheck();
 
 
                 break;

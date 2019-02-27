@@ -151,7 +151,7 @@ public class EndingEvent : SingleTon<EndingEvent>
     
    public  bool WhaleTF, BottleTF, EngineTF, ShipTF, MerTF, HeroTF, DreamTF, WingTF, RainBowTF, TimeTF, SpaceTF, IceTF, LeafTF, EagleTF;
 
-    int WhaleP, BottleP, EngineP, ShipP, MerP, HeroP, DreamP, WingP, RainBowP, TimeP, SpaceP, IceP, LeafP, EagleP;
+    public int WhaleP, BottleP, EngineP, ShipP, MerP, HeroP, DreamP, WingP, RainBowP, TimeP, SpaceP, IceP, LeafP, EagleP;
     public bool already;//하루에 어떠한 엔딩이 진행되었는지 확인 true면 더이상 다른 엔딩 이벤트 발생x
                  //하루에 끝날 때 false로 바꿔줘야함
     public int WhaleDay, BottleDay, EngineDay, ShipDay, MerDay, HeroDay, DreamDay, WingDay, RainBowDay, TimeDay, SpaceDay, IceDay, LeafDay, EagleDay;
@@ -1211,7 +1211,7 @@ public class EndingEvent : SingleTon<EndingEvent>
 
                 case 0:
                     {
-                        if (Random.Range(0, 100) < 30)
+                        if (Random.Range(0, 100) < 100)
                         {
                             already = true;
 
@@ -1223,6 +1223,7 @@ public class EndingEvent : SingleTon<EndingEvent>
                             MerP = 1;
                             MerTF = false;
                             CartoonScript.Instance.Event(Mer0);
+
                             Save();  AutoFade.LoadLevel("EventScene", 1, 1, Color.black);
 
                             /*********************************************************************************
@@ -1237,7 +1238,7 @@ public class EndingEvent : SingleTon<EndingEvent>
                     }
                 case 1:
                     {
-                        if (Random.Range(0, 100) < 5 && fishing == true)
+                        if (Random.Range(0, 100) < 100 && fishing == true)
                         {
                             already = true;
                             MerDay = PlayerPrefs.GetInt("Day");

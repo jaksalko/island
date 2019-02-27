@@ -7,10 +7,8 @@ using TMPro;
 
 public class TextManager : MonoBehaviour
 {
-
-    public TextMeshProUGUI[] MaterialCountText;
+    
     public TextMeshProUGUI[] FoodCountText;
-    public TextMeshProUGUI[] ToolCountText;
 
 
 
@@ -23,20 +21,11 @@ public class TextManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        for (int i = 0; i < 7; i++)
-        {
-            MaterialCountText[i].text = MaterialData.Instance.MaterialList[i].Count.ToString();
-        }
-
         for (int i = 0; i < 12; i++)
         {
             FoodCountText[i].text = FoodData.Instance.FoodList[i].Count.ToString();
         }
-        for (int i = 0; i < 27; i++)
-        {
-            ToolCountText[i].text = ToolData.Instance.ToolList[i].Count.ToString();
-        }
+        
         
     }
 }

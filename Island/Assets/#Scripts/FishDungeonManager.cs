@@ -5,16 +5,23 @@ using UnityEngine.EventSystems;
 
 public class FishDungeonManager : MonoBehaviour {
 
-    public static string dungeonLv;
+    public string dungeon;
+    public static int DungeonLv;
     private void Awake()
     {
         DontDestroyOnLoad(this);
     }
     public void FishDungeonClicked()
     {
-        dungeonLv = EventSystem.current.currentSelectedGameObject.name;
-        dungeonLv = dungeonLv.Replace("Dungeon", "");
+        dungeon = EventSystem.current.currentSelectedGameObject.name;
+        dungeon = dungeon.Replace("Dungeon", "");
+        DungeonLv = int.Parse(dungeon.ToString());
+
+        Debug.Log(DungeonLv);
+
         AutoFade.LoadLevel("FishGame", 1, 1, Color.black);
+
+
     }
     public void EnterDungeonButton()
     {

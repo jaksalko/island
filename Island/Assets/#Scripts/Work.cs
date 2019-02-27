@@ -26,7 +26,8 @@ public class Work : SingleTon<Work>
 {
     public TextMeshProUGUI workYesClickTxt;// WorkSelect 에서 yes 클릭했을 때 나오는 팝업창 텍스트
     public TextMeshProUGUI DayText;
-    public bool[] isWork;
+    public static bool[] isWork =new bool[11];
+    public static bool[] PersonWork =new bool[3];
     public int temp;
     public GameObject workPopup;//일 선택창 팝업
     public GameObject workSelectPopup;//일 선택시 팝업 백그라운드
@@ -36,13 +37,9 @@ public class Work : SingleTon<Work>
     public GameObject mapBack;//지도 그림
     public GameObject goAreaPopup;//탐험지역선택시 나오는 팝업
     public GameObject[] popupMode;//0.Normal 1.Medicine 2.Fishing 3.Hunting 4.Cook 5.Farming 6.Adventure
-    public Button[] MatQuanUp;//재료 수량 업
-    public Button[] MatQuanDown;//다운
-    public GameObject normalModeMatImg;//노말모드 재료이미지
-    public TextMeshProUGUI MatCountText;
     
-    public GameObject BeforeImg;
-    public GameObject AfterImg;
+   
+   
     public TextMeshProUGUI[] CookMatCounText;
     public TextMeshProUGUI[] CookCounText;
     public TextMeshProUGUI FishMatCountText;
@@ -52,54 +49,83 @@ public class Work : SingleTon<Work>
     public TextMeshProUGUI MediMatCountText;
     public TextMeshProUGUI MediCountText;
     public GameObject[] Char;
-    public TextMeshProUGUI gageText;
-    public int Toolmax = 0;
     public int NowWorkNum;
-    public int[] UseMat= { 0, };
-    float[] clothgage = { 0, 200, 500, 1000, 2000, 3000 };
-    float[] shipgage = { 0, 300, 100, 2000, 3000, 5000 };
-    float farmgage = 100;
-    float[] housegage = { 0, 300, 100, 2000, 3000, 5000 };
-    float[] enginegage = { 0, 300, 100, 2000, 3000, 5000 };
-    float x=0;
-    float nowWorked=0;
-
-    float nowNeed=0;
-
-    float beforeNeed=0;
-
-    float todayWorked=0;
-
-    public int[] UseFood= new int[3];
+    
 
     public List<Something> SomethingList = new List<Something>();
 
     string path;
-
+    int now;
     public Slider expSlider;
     public GameObject expGage;
     // Use this for initialization
 
+
+    public void Awake()
+    {
+       // DontDestroyOnLoad(this);
+        
+    }
 
     public void Start()
     {
         if (!PlayerPrefs.HasKey("Start"))//저장되지 않았을 때
         {
             MyCharacterData.Instance.Clear();
-            MaterialData.Instance.Clear();
             Work.Instance.Clear();
             ManufactureData.Instance.clear();
             EndingEvent.Instance.Clear();
             FoodData.Instance.Clear();
-            ToolData.Instance.clear();
             CharacterData.Instance.Load();
             PlayerPrefs.SetInt("Start", 1);
+            PlayerPrefs.DeleteKey("Now");
             Debug.Log("클리어");
         }
+        // PlayerPrefs.DeleteKey("Start");
+
+
+        //if (!PlayerPrefs.HasKey("Now"))
+        //{
+
+        //}
+        //else
+        //{
+        //    Debug.Log(PlayerPrefs.GetInt("Now"));
+        //    Char[PlayerPrefs.GetInt("Now")].SetActive(false);
+        //    PlayerPrefs.DeleteKey("Now");
+        //}
+
+        if (PlayerPrefs.HasKey("ClickCount"))
+        {
+            switch (PlayerPrefs.GetInt("NowWorkNum"))
+            {
+                case 2:
+                    {
+                        //배 진행률++
+
+                        break;
+                    }
+                case 4:
+                    {
+                        //집 진행률++
+
+                        break;
+                    }
+            }
+        }
+        
+        for (int i = 0; i < 3; i++)
+        {
+            Debug.Log(PersonWork[i]);
+            if (PersonWork[i])
+                Char[i].SetActive(false);
+        }
+
 
         StartCoroutine(SomethingLoad());
         
         DayText.text = "Day " + PlayerPrefs.GetInt("Day");
+
     }
 
     public void Save()
@@ -143,6 +169,7 @@ public class Work : SingleTon<Work>
 
     public void NewDay()
     {
+        Debug.Log("뉴데이");
         EndingEvent.Instance.Save();
         EndingEvent.Instance.Load();
 
@@ -178,8 +205,7 @@ public class Work : SingleTon<Work>
                         {
                             //MaterialData.Instance.MaterialList[0].Count -= UseMat[NowWorkNum];
 
-                            SomethingList[0].Perfection += UseMat[NowWorkNum] * 10;
-
+                           
                             if (UnityEngine.Random.Range(0, 100) < 3)
                             {
                                 SomethingList[0].Grade = 6;
@@ -222,8 +248,7 @@ public class Work : SingleTon<Work>
                         {
                             //MaterialData.Instance.MaterialList[1].Count -= UseMat[NowWorkNum];
 
-                            SomethingList[1].Perfection += UseMat[NowWorkNum] * 10;
-
+                            
                             if (SomethingList[1].Perfection > 299 && SomethingList[1].Perfection < 1000)
                             {
                                 SomethingList[1].Grade = 1;
@@ -253,36 +278,9 @@ public class Work : SingleTon<Work>
                     {
                         if (isWork[i] == true)
                         {
-                            FoodData.Instance.FoodList[0].Count -= UseFood[0];
-                            FoodData.Instance.FoodList[4].Count -= UseFood[1];
-                            FoodData.Instance.FoodList[8].Count -= UseFood[2];
-                            switch (Toolmax)
-                            {
-                                case 1:
-                                    {
-                                        for (int j = 0; j < 3; j++)
-                                        {
-                                            FoodData.Instance.FoodList[j * 4 + 1].Count += UseFood[j];
-                                        }
-                                        break;
-                                    }
-                                case 2:
-                                    {
-                                        for (int j = 0; j < 3; j++)
-                                        {
-                                            FoodData.Instance.FoodList[j * 4 + 2].Count += UseFood[j];
-                                        }
-                                        break;
-                                    }
-                                case 3:
-                                    {
-                                        for (int j = 0; j < 3; j++)
-                                        {
-                                            FoodData.Instance.FoodList[j * 4 + 3].Count += UseFood[j];
-                                        }
-                                        break;
-                                    }
-                            }
+                           
+                            
+                            
                             
                         }
                         break;
@@ -293,10 +291,7 @@ public class Work : SingleTon<Work>
                         {
                             //MaterialData.Instance.MaterialList[2].Count -= UseMat[NowWorkNum];
 
-                            for (int j = 0; j < UseMat[NowWorkNum]; j++)
-                            {
-                                FoodData.Instance.FoodList[8].Count += (CharacterData.Instance.AllCharacter[now].Work4 + ToolAbility(Toolmax)) / 10;
-                            }
+                            
                         }
                         break;
                     }
@@ -305,15 +300,7 @@ public class Work : SingleTon<Work>
                         if (isWork[i] == true)
                         {
 
-                            SomethingList[2].Perfection += UseMat[NowWorkNum] * 10;
-                            if (SomethingList[2].Perfection > 99)
-                                SomethingList[2].Perfection -= 100;
-                            //MaterialData.Instance.MaterialList[3].Count -= UseMat[NowWorkNum];
-
-                            for (int j = 0; j < UseMat[NowWorkNum]; j++)
-                            {
-                                FoodData.Instance.FoodList[0].Count += (CharacterData.Instance.AllCharacter[now].Work5 + ToolAbility(Toolmax)) / 10;
-                            }
+                           
                             
                         }
                         break;
@@ -324,34 +311,6 @@ public class Work : SingleTon<Work>
                         {
                             //MaterialData.Instance.MaterialList[4].Count -= UseMat[NowWorkNum];
 
-                            SomethingList[3].Perfection += UseMat[NowWorkNum] * 10;
-
-
-
-
-
-                            if (SomethingList[3].Perfection > 299 && SomethingList[3].Perfection < 1000)
-                            {
-                                SomethingList[3].Grade = 1;
-                                //1단계 옷 생성
-                            }
-                            else if (SomethingList[3].Perfection > 999 && SomethingList[3].Perfection < 2000)
-                            {
-                                SomethingList[3].Grade = 2;
-                            }
-                            else if (SomethingList[3].Perfection > 1999 && SomethingList[3].Perfection < 3000)
-                            {
-                                SomethingList[3].Grade = 3;
-                            }
-                            else if (SomethingList[3].Perfection > 2999 && SomethingList[3].Perfection < 5000)
-                            {
-                                SomethingList[3].Grade = 4;
-                            }
-                            else if (SomethingList[3].Perfection > 4999)
-                            {
-                                SomethingList[3].Grade = 5;
-                            }
-                            ManufactureData.Instance.ManuList[2].Grade = SomethingList[3].Grade;
                         }
                         break;
                     }
@@ -361,42 +320,7 @@ public class Work : SingleTon<Work>
                         {
                             //MaterialData.Instance.MaterialList[5].Count -= UseMat[NowWorkNum];
 
-                            SomethingList[4].Perfection += UseMat[NowWorkNum] * 10;
-
-                            if (UnityEngine.Random.Range(0, 100) < 1)
-                            {
-                                SomethingList[4].Grade = 6;
-                                //타임머신 생성될 것같은 루트로 빠진다.
-                                //변수 필요
-
-                            }//타임머신 생성
-
-                            else
-                            {
-
-                                if (SomethingList[4].Perfection > 199 && SomethingList[4].Perfection < 500)
-                                {
-                                    SomethingList[4].Grade = 1;
-                                    //1단계 통신장치 생성
-                                }
-                                else if (SomethingList[4].Perfection > 499 && SomethingList[4].Perfection < 1000)
-                                {
-                                    SomethingList[4].Grade = 2;
-                                }
-                                else if (SomethingList[4].Perfection > 999 && SomethingList[4].Perfection < 2000)
-                                {
-                                    SomethingList[4].Grade = 3;
-                                }
-                                else if (SomethingList[4].Perfection > 1999 && SomethingList[4].Perfection < 3000)
-                                {
-                                    SomethingList[4].Grade = 4;
-                                }
-                                else if (SomethingList[4].Perfection > 2999)
-                                {
-                                    SomethingList[4].Grade = 5;
-                                }
-                            }
-                            ManufactureData.Instance.ManuList[3].Grade = SomethingList[4].Grade;
+                            
                         }
                         break;
                     }
@@ -404,10 +328,7 @@ public class Work : SingleTon<Work>
                     {
                         if (isWork[i] == true)
                         {
-                            //MaterialData.Instance.MaterialList[6].Count -= UseMat[NowWorkNum];
-
-                            //약 생성
-                            Char[MyCharacterData.Instance.CharacterName.IndexOf(now)].SetActive(false);
+                           
                         }
                         break;
                     }
@@ -415,13 +336,7 @@ public class Work : SingleTon<Work>
                     {
                         if (isWork[i] == true)
                         {
-                            if (UnityEngine.Random.Range(0, 100) < (CharacterData.Instance.AllCharacter[now].Work8 + ToolAbility(Toolmax)))
-                            {
-
-                                FoodData.Instance.FoodList[4].Count += 10;//고기 10개 획득
-
-
-                            }
+                           
                         }
                         break;
                     }
@@ -429,16 +344,7 @@ public class Work : SingleTon<Work>
                     {
                         if (isWork[i] == true)
                         {
-                            for (int j = 0; j < MaterialData.Instance.MaterialList.Count; j++)
-                            {
-                                MaterialData.Instance.MaterialList[j].Count += 10;
-
-                            }
-                            for (int j = 0; j < ToolData.Instance.ToolList.Count; j++)
-                            {
-                                ToolData.Instance.ToolList[j].Count += 10;
-
-                            }
+                            
                         }
                         break;
                     }
@@ -449,14 +355,7 @@ public class Work : SingleTon<Work>
             isWork[i] = false;
             
         }
-        for (int i = 0; i < UseMat.Length; i++)
-        {
-            UseMat[i] = 0;
-        }
-        for (int i = 0; i < UseFood.Length; i++)
-        {
-            UseFood[i] = 0;
-        }
+        
         SomethingSave();
         NowWorkNum = 0;
     }
@@ -473,7 +372,7 @@ public class Work : SingleTon<Work>
 
 
 
-                    if (MaterialData.Instance.MaterialList[0].Count < 1 || temp <1)//도구,재료가 없을때(일을 못함)
+                    if (isWork[NowWorkNum])//도구,재료가 없을때(일을 못함)
                     {
                         //일을 못합니다. 팝업 창 띄우기
                         iTween.ShakePosition(workSelectPopup, new Vector3(0.5f, 0, 0), 0.5f);
@@ -503,7 +402,7 @@ public class Work : SingleTon<Work>
                     
                     
 
-                    if (MaterialData.Instance.MaterialList[1].Count < 1 || temp < 1)
+                    if (isWork[NowWorkNum])
                     {
                         //일을 못합니다. 팝업 창 띄우기
                         iTween.ShakePosition(workSelectPopup, new Vector3(0.5f, 0, 0), 0.5f);
@@ -530,7 +429,7 @@ public class Work : SingleTon<Work>
                     
                    
                     int fdtemp = FoodData.Instance.FoodList[0].Count + FoodData.Instance.FoodList[4].Count + FoodData.Instance.FoodList[8].Count;
-                    if (fdtemp<1 || temp < 1)// 또한 물고기, 고기, 쌀이 없을 때 안됨
+                    if (isWork[NowWorkNum])// 또한 물고기, 고기, 쌀이 없을 때 안됨
                     {
                         //일을 못합니다. 팝업 창 띄우기
                         iTween.ShakePosition(workSelectPopup, new Vector3(0.5f, 0, 0), 0.5f);
@@ -556,7 +455,7 @@ public class Work : SingleTon<Work>
                     
 
                     
-                    if (MaterialData.Instance.MaterialList[2].Count < 1 || temp < 1)
+                    if (isWork[NowWorkNum])
                     {
                         //일을 못합니다. 팝업 창 띄우기
                         iTween.ShakePosition(workSelectPopup, new Vector3(0.5f, 0, 0), 0.5f);
@@ -582,7 +481,7 @@ public class Work : SingleTon<Work>
 
 
                     
-                    if (MaterialData.Instance.MaterialList[3].Count < 1 || temp < 1)//도구,재료가 없을때(일을 못함)
+                    if (isWork[NowWorkNum])//도구,재료가 없을때(일을 못함)
                     {
                         //일을 못합니다. 팝업 창 띄우기
                         iTween.ShakePosition(workSelectPopup, new Vector3(0.5f, 0, 0), 0.5f);
@@ -607,7 +506,7 @@ public class Work : SingleTon<Work>
                     
 
                    
-                    if (MaterialData.Instance.MaterialList[4].Count < 1 || temp < 1)//도구,재료가 없을때(일을 못함)
+                    if (isWork[NowWorkNum])//도구,재료가 없을때(일을 못함)
                     {
                         //일을 못합니다. 팝업 창 띄우기
                         iTween.ShakePosition(workSelectPopup, new Vector3(0.5f, 0, 0), 0.5f);
@@ -636,7 +535,7 @@ public class Work : SingleTon<Work>
                     //확률따져서 타임머신 생성
 
                    
-                    if (MaterialData.Instance.MaterialList[5].Count < 1 || temp < 1)//도구,재료가 없을때(일을 못함)
+                    if (isWork[NowWorkNum])//도구,재료가 없을때(일을 못함)
                     {
                         //일을 못합니다. 팝업 창 띄우기
                         iTween.ShakePosition(workSelectPopup, new Vector3(0.5f, 0, 0), 0.5f);
@@ -661,7 +560,7 @@ public class Work : SingleTon<Work>
             case 8://제약
                 {
                    
-                    if (MaterialData.Instance.MaterialList[6].Count<1 || temp < 1)// 또한 물고기, 고기, 쌀이 없을 때 안됨
+                    if (isWork[NowWorkNum])// 또한 물고기, 고기, 쌀이 없을 때 안됨
                     {
                         //일을 못합니다. 팝업 창 띄우기
                         iTween.ShakePosition(workSelectPopup, new Vector3(0.5f, 0, 0), 0.5f);
@@ -695,8 +594,7 @@ public class Work : SingleTon<Work>
     }
     public void NoClicked()                                                             //제작취소
     {
-
-        MatCountText.text = "0";
+        
         CookMatCounText[0].text = CookMatCounText[1].text = CookMatCounText[2].text = "0";
         CookCounText[0].text = CookCounText[1].text = CookCounText[2].text = "0";
 
@@ -706,10 +604,7 @@ public class Work : SingleTon<Work>
         FarmCountText.text = "0";
         MediMatCountText.text = "0";
         MediCountText.text = "0";
-        for (int i = 0; i < 11; i++)
-        {
-            UseMat[i] = 0;
-        }
+        
         workSelectPopup.SetActive(false);
         for (int i = 0; i < 7; i++)
         {
@@ -727,7 +622,7 @@ public class Work : SingleTon<Work>
     public void WorkYes() {                                                          //여기서 이제 갯수랑 게이지같은게 변화시켜야함
 
         int now = MyCharacterData.Instance.NowCharacterName; // 선택한 캐릭터 번호
-        Debug.Log(now +"캐릭터이며"+NowWorkNum+"번쨰 일이다");
+        Debug.Log(now +"캐릭터이며"+NowWorkNum+"번째 일이다");
         switch (NowWorkNum)
         {
             case 1:
@@ -735,7 +630,6 @@ public class Work : SingleTon<Work>
                     if (isWork[NowWorkNum] == false)
                     {
                         isWork[NowWorkNum] = true;
-                        MaterialData.Instance.MaterialList[0].Count -= UseMat[NowWorkNum];
 
                         Debug.Log(MyCharacterData.Instance.CharacterName.IndexOf(now));
                         Char[MyCharacterData.Instance.CharacterName.IndexOf(now)].SetActive(false);
@@ -751,9 +645,8 @@ public class Work : SingleTon<Work>
                     if (isWork[NowWorkNum] == false)
                     {
                         isWork[NowWorkNum] = true;
-                        MaterialData.Instance.MaterialList[1].Count -= UseMat[NowWorkNum];
-
-                    Char[MyCharacterData.Instance.CharacterName.IndexOf(now)].SetActive(false);
+                        Save();
+                        AutoFade.LoadLevel("ClickerGame", 1, 1, Color.black);
                     }
                     else
                     {
@@ -766,10 +659,8 @@ public class Work : SingleTon<Work>
                     if (isWork[NowWorkNum] == false)
                     {
                         isWork[NowWorkNum] = true;
-                        UseFood[0] = UseFood[1] = UseFood[2] = 0;
-                    // MaterialData.Instance.MaterialList[NowWorkNum - 1].Count -= UseMat[NowWorkNum];
 
-                    Char[MyCharacterData.Instance.CharacterName.IndexOf(now)].SetActive(false);
+                        AutoFade.LoadLevel("CookGame", 1, 1, Color.black);
                     }
                     else
                     {
@@ -782,13 +673,16 @@ public class Work : SingleTon<Work>
                     if (isWork[NowWorkNum] == false)
                     {
                         isWork[NowWorkNum] = true;
-                        MaterialData.Instance.MaterialList[2].Count -= UseMat[NowWorkNum];
 
+                        EndingEvent.instance.MerP = 0;
                     EndingEvent.Instance.MerTF = true;
                     EndingEvent.Instance.fishing = true;
                     EndingEvent.Instance.MerEvent();
+
                     EndingEvent.Instance.fishing = false;
-                    Char[MyCharacterData.Instance.CharacterName.IndexOf(now)].SetActive(false);
+
+
+                        
                     }
                     else
                     {
@@ -801,7 +695,7 @@ public class Work : SingleTon<Work>
                     if (isWork[NowWorkNum] == false)
                     {
                         isWork[NowWorkNum] = true;
-                        MaterialData.Instance.MaterialList[3].Count -= UseMat[NowWorkNum];
+
                     Char[MyCharacterData.Instance.CharacterName.IndexOf(now)].SetActive(false);
                     }
                     else
@@ -815,8 +709,10 @@ public class Work : SingleTon<Work>
                     if (isWork[NowWorkNum] == false)
                     {
                         isWork[NowWorkNum] = true;
-                        MaterialData.Instance.MaterialList[4].Count -= UseMat[NowWorkNum];
-                    Char[MyCharacterData.Instance.CharacterName.IndexOf(now)].SetActive(false);
+
+
+                        Save();
+                        AutoFade.LoadLevel("ClickerGame", 1, 1, Color.black);
                     }
                     else
                     {
@@ -829,7 +725,7 @@ public class Work : SingleTon<Work>
                     if (isWork[NowWorkNum] == false)
                     {
                         isWork[NowWorkNum] = true;
-                        MaterialData.Instance.MaterialList[5].Count -= UseMat[NowWorkNum];
+
                     Char[MyCharacterData.Instance.CharacterName.IndexOf(now)].SetActive(false);
                     }
                     else
@@ -843,7 +739,7 @@ public class Work : SingleTon<Work>
                     if (isWork[NowWorkNum] == false)
                     {
                         isWork[NowWorkNum] = true;
-                        MaterialData.Instance.MaterialList[6].Count -= UseMat[NowWorkNum];
+
                     Char[MyCharacterData.Instance.CharacterName.IndexOf(now)].SetActive(false);
                     }
                     else
@@ -857,16 +753,9 @@ public class Work : SingleTon<Work>
                 if (isWork[NowWorkNum] == false)
                 {
                         isWork[NowWorkNum] = true;
-                        for (int i = 0; i < 3; i++)
-                    {
-                        temp += ToolData.Instance.ToolList[(8 * 3) + i].Count;
-                        if (ToolData.Instance.ToolList[(8 * 3) + i].Count > 0)
-                        {
-                            Toolmax = i + 1;
-                        }
-                    }
+                        
 
-                    if (temp < 1)
+                    if (isWork[NowWorkNum])
                     {
                         //일을 못합니다. 팝업 창 띄우기
                         iTween.ShakePosition(workSelectPopup, new Vector3(0.5f, 0, 0), 0.5f);
@@ -924,12 +813,14 @@ public class Work : SingleTon<Work>
                     break;
                 }
         }
-            
+        PersonWork[MyCharacterData.Instance.CharacterName.IndexOf(now)] = true;
+        PlayerPrefs.SetInt("Now", MyCharacterData.Instance.CharacterName.IndexOf(now));
+        PlayerPrefs.SetInt("NowWorkNum", NowWorkNum);
 
-            //SomethingList[0].Perfection += UseMat[NowWorkNum] * 10;
+        //SomethingList[0].Perfection += UseMat[NowWorkNum] * 10;
 
-            
-            for (int i = 0; i < 7; i++)
+
+        for (int i = 0; i < 7; i++)
         {
             if (popupMode[i].activeSelf == true)
             {
@@ -940,16 +831,8 @@ public class Work : SingleTon<Work>
         goAreaPopup.SetActive(false);
         workSelectPopup.SetActive(false);
         workPopup.SetActive(false);
-        MatCountText.text = "0";
-        CookMatCounText[0].text = CookMatCounText[1].text = CookMatCounText[2].text = "0";
-        CookCounText[0].text = CookCounText[1].text = CookCounText[2].text = "0";
 
-        FishMatCountText.text = "0";
-        FishCountText.text = "0";
-        FarmMatCountText.text = "0";
-        FarmCountText.text = "0";
-        MediMatCountText.text = "0";
-        MediCountText.text = "0";
+        
         
 
     }
@@ -959,592 +842,7 @@ public class Work : SingleTon<Work>
             popupMode[6].SetActive(false);
     }//마지막 일할지 안할지 선택할 떄 No 버튼
 
-    public void MatQuanUpClicked()
-    {
-        //각각의 PopupMode의 Up/Down 버튼마다 TextMesh가 다르기 때문에 메소드도 각각 만들어줘야한다
-        Debug.Log("Matup");
-        string str = EventSystem.current.currentSelectedGameObject.name;
-        int now = MyCharacterData.Instance.NowCharacterName;
-        int min=0;
-
-        switch (NowWorkNum)
-        {
-            case 1://옷
-                {
-                    
-                    for (int i = 0; i < 3; i++)
-                    {
-                        /*****************************************************************
-                        //어떤 도구를 사용할지는 ToolData Json을 확인하여 능력치를 올려준다
-                        *******************************************************************/
-
-                        temp += ToolData.Instance.ToolList[(0 * 3) + i].Count;
-                        if (ToolData.Instance.ToolList[(0 * 3) + i].Count > 0)
-                        {
-                            Toolmax = i + 1;
-                        }
-
-                    }//도구가 존재하는지 확인한다
-                    
-                    Debug.Log(now);
-                    iTween.ShakePosition(workSelectPopup, new Vector3(0.5f, 0, 0), 0.5f);
-                    /*여기 안됨*/
-                    if ((CharacterData.Instance.AllCharacter[now].Work1 + ToolAbility(Toolmax)) / 10 < MaterialData.Instance.MaterialList[0].Count)
-                    {
-                        min = (CharacterData.Instance.AllCharacter[now].Work1 + ToolAbility(Toolmax)) / 10;
-
-                    }
-                    else
-                    {
-                        min = MaterialData.Instance.MaterialList[0].Count;
-                    }
-
-                    
-                    Debug.Log(CharacterData.Instance.AllCharacter[now].Work1);
-                    Debug.Log(ToolAbility(Toolmax));
-
-                    Debug.Log(min);
-
-
-                   // iTween.ShakePosition(workSelectPopup, new Vector3(0.5f, 0, 0), 0.5f);
-
-                    if (UseMat[NowWorkNum] < min )
-                    {
-                        UseMat[NowWorkNum]++;
-                        MatCountText.text = UseMat[NowWorkNum].ToString();
-                        //TextMash.text = UseMat[NowWorkNum] ;
-
-                        todayWorked = UseMat[1] * 10;
-
-                        x = 500 * (nowWorked - beforeNeed) / (nowNeed - beforeNeed);
-
-
-                            var gageTransform = expGage.transform as RectTransform;
-                            gageTransform.sizeDelta = new Vector2(x, gageTransform.sizeDelta.y);
-                            expGage.transform.localPosition = new Vector3((x / 2 - 155), gageTransform.localPosition.y, 0);
-                            expSlider.value = ((nowWorked + todayWorked - beforeNeed) / (nowNeed - beforeNeed));
-
-                            
-                            gageText.text = nowWorked.ToString() + "+" + todayWorked.ToString() + " / " + nowNeed.ToString();
-                            
-                        
-
-                    }
-
-                
-                    break;
-
-                }//case 1
-
-            case 2://배
-                {
-                    for (int i = 0; i < 3; i++)
-                    {
-                        temp += ToolData.Instance.ToolList[(1 * 3) + i].Count;
-                        if (ToolData.Instance.ToolList[(1 * 3) + i].Count > 0)
-                        {
-                            Toolmax = i + 1;
-                        }
-                    }
-
-                    Debug.Log(now);
-                    min = Math.Min((CharacterData.Instance.AllCharacter[now].Work2 + ToolAbility(Toolmax)) / 10, MaterialData.Instance.MaterialList[0].Count);
-                    Debug.Log(CharacterData.Instance.AllCharacter[now].Work2);
-                    Debug.Log(ToolAbility(Toolmax));
-                    if (UseMat[NowWorkNum] < min)
-                    {
-                        UseMat[NowWorkNum]++;
-                        MatCountText.text = UseMat[NowWorkNum].ToString();
-                        //TextMash.text = UseMat[NowWorkNum] ;
-                        todayWorked = UseMat[2] * 10;
-                        x = 500 * (nowWorked - beforeNeed) / (nowNeed - beforeNeed);
-
-
-                            var gageTransform = expGage.transform as RectTransform;
-                            gageTransform.sizeDelta = new Vector2(x, gageTransform.sizeDelta.y);
-                            expGage.transform.localPosition = new Vector3((x / 2 - 155), gageTransform.localPosition.y, 0);
-                            expSlider.value = ((nowWorked + todayWorked - beforeNeed) / (nowNeed - beforeNeed));
-
-                            
-                            gageText.text = nowWorked.ToString() + "+" + todayWorked.ToString() + " / " + nowNeed.ToString();
-                            
-                    }
-
-
-                    break;
-                }//case 2
-
-            case 3://요리
-                {
-
-                    for (int i = 0; i < 3; i++)
-                    {
-                        temp += ToolData.Instance.ToolList[(2 * 3) + i].Count;
-                        if (ToolData.Instance.ToolList[(2 * 3) + i].Count > 0)
-                        {
-                            Toolmax = i + 1;
-                        }
-                    }
-
-                    min = Math.Min((CharacterData.Instance.AllCharacter[now].Work3 + ToolAbility(Toolmax)) / 10, 
-                        (FoodData.Instance.FoodList[0].Count + FoodData.Instance.FoodList[4].Count + FoodData.Instance.FoodList[8].Count));
-
-                    if ((UseFood[0] + UseFood[1] + UseFood[2]) < min)
-                    {
-                        if (str == "UpButton")
-                        {
-                            if (UseFood[0] < FoodData.Instance.FoodList[0].Count)
-                            {
-                                UseFood[0]++;
-                                CookMatCounText[0].text = UseFood[0].ToString();
-                                CookCounText[0].text = UseFood[0].ToString();
-                            }
-                            //else
-                            //안됨
-
-                        }
-                        else if (str == "UpButton (1)")
-                        {
-                            if (UseFood[1] < FoodData.Instance.FoodList[4].Count)
-                            {
-                                UseFood[1]++;
-                                CookMatCounText[1].text = UseFood[1].ToString();
-                                CookCounText[1].text = UseFood[1].ToString();
-                            }
-                            //else
-                            //안됨
-                        }
-                        else if (str == "UpButton (2)")
-                        {
-                            if (UseFood[2] < FoodData.Instance.FoodList[8].Count)
-                            {
-                                UseFood[2]++;
-                                CookMatCounText[2].text = UseFood[2].ToString();
-                                CookCounText[2].text = UseFood[2].ToString();
-                            }
-                            //else
-                            //안됨
-                        }
-                    }
-                    else
-                    {
-                        Debug.Log("재료가 1개도 없습니다.");
-                    }
-                    break;
-                }
-
-            case 4://낚시
-                {
-                    for (int i = 0; i < 3; i++)
-                    {
-                        temp += ToolData.Instance.ToolList[(3 * 3) + i].Count;
-                        if (ToolData.Instance.ToolList[(3 * 3) + i].Count > 0)
-                        {
-                            Toolmax = i + 1;
-                        }
-                    }
-
-                    min = Math.Min((CharacterData.Instance.AllCharacter[now].Work4 + ToolAbility(Toolmax)) / 10, MaterialData.Instance.MaterialList[2].Count);
-
-                    if (UseMat[NowWorkNum] < min)
-                    {
-                        UseMat[NowWorkNum]++;
-                        FishMatCountText.text = UseMat[NowWorkNum].ToString();
-                    }
-                    break;
-                }//case 4
-
-            case 5://농사
-                {
-                    for (int i = 0; i < 3; i++)
-                    {
-                        /*****************************************************************
-                        //어떤 도구를 사용할지는 ToolData Json을 확인하여 능력치를 올려준다
-                        *******************************************************************/
-
-                        temp += ToolData.Instance.ToolList[(4 * 3) + i].Count;
-                        if (ToolData.Instance.ToolList[(4 * 3) + i].Count > 0)
-                        {
-                            Toolmax = i + 1;
-                        }
-                    }//도구가 존재하는지 확인한다
-
-                    min = Math.Min((CharacterData.Instance.AllCharacter[now].Work5 + ToolAbility(Toolmax)) / 10, MaterialData.Instance.MaterialList[3].Count);
-
-                    if (UseMat[NowWorkNum] < min)
-                    {
-                        UseMat[NowWorkNum]++;
-                        FarmMatCountText.text = UseMat[NowWorkNum].ToString();
-                        //TextMash.text = UseMat[NowWorkNum] ;
-                        todayWorked = UseMat[5] * 10;
-                        x = 500 * (nowWorked - beforeNeed) / (nowNeed - beforeNeed);
-
-
-                        var gageTransform = expGage.transform as RectTransform;
-                        gageTransform.sizeDelta = new Vector2(x, gageTransform.sizeDelta.y);
-                        expGage.transform.localPosition = new Vector3((x / 2 - 155), gageTransform.localPosition.y, 0);
-                        expSlider.value = ((nowWorked + todayWorked - beforeNeed) / (nowNeed - beforeNeed));
-
-
-                        gageText.text = nowWorked.ToString() + "+" + todayWorked.ToString() + " / " + nowNeed.ToString();
-
-                    }
-                    break;
-                }//case 5
-
-            case 6://건축
-                {
-                    for (int i = 0; i < 3; i++)
-                    {
-                        /*****************************************************************
-                        //어떤 도구를 사용할지는 ToolData Json을 확인하여 능력치를 올려준다
-                        *******************************************************************/
-
-                        temp += ToolData.Instance.ToolList[(5 * 3) + i].Count;
-
-                        if (ToolData.Instance.ToolList[(5 * 3) + i].Count > 0)
-                        {
-                            Toolmax = i + 1;
-                        }
-
-                    }//도구가 존재하는지 확인한다
-
-                    min = Math.Min((CharacterData.Instance.AllCharacter[now].Work6 + ToolAbility(Toolmax)) / 10, MaterialData.Instance.MaterialList[4].Count);
-
-                    if (UseMat[NowWorkNum] < min)
-                    {
-                        UseMat[NowWorkNum]++;
-                        MatCountText.text = UseMat[NowWorkNum].ToString();
-                        //TextMash.text = UseMat[NowWorkNum] ;
-                        todayWorked = UseMat[6] * 10;
-                        x = 500 * (nowWorked - beforeNeed) / (nowNeed - beforeNeed);
-
-
-                        var gageTransform = expGage.transform as RectTransform;
-                        gageTransform.sizeDelta = new Vector2(x, gageTransform.sizeDelta.y);
-                        expGage.transform.localPosition = new Vector3((x / 2 - 155), gageTransform.localPosition.y, 0);
-                        expSlider.value = ((nowWorked + todayWorked - beforeNeed) / (nowNeed - beforeNeed));
-
-
-                        gageText.text = nowWorked.ToString() + "+" + todayWorked.ToString() + " / " + nowNeed.ToString();
-
-                    }
-
-                    break;
-                }//case 6
-
-            case 7://통신
-                {
-                    for (int i = 0; i < 3; i++)
-                    {
-                        /*****************************************************************
-                        //어떤 도구를 사용할지는 ToolData Json을 확인하여 능력치를 올려준다
-                        *******************************************************************/
-
-                        temp += ToolData.Instance.ToolList[(6 * 3) + i].Count;
-
-                        if (ToolData.Instance.ToolList[(6 * 3) + i].Count > 0)
-                        {
-                            Toolmax = i + 1;
-                        }
-
-                    }//도구가 존재하는지 확인한다
-
-                   
-
-                    min = Math.Min((CharacterData.Instance.AllCharacter[now].Work7 + ToolAbility(Toolmax)) / 10, MaterialData.Instance.MaterialList[4].Count);
-
-                    if (UseMat[NowWorkNum] < min)
-                    {
-                        UseMat[NowWorkNum]++;
-                        MatCountText.text = UseMat[NowWorkNum].ToString();
-                        //TextMash.text = UseMat[NowWorkNum] ;
-                        todayWorked = UseMat[7] * 10;
-                        x = 500 * (nowWorked - beforeNeed) / (nowNeed - beforeNeed);
-
-
-                        var gageTransform = expGage.transform as RectTransform;
-                        gageTransform.sizeDelta = new Vector2(x, gageTransform.sizeDelta.y);
-                        expGage.transform.localPosition = new Vector3((x / 2 - 155), gageTransform.localPosition.y, 0);
-                        expSlider.value = ((nowWorked + todayWorked - beforeNeed) / (nowNeed - beforeNeed));
-
-
-                        gageText.text = nowWorked.ToString() + "+" + todayWorked.ToString() + " / " + nowNeed.ToString();
-
-                    }
-                    break;
-                }//case 7
-
-            case 8://제약
-                {
-                    for (int i = 0; i < 3; i++)
-                    {
-                        temp += ToolData.Instance.ToolList[(7 * 3) + i].Count;
-                        if (ToolData.Instance.ToolList[(7 * 3) + i].Count > 0)
-                        {
-                            Toolmax = i + 1;
-                        }
-                    }
-
-                    min = Math.Min((CharacterData.Instance.AllCharacter[now].Work8 + ToolAbility(Toolmax)) / 10, MaterialData.Instance.MaterialList[6].Count);
-
-                    if (UseMat[NowWorkNum] < min)
-                    {
-                        UseMat[NowWorkNum]++;
-                        //TextMash.text = UseMat[NowWorkNum] ;
-                        MediMatCountText.text = UseMat[NowWorkNum].ToString();
-                        MediCountText.text = UseMat[NowWorkNum].ToString();
-                    }
-                    break;
-                }//case 8
-
-            case 9://수렵
-                {
-                    
-
-                    
-                    break;
-                }//case 9
-
-            case 10://탐험
-                {
-
-
-                    //탐험 구현
-                    //지도열어야함
-                    //지도에 각각 지역당 얻을 수 있는 것들을 Text로 표시
-
-
-
-                    goAreaPopup.SetActive(false);//지도 닫기
-                    popupMode[6].SetActive(false);
-                    break;
-                }//case 10
-        }
-
-    }
-    public void MatQuanDownClicked()
-    {
-
-        Debug.Log("MatDown");
-        string str = EventSystem.current.currentSelectedGameObject.name;
-        switch (NowWorkNum)
-        {
-            case 1://옷
-                {
-
-
-
-
-                    if (UseMat[NowWorkNum] > 0)
-                    {
-                        UseMat[NowWorkNum]--;
-                        //TextMash.text = UseMat[NowWorkNum] ;
-                        MatCountText.text = UseMat[NowWorkNum].ToString();
-                        
-                        x = 500 * (nowWorked - beforeNeed) / (nowNeed - beforeNeed);
-
-
-                        var gageTransform = expGage.transform as RectTransform;
-                        gageTransform.sizeDelta = new Vector2(x, gageTransform.sizeDelta.y);
-                        expGage.transform.localPosition = new Vector3((x / 2 - 155), gageTransform.localPosition.y, 0);
-                        expSlider.value = ((nowWorked + todayWorked - beforeNeed) / (nowNeed - beforeNeed));
-
-
-                        gageText.text = nowWorked.ToString() + "+" + todayWorked.ToString() + " / " + nowNeed.ToString();
-
-                    }
-
-
-                    break;
-
-                }//case 1
-
-            case 2://배
-                {
-                    if (UseMat[NowWorkNum] > 0)
-                    {
-                        UseMat[NowWorkNum]--;
-                        //TextMash.text = UseMat[NowWorkNum] ;
-                        MatCountText.text = UseMat[NowWorkNum].ToString();
-                        
-                        x = 500 * (nowWorked - beforeNeed) / (nowNeed - beforeNeed);
-
-
-                        var gageTransform = expGage.transform as RectTransform;
-                        gageTransform.sizeDelta = new Vector2(x, gageTransform.sizeDelta.y);
-                        expGage.transform.localPosition = new Vector3((x / 2 - 155), gageTransform.localPosition.y, 0);
-                        expSlider.value = ((nowWorked + todayWorked - beforeNeed) / (nowNeed - beforeNeed));
-
-
-                        gageText.text = nowWorked.ToString() + "+" + todayWorked.ToString() + " / " + nowNeed.ToString();
-
-                    }
-
-                    break;
-                }//case 2
-
-            case 3://요리
-                {
-
-                    
-                    
-                        if (str == "DownButton")
-                        {
-                            if (UseFood[0] > 0)
-                            {
-                                UseFood[0]--;
-                                CookMatCounText[0].text = UseFood[0].ToString();
-                                CookCounText[0].text = UseFood[0].ToString();
-                            }
-                        //else
-                        //안됨
-
-                    }
-                        else if (str == "DownButton (1)")
-                        {
-                            if (UseFood[1] > 0)
-                            {
-                                UseFood[1]--;
-                                CookMatCounText[1].text = UseFood[1].ToString();
-                                CookCounText[1].text = UseFood[1].ToString();
-                            }
-                        //else
-                        //안됨
-                    }
-                        else if (str == "DownButton (2)")
-                        {
-                            if (UseFood[2] > 0)
-                            {
-                                UseFood[2]--;
-                                CookMatCounText[2].text = UseFood[2].ToString();
-                                CookCounText[2].text = UseFood[2].ToString();
-                            }
-                        //else
-                        //안됨
-                    }
-                    
-                   
-                    break;
-                }
-
-            case 4://낚시
-                {
-                    if (UseMat[NowWorkNum] > 0)
-                    {
-                        UseMat[NowWorkNum]--;
-                        //TextMash.text = UseMat[NowWorkNum] ;
-                        FishMatCountText.text = UseMat[NowWorkNum].ToString();
-                    }
-                    break;
-                }//case 4
-
-            case 5://농사
-                {
-                    if (UseMat[NowWorkNum] > 0)
-                    {
-                        UseMat[NowWorkNum]--;
-                        //TextMash.text = UseMat[NowWorkNum] ;
-                        FarmMatCountText.text = UseMat[NowWorkNum].ToString();
-                        
-                        x = 500 * (nowWorked - beforeNeed) / (nowNeed - beforeNeed);
-
-
-                        var gageTransform = expGage.transform as RectTransform;
-                        gageTransform.sizeDelta = new Vector2(x, gageTransform.sizeDelta.y);
-                        expGage.transform.localPosition = new Vector3((x / 2 - 155), gageTransform.localPosition.y, 0);
-                        expSlider.value = ((nowWorked + todayWorked - beforeNeed) / (nowNeed - beforeNeed));
-
-
-                        gageText.text = nowWorked.ToString() + "+" + todayWorked.ToString() + " / " + nowNeed.ToString();
-
-                    }
-                    break;
-                }//case 5
-
-            case 6://건축
-                {
-                    if (UseMat[NowWorkNum] > 0)
-                    {
-                        UseMat[NowWorkNum]--;
-                        //TextMash.text = UseMat[NowWorkNum] ;
-                        MatCountText.text = UseMat[NowWorkNum].ToString();
-                        
-                        x = 500 * (nowWorked - beforeNeed) / (nowNeed - beforeNeed);
-
-
-                        var gageTransform = expGage.transform as RectTransform;
-                        gageTransform.sizeDelta = new Vector2(x, gageTransform.sizeDelta.y);
-                        expGage.transform.localPosition = new Vector3((x / 2 - 155), gageTransform.localPosition.y, 0);
-                        expSlider.value = ((nowWorked + todayWorked - beforeNeed) / (nowNeed - beforeNeed));
-
-
-                        gageText.text = nowWorked.ToString() + "+" + todayWorked.ToString() + " / " + nowNeed.ToString();
-
-                    }
-
-                    break;
-                }//case 6
-
-            case 7://통신
-                {
-                    if (UseMat[NowWorkNum] > 0)
-                    {
-                        UseMat[NowWorkNum]--;
-                        //TextMash.text = UseMat[NowWorkNum] ;
-                        MatCountText.text = UseMat[NowWorkNum].ToString();
-                       
-                        x = 500 * (nowWorked - beforeNeed) / (nowNeed - beforeNeed);
-
-
-                        var gageTransform = expGage.transform as RectTransform;
-                        gageTransform.sizeDelta = new Vector2(x, gageTransform.sizeDelta.y);
-                        expGage.transform.localPosition = new Vector3((x / 2 - 155), gageTransform.localPosition.y, 0);
-                        expSlider.value = ((nowWorked + todayWorked - beforeNeed) / (nowNeed - beforeNeed));
-
-
-                        gageText.text = nowWorked.ToString() + "+" + todayWorked.ToString() + " / " + nowNeed.ToString();
-
-                    }
-                    break;
-                }//case 7
-
-            case 8://제약
-                {
-                    if (UseMat[NowWorkNum] > 0)
-                    {
-                        UseMat[NowWorkNum]--;
-                        //TextMash.text = UseMat[NowWorkNum] ;
-                        MediMatCountText.text = UseMat[NowWorkNum].ToString();
-                    }
-                    break;
-                }//case 8
-
-            case 9://수렵
-                {
-
-
-
-                    break;
-                }//case 9
-
-            case 10://탐험
-                {
-
-
-                    //탐험 구현
-                    //지도열어야함
-                    //지도에 각각 지역당 얻을 수 있는 것들을 Text로 표시
-
-
-
-                  
-                    break;
-                }//case 10
-        }
-
-    }
-
+    
 
     public void work()
     {
@@ -1567,73 +865,8 @@ public class Work : SingleTon<Work>
                 {
                     workSelectPopup.SetActive(true);
                     popupMode[0].SetActive(true);
-                    switch (SomethingList[0].Grade)
-                    {
-                        case 0:
-                            {
-                                AfterImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("MainSceneImage/Manufacture/clothes1");
-                                
-                                break;
-                            }
-                        case 1:
-                            {
-                                BeforeImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("MainSceneImage/Manufacture/clothes1");
-                                AfterImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("MainSceneImage/Manufacture/clothes2");
-                                break;
-                            }
-                        case 2:
-                            {
-                                BeforeImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("MainSceneImage/Manufacture/clothes2");
-                                AfterImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("MainSceneImage/Manufacture/clothes3");
-                                break;
-                            }
-                        case 3:
-                            {
-                                BeforeImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("MainSceneImage/Manufacture/clothes3");
-                                AfterImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("MainSceneImage/Manufacture/clothes4");
-                                break;
-                            }
-                        case 4:
-                            {
-                                BeforeImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("MainSceneImage/Manufacture/clothes4");
-                                AfterImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("MainSceneImage/Manufacture/clothes5");
-                                break;
-                            }
-                        case 5:
-                            {
-                                BeforeImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("MainSceneImage/Manufacture/clothes5");
-                                
-                                break;
-                            }
-                    }
-                    
-                    normalModeMatImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("Material/cloth");
                     NowWorkNum = 1;
-
-                    
-                    
-                     nowWorked = SomethingList[0].Perfection;//현재 한 일의 양(누적)
-
-                   nowNeed = clothgage[SomethingList[0].Grade + 1];//지금 레벨업에 필요한 양
-
-                     beforeNeed = clothgage[SomethingList[0].Grade];//지금 레벨까지의 필요한 양
-
-                    todayWorked = UseMat[1] * 10;
-                    x = 500 * (nowWorked - beforeNeed) / (nowNeed - beforeNeed);
-
-
-                    var gageTransform = expGage.transform as RectTransform;
-                    gageTransform.sizeDelta = new Vector2(x, gageTransform.sizeDelta.y);
-                    expGage.transform.localPosition = new Vector3((x / 2 - 155), gageTransform.localPosition.y, 0);
-                    expSlider.value = ((nowWorked + todayWorked - beforeNeed) / (nowNeed - beforeNeed));
-
-
-                    gageText.text = nowWorked.ToString() + "+" + todayWorked.ToString() + " / " + nowNeed.ToString();
-
-
-                    
-
-
+                   
                     break;
                 }
 
@@ -1641,63 +874,7 @@ public class Work : SingleTon<Work>
                 {
                     workSelectPopup.SetActive(true);
                     popupMode[0].SetActive(true);
-                    switch (SomethingList[1].Grade)
-                    {
-                        case 0:
-                            {
-                                AfterImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("MainSceneImage/Manufacture/ship1");
-                                break;
-                            }
-                        case 1:
-                            {
-                                BeforeImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("MainSceneImage/Manufacture/ship1");
-                                AfterImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("MainSceneImage/Manufacture/ship2");
-                                break;
-                            }
-                        case 2:
-                            {
-                                BeforeImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("MainSceneImage/Manufacture/ship2");
-                                AfterImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("MainSceneImage/Manufacture/ship3");
-                                break;
-                            }
-                        case 3:
-                            {
-                                BeforeImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("MainSceneImage/Manufacture/ship3");
-                                AfterImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("MainSceneImage/Manufacture/ship4");
-                                break;
-                            }
-                        case 4:
-                            {
-                                BeforeImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("MainSceneImage/Manufacture/ship4");
-                                AfterImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("MainSceneImage/Manufacture/ship5");
-                                break;
-                            }
-                        case 5:
-                            {
-                                BeforeImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("MainSceneImage/Manufacture/ship5");
-
-                                break;
-                            }
-                    }
-                    normalModeMatImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("Material/steal");
                     NowWorkNum = 2;
-                    nowWorked = SomethingList[1].Perfection;//현재 한 일의 양(누적)
-
-                    nowNeed = shipgage[SomethingList[1].Grade + 1];//지금 레벨업에 필요한 양
-
-                    beforeNeed = shipgage[SomethingList[1].Grade];//지금 레벨까지의 필요한 양
-
-                    todayWorked = UseMat[2] * 10;
-                    x = 500 * (nowWorked - beforeNeed) / (nowNeed - beforeNeed);
-
-
-                    var gageTransform = expGage.transform as RectTransform;
-                    gageTransform.sizeDelta = new Vector2(x, gageTransform.sizeDelta.y);
-                    expGage.transform.localPosition = new Vector3((x / 2 - 155), gageTransform.localPosition.y, 0);
-                    expSlider.value = ((nowWorked + todayWorked - beforeNeed) / (nowNeed - beforeNeed));
-
-
-                    gageText.text = nowWorked.ToString() + "+" + todayWorked.ToString() + " / " + nowNeed.ToString();
 
                     break;
                 }
@@ -1723,88 +900,18 @@ public class Work : SingleTon<Work>
                     popupMode[5].SetActive(true);
                     NowWorkNum = 5;
 
-                    nowWorked = SomethingList[2].Perfection;//현재 한 일의 양(누적)
-
-                    nowNeed = farmgage;//지금 레벨업에 필요한 양
-
-                    beforeNeed = 0;//지금 레벨까지의 필요한 양
-
-                    todayWorked = UseMat[5] * 10;
-                    x = 500 * (nowWorked - beforeNeed) / (nowNeed - beforeNeed);
-
-
-                    var gageTransform = expGage.transform as RectTransform;
-                    gageTransform.sizeDelta = new Vector2(x, gageTransform.sizeDelta.y);
-                    expGage.transform.localPosition = new Vector3((x / 2 - 155), gageTransform.localPosition.y, 0);
-                    expSlider.value = ((nowWorked + todayWorked - beforeNeed) / (nowNeed - beforeNeed));
-
-
-                    gageText.text = nowWorked.ToString() + "+" + todayWorked.ToString() + " / " + nowNeed.ToString();
+                    
 
                     break;
                 }
             case "WorkButton6"://집짓기
                 {
-                    switch (SomethingList[3].Grade)
-                    {
-                        case 0:
-                            {
-                                AfterImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("MainSceneImage/Manufacture/house1");
-                                break;
-                            }
-                        case 1:
-                            {
-                                BeforeImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("MainSceneImage/Manufacture/house1");
-                                AfterImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("MainSceneImage/Manufacture/house2");
-                                break;
-                            }
-                        case 2:
-                            {
-                                BeforeImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("MainSceneImage/Manufacture/house2");
-                                AfterImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("MainSceneImage/Manufacture/house3");
-                                break;
-                            }
-                        case 3:
-                            {
-                                BeforeImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("MainSceneImage/Manufacture/house3");
-                                AfterImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("MainSceneImage/Manufacture/house4");
-                                break;
-                            }
-                        case 4:
-                            {
-                                BeforeImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("MainSceneImage/Manufacture/house4");
-                                AfterImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("MainSceneImage/Manufacture/house5");
-                                break;
-                            }
-                        case 5:
-                            {
-                                BeforeImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("MainSceneImage/Manufacture/house5");
-
-                                break;
-                            }
-                    }
-                    normalModeMatImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("Material/brick");
+                   
                     workSelectPopup.SetActive(true);
                     popupMode[0].SetActive(true);
                     NowWorkNum = 6;
 
-                    nowWorked = SomethingList[3].Perfection;//현재 한 일의 양(누적)
-
-                    nowNeed = housegage[SomethingList[3].Grade + 1];//지금 레벨업에 필요한 양
-
-                    beforeNeed = housegage[SomethingList[3].Grade];//지금 레벨까지의 필요한 양
-
-                    todayWorked = UseMat[6] * 10;
-                    x = 500 * (nowWorked - beforeNeed) / (nowNeed - beforeNeed);
-
-
-                    var gageTransform = expGage.transform as RectTransform;
-                    gageTransform.sizeDelta = new Vector2(x, gageTransform.sizeDelta.y);
-                    expGage.transform.localPosition = new Vector3((x / 2 - 155), gageTransform.localPosition.y, 0);
-                    expSlider.value = ((nowWorked + todayWorked - beforeNeed) / (nowNeed - beforeNeed));
-
-
-                    gageText.text = nowWorked.ToString() + "+" + todayWorked.ToString() + " / " + nowNeed.ToString();
+                   
 
                     break;
                 }
@@ -1812,65 +919,10 @@ public class Work : SingleTon<Work>
                 {
                     workSelectPopup.SetActive(true);
                     popupMode[0].SetActive(true);
-                    switch (SomethingList[4].Grade)
-                    {
-                        case 0:
-                            {
-                                AfterImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("MainSceneImage/Manufacture/machine1");
-                                break;
-                            }
-                        case 1:
-                            {
-                                BeforeImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("MainSceneImage/Manufacture/machine1");
-                                AfterImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("MainSceneImage/Manufacture/machine2");
-                                break;
-                            }
-                        case 2:
-                            {
-                                BeforeImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("MainSceneImage/Manufacture/machine2");
-                                AfterImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("MainSceneImage/Manufacture/machine3");
-                                break;
-                            }
-                        case 3:
-                            {
-                                BeforeImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("MainSceneImage/Manufacture/machine3");
-                                AfterImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("MainSceneImage/Manufacture/machine4");
-                                break;
-                            }
-                        case 4:
-                            {
-                                BeforeImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("MainSceneImage/Manufacture/machine4");
-                                AfterImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("MainSceneImage/Manufacture/machine5");
-                                break;
-                            }
-                        case 5:
-                            {
-                                BeforeImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("MainSceneImage/Manufacture/machine5");
-
-                                break;
-                            }
-                    }
-                    normalModeMatImg.GetComponent<Image>().sprite = Resources.Load<Sprite>("Material/elecline");
+                    
                     NowWorkNum = 7;
 
-                    nowWorked = SomethingList[4].Perfection;//현재 한 일의 양(누적)
-
-                    nowNeed = enginegage[SomethingList[4].Grade + 1];//지금 레벨업에 필요한 양
-
-                    beforeNeed = enginegage[SomethingList[4].Grade];//지금 레벨까지의 필요한 양
-
-                    todayWorked = UseMat[7] * 10;
-                    x = 500 * (nowWorked - beforeNeed) / (nowNeed - beforeNeed);
-
-
-                    var gageTransform = expGage.transform as RectTransform;
-                    gageTransform.sizeDelta = new Vector2(x, gageTransform.sizeDelta.y);
-                    expGage.transform.localPosition = new Vector3((x / 2 - 155), gageTransform.localPosition.y, 0);
-                    expSlider.value = ((nowWorked + todayWorked - beforeNeed) / (nowNeed - beforeNeed));
-
-
-                    gageText.text = nowWorked.ToString() + "+" + todayWorked.ToString() + " / " + nowNeed.ToString();
-
+                   
                     break;
                 }
             case "WorkButton8"://제약

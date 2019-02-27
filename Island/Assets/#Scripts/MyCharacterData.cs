@@ -40,7 +40,8 @@ public class MyCharacterData : SingleTon<MyCharacterData>
 
     void Start()
     {
-        Load();
+        //if(!PlayerPrefs.HasKey("Start"))
+            Load();
         //MaterialData.Instance.MaterialList[0].Count += 100;
 
     }
@@ -103,7 +104,7 @@ public class MyCharacterData : SingleTon<MyCharacterData>
         {
 
             mch = new MyCharacter(
-                0,
+                i,
                 50,
                 50,
                 0,
@@ -158,7 +159,7 @@ public class MyCharacterData : SingleTon<MyCharacterData>
     {
 
         MyCharacter mc;
-        for (int i = 0; i < Data.Count; i++)
+        for (int i = 0; i < 3; i++)
         {
 
 
@@ -170,19 +171,21 @@ public class MyCharacterData : SingleTon<MyCharacterData>
             //count = int.Parse(Data[i]["Count"].ToString());
 
             mc = new MyCharacter(
-                i, 
+               int.Parse(Data[i]["Name"].ToString()),
                 int.Parse(Data[i]["Hungry"].ToString()),
                 int.Parse(Data[i]["Thirsty"].ToString()), 
                 int.Parse(Data[i]["Ill"].ToString()), 
                 Data[i]["Condition"].ToString());
-
-            CharacterName[i] = i;
+            
 
             ThreeCharacter.Add(mc);
 
+            
 
-
-
+        }
+        for (int i=0; i < ThreeCharacter.Count; i++)
+        {
+            CharacterName.Add(ThreeCharacter[i].Name);
         }
 
     }

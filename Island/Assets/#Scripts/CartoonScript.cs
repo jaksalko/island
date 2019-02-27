@@ -51,6 +51,7 @@ public class CartoonScript : SingleTon<CartoonScript>
         Debug.Log(str);
         Debug.Log(text);
         Debug.Log(this);
+       
 
 
         
@@ -65,7 +66,12 @@ public class CartoonScript : SingleTon<CartoonScript>
 
     public void next()
     {
-        AutoFade.LoadLevel("MainScene 3", 1, 1, Color.black);
+        if(PlayerPrefs.GetInt("NowWorkNum")==4)
+
+            AutoFade.LoadLevel("FishDungeon", 1, 1, Color.black);
+        else
+
+            AutoFade.LoadLevel("MainScene 3", 1, 1, Color.black);
     }
 
     public void NextTextButtonClicked() {

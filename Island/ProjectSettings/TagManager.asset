@@ -4,7 +4,16 @@
 TagManager:
   serializedVersion: 2
   tags:
+<<<<<<< HEAD
   - Canvas
+=======
+  - salt
+  - sugar
+  - fire
+  - back
+  - Canvas
+  - ansList
+>>>>>>> ff2e7a5c79103d04d55cad807adcda00d9885e26
   layers:
   - Default
   - TransparentFX

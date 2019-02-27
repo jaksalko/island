@@ -6,15 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
-  - enabled: 0
     path: Assets/#Scenes/ChooseCharScene.unity
     guid: dda157716c9b9734fad05de9481e710e
   - enabled: 1
@@ -24,6 +15,15 @@ EditorBuildSettings:
     path: Assets/#Scenes/EventScene.unity
     guid: b3f99aae718f4f649a8f9d08ba913dcd
   - enabled: 1
+    path: Assets/#Scenes/FishDungeon.unity
+    guid: 95b1c4e91180cc242af8b66960c8fb5d
+  - enabled: 1
     path: Assets/#Scenes/FishGame.unity
     guid: 2ce30e447d7ccbb46a620b09021e165e
+  - enabled: 1
+    path: Assets/#Scenes/ClickerGame.unity
+    guid: b41839a22e3c7734eb9e667019dfaac7
+  - enabled: 1
+    path: Assets/#Scenes/CookGame.unity
+    guid: 3b756e3704a84b14c84521add4f1390b
   m_configObjects: {}

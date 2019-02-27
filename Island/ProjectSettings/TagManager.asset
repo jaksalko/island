@@ -3,7 +3,13 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - salt
+  - sugar
+  - fire
+  - back
+  - Canvas
+  - ansList
   layers:
   - Default
   - TransparentFX

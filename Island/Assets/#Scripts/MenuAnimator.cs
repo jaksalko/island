@@ -20,6 +20,11 @@ public class MenuAnimator : SingleTon<MenuAnimator>{
 	// Update is called once per frame
 	void Update () {
         
+       
+
+    }
+    public void TriggerCheck()
+    {
         if (state == "triggerOn")
         {
 
@@ -27,7 +32,7 @@ public class MenuAnimator : SingleTon<MenuAnimator>{
 
             animator.ResetTrigger("TriggerOff");
             animator.SetTrigger("TriggerOn");
-            
+
         }
         if (state == "triggerOff")
         {
@@ -37,7 +42,6 @@ public class MenuAnimator : SingleTon<MenuAnimator>{
             animator.ResetTrigger("TriggerOn");
             animator.SetTrigger("TriggerOff");
         }
-
     }
 
     public void ExitButtonClicked()

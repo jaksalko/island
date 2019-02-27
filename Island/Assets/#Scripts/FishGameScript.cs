@@ -11,18 +11,32 @@ public class FishGameScript : MonoBehaviour {
     public GameObject MovingOb;
     private int life = 10;
     public GameObject ResultPopup;
-    private string dungeonLv;
-	// Use this for initialization
-	void Start () {
-        dungeonLv = FishDungeonManager.dungeonLv;
+    private int DdungeonLv;
+    private float _speed;
+    // Use this for initialization
+    void Start () {
+
+        DdungeonLv = FishDungeonManager.DungeonLv;
         var AreaTransform = CatchArea.transform as RectTransform;
        
-        CAreaMax = (AreaTransform.sizeDelta.x )/ 2;
-        CAreaMin = -(AreaTransform.sizeDelta.x) / 2;
-       
-        Debug.Log("Level" + dungeonLv);
-
         
+       
+        Debug.Log("Level" + DdungeonLv);
+
+        _speed = 10f;
+
+        switch (DdungeonLv)
+        {
+            case 1: _speed = 10f;    break;
+            case 2: _speed = 20f; CatchArea.transform.localScale -= new Vector3(0.1f, 0, 0); break;
+            case 3: _speed = 30f; CatchArea.transform.localScale -= new Vector3(0.1f, 0, 0); break;
+            case 4: _speed = 30f; CatchArea.transform.localScale -= new Vector3(0.2f, 0, 0); break;
+            case 5: _speed = 40f; CatchArea.transform.localScale -= new Vector3(0.2f, 0, 0); break;
+        }
+
+        //Timer.Instance.StartTimer(10);
+        CAreaMax = (AreaTransform.sizeDelta.x) / 2;
+        CAreaMin = -(AreaTransform.sizeDelta.x) / 2;
     }
 
     // Update is called once per frame
@@ -30,16 +44,17 @@ public class FishGameScript : MonoBehaviour {
     {
 
 
-        if (MovingOb.transform.localPosition.x <= -640)
+        if (MovingOb.transform.localPosition.x <= -500)
             LRS = 1;
-        else if (MovingOb.transform.localPosition.x >= 640)
+        else if (MovingOb.transform.localPosition.x >= 500)
             LRS = 2;
 
       
+
         if (LRS == 1)
-            MovingOb.transform.Translate(10f * Time.deltaTime, MovingOb.transform.localPosition.y, 0);
+            MovingOb.transform.Translate(_speed * Time.deltaTime, 0, 0);
         else if (LRS == 2)
-            MovingOb.transform.Translate(-10f * Time.deltaTime, MovingOb.transform.localPosition.y, 0);
+            MovingOb.transform.Translate(-_speed * Time.deltaTime, 0, 0);
 
 
     }
@@ -47,7 +62,7 @@ public class FishGameScript : MonoBehaviour {
     public void CatchButtonClicked() {
         Debug.Log("Clicked");
        
-        if (MovingOb.transform.localPosition.x >= CAreaMin && MovingOb.transform.localPosition.x <= CAreaMax)
+        if (MovingOb.transform.localPosition.x-75 >= CAreaMin && MovingOb.transform.localPosition.x+75 <= CAreaMax)
         {
             Debug.Log("Success");
         }
@@ -58,7 +73,7 @@ public class FishGameScript : MonoBehaviour {
             ResultPopup.SetActive(true);
             //결과창띄우고 메인신으로
         }
-        MovingOb.transform.localPosition = new Vector3(-615, 0, 0);
+        MovingOb.transform.localPosition = new Vector3(-550, -310, 0);
         LRS = 1;
     }
 
